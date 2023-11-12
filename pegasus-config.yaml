@@ -1,0 +1,40 @@
+default_context:
+  _pegasus_version: 2023.11.1
+  author_name: Alberto Rodriguez
+  ci: none
+  css_framework: tailwind
+  css_theme: default
+  database: sqlite
+  deploy_platform: none
+  description: Make technology really work for your business
+  docker_setup: default
+  domain_name: localhost:8000
+  email: alberto@fractal-labs.net
+  enable_google_login: y
+  enable_twitter_login: n
+  front_end_framework: htmx
+  include_static_files: y
+  marketing_email_platform: mailchimp
+  post_process: y
+  project_name: Fractal Labs
+  project_slug: fractal_labs
+  stripe_payment_mode: checkout
+  subscription_billing_model: default
+  subscription_pricing_ui: stripe_hosted
+  use_2fa: y
+  use_admin_docs: n
+  use_api_keys: n
+  use_async_example: n
+  use_cloud_media_storage: n
+  use_debug_toolbar: y
+  use_docker: n
+  use_ecommerce_example: y
+  use_examples: y
+  use_impersonation: y
+  use_openai: y
+  use_sentry: y
+  use_subscriptions: n
+  use_teams: n
+  use_teams_example: n
+  use_translations: y
+  use_wagtail: y
