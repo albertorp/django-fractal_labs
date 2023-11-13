@@ -101,6 +101,8 @@ PROJECT_APPS = [
     "apps.chat",
     "apps.openai_example",
     "apps.web",
+    "apps.customers",
+    "apps.employees",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PEGASUS_APPS + PROJECT_APPS + WAGTAIL_APPS
@@ -258,7 +260,7 @@ LANGUAGE_CODE = "en-us"
 LANGUAGE_COOKIE_NAME = "fractal_labs_language"
 LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = [
     ("en", gettext_lazy("English")),
-    ("fr", gettext_lazy("French")),
+    ("es", gettext_lazy("Spanish")),
 ]
 LOCALE_PATHS = (BASE_DIR / "locale",)
 

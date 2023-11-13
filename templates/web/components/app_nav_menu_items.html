@@ -22,6 +22,23 @@
 </li>
 {% if not user.is_anonymous %}
 <li class="menu-title">
+  <span>{% translate "JobCycle" %}</span>
+</li>
+{% if user.is_staff %}
+<li>  
+  <a href="{% url 'customers:customer_list' %}" {% if active_tab == 'customers' %}class="active"{% endif %}>
+    <i class="fa-solid fa-users-viewfinder h-4 w-4"></i>
+    {% translate "Customers" %}
+  </a>
+</li>
+<li>
+  <a href="{% url 'employees:employee_list' %}" {% if active_tab == 'employees' %}class="active"{% endif %}>
+    <i class="fa fa-users h-4 w-4"></i>
+    {% translate "Employees" %}
+  </a>
+</li>
+{% endif %}
+<li class="menu-title">
   <span>{% translate "My Account" %}</span>
 </li>
 <ul class="menu-list">
