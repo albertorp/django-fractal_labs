@@ -103,6 +103,7 @@ PROJECT_APPS = [
     "apps.web",
     "apps.customers",
     "apps.employees",
+    "apps.jobcycle",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PEGASUS_APPS + PROJECT_APPS + WAGTAIL_APPS

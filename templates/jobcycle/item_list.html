@@ -1,0 +1,11 @@
+{% extends "web/app/app_base.html" %}
+{% load i18n %}
+{% load static %}
+{% block app %}
+
+<section class="app-card">
+    <div class="pg-content">
+        <p>{% trans 'List of' %} {{ active_tab|capfirst }}</p>
+    </div>
+</section>
+{% endblock %}

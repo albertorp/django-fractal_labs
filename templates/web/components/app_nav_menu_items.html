@@ -37,6 +37,24 @@
     {% translate "Employees" %}
   </a>
 </li>
+<li>
+  <a href="{% url 'jobcycle:requirement_list' %}" {% if active_tab == 'requirements' %}class="active"{% endif %}>
+    <i class="fa-solid fa-file-circle-question h-4 w-4"></i>
+    {% translate "Requirements" %}
+  </a>
+  <a href="{% url 'jobcycle:quotation_list' %}" {% if active_tab == 'quotations' %}class="active"{% endif %}>
+    <i class="fa-solid fa-file-invoice-dollar h-4 w-4"></i>
+    {% translate "Quotations" %}
+  </a>
+  <a href="{% url 'jobcycle:job_list' %}" {% if active_tab == 'jobs' %}class="active"{% endif %}>
+    <i class="fa-solid fa-file-contract h-4 w-4"></i>
+    {% translate "Jobs" %}
+  </a>
+  <a href="{% url 'jobcycle:invoice_list' %}" {% if active_tab == 'invoices' %}class="active"{% endif %}>
+    <i class="fa-solid fa-file-invoice h-4 w-4"></i>
+    {% translate "Invoices" %}
+  </a>
+</li>
 {% endif %}
 <li class="menu-title">
   <span>{% translate "My Account" %}</span>
@@ -79,6 +97,12 @@
     <a href="{% url 'support:hijack_user' %}" {% if active_tab == 'support' %}class="active"{% endif %}>
       <i class="fa fa-user-secret h-4 w-4"></i>
       {% translate "Impersonate a User" %}
+    </a>
+  </li>
+  <li>
+    <a href="/admin" target="_blank">
+      <i class="fa-solid fa-screwdriver-wrench h-4 w-4"></i>
+      {% translate "Admin Interface" %}
     </a>
   </li>
 </ul>
