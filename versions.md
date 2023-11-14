@@ -32,7 +32,8 @@ Basic detailview, with just showing all the fields in the item, with no links be
 # jobcycle01: Add Web Requirement 2023 11 14
 Added a "contact us" page that has a form that can transform into a requirement and also create a new customer and potentially a new user
 
-
+# jobcycle01: CLUd for Customers 2023 11 14
+Basic CLU (Create, List, Update) Views for Customers
 
 
 

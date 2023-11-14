@@ -1,0 +1,22 @@
+{% load i18n %}
+{% load static %}
+
+<tr>
+    <td>{{ item.id }}</td>
+    <td>{{ item.email }}</td>
+    <td>{{ item.user|default_if_none:"" }}</td>
+    <td>{{ item.tax_id_number|default_if_none:"" }}</td>
+    <td>{{ item.stripe_customer_id|default_if_none:"" }}</td>
+    <td>{{ item.created_at|date:"d-m-Y" }}</td>
+    <td>
+        <div>
+            <a href="{% url 'customers:customer_update' item.id %}" class="btn btn-outline-primary">{% trans 'View' %}</a>
+            {% comment 'No delete button needed' %}
+            <a href="{{ item.id }}/detail" class="btn btn-outline-primary">{% trans 'Detail' %}</a>
+            <a href="{{ item.id }}/delete" class="btn btn-outline-danger">{% trans 'Delete' %}</a>
+            {% endcomment %}
+            
+        </div>
+        
+    </td>
+</tr>
