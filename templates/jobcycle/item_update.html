@@ -1,0 +1,20 @@
+{% extends "web/app/app_base.html" %}
+{% load i18n %}
+{% load static %}
+{% block app %}
+
+<section class="app-card">
+    <div class="pg-content">
+        <h2>{{ title }}</h2>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}    
+            {% for button in buttons %}
+            <button type="{{ button.type }}" class="{{ button.class }}" name="{{ button.name }}">{{ button.text }}</button>
+            {% empty %}
+            <p>{% trans 'This item cannot be modified' %}</p>
+            {% endfor %}
+        </form>
+    </div>
+</section>
+{% endblock %}

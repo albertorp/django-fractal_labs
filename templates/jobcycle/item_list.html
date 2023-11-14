@@ -5,7 +5,27 @@
 
 <section class="app-card">
     <div class="pg-content">
-        <p>{% trans 'List of' %} {{ active_tab|capfirst }}</p>
+        <h2>{{ title }}</h2>
+        <a href="create" class="btn btn-primary">{% trans 'New' %}</a>
+
+        <table>
+            <thead>
+                {% for field in fields %}
+                <th>{{ field }}</th>
+                {% empty%}
+                <th>{% trans 'The table is empty' %}</th>
+                {% endfor %}
+                <th>{% trans 'Actions' %}</th>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                {% include 'jobcycle/item_list_row.html' %}
+                {% empty%}
+                <tr>{% trans 'There are no items' %}</tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
     </div>
 </section>
 {% endblock %}

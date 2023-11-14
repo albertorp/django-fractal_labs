@@ -30,7 +30,7 @@ class BaseItem(BaseModel):
     date_created = models.DateTimeField(auto_now_add=True)
     date_sent = models.DateTimeField(blank=True, null=True)
     date_closed = models.DateTimeField(blank=True, null=True)
-    owner = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, help_text=_('user currently working on or responsible for this item'))
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('owner'), help_text=_('user currently working on or responsible for this item'))
 
     # With the "Comments" model, this field should not be needed
     # closure_comments = models.TextField(_('closure comments'), null=True, blank=True, help_text=_('Details of how the item is to be closed, whether approved, rejected or closed'))
@@ -98,7 +98,7 @@ class Quotation(BaseItem):
         SENT = 1, _('Sent')
         APPROVED = 2, _('Approved')
         REJECTED = -1, _('Rejected')
-        NEGOTIATE = 3, _('Closed')
+        NEGOTIATE = 3, _('Negotiate')
         CANCELLED = -2, _('Cancelled')
 
     
@@ -144,11 +144,6 @@ class Job(BaseItem):
     CANCELLED: For some reason the job has to be cancelled. This should also be explained in the comments
 
     """
-    class Currencies(models.TextChoices):
-        AED = 'AED', _('UAE Dirham')
-        USD = 'USD', _('US Dollar')
-        EUR = 'EUR', _('Euro')
-    
     
     class Status(models.IntegerChoices):
         DRAFT = 0, _('Draft')
