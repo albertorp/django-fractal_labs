@@ -24,6 +24,9 @@ No front-end is affected yet
 Each UpdateView form will fetch the buttons that it needs from a utils module and pass them to the context
 Each button will then trigger and action and be interpreted in the form_valid()method of the UpdateView to move the item to another state and perform additional actions (like create a quotation from a requirement, for example)
 
+# jobcycle01: CLUD finished 2023 11 14
+Added Detail views to each item
+Basic detailview, with just showing all the fields in the item, with no links between them
 
 
 

@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.forms.models import BaseModelForm
+from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import ListView, UpdateView, CreateView
+from django.views.generic import ListView, UpdateView, CreateView, DetailView
 
 from .utils import get_buttons_requirement, get_buttons_quotation, get_buttons_job
 
@@ -58,8 +58,42 @@ class JobListView(BaseItemListView):
     active_tab = 'jobs'
 
 
+class BaseItemDetailView(LoginRequiredMixin, DetailView):
+    model = None # Must be defined in derived class
+    template_name = 'jobcycle/item_detail.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['title'] = self.title
+        ctx['item_type'] = self.item_type
+        ctx['active_tab'] = self.active_tab
+
+        instance = self.object
+        instance_dict = {instance._meta.get_field(key).verbose_name if hasattr(instance._meta.get_field(key), 'verbose_name') else key: getattr(instance, key) for key in model_to_dict(instance).keys()}
+        ctx['object_dict'] = instance_dict
+
+        return ctx
 
 
+class RequirementDetailView(BaseItemDetailView):
+    model = Requirement
+    title = _('Requirement Details')
+    item_type = 'requirement'
+    active_tab = 'requirements'
+
+
+class QuotationDetailView(BaseItemDetailView):
+    model = Quotation
+    title = _('Quotation Details')
+    item_type = 'quotation'
+    active_tab = 'quotations'
+
+
+class JobDetailView(BaseItemDetailView):
+    model = Job
+    title = _('Job Details')
+    item_type = 'job'
+    active_tab = 'jobs'
 
 
 class BaseItemUpdateView(LoginRequiredMixin, UpdateView):
@@ -84,7 +118,7 @@ class RequirementUpdateView(BaseItemUpdateView):
     model = Requirement
     form_class = RequirementForm
     success_url = reverse_lazy('jobcycle:requirement_list')
-    title = _('Requirement Details/Update')
+    title = _('Requirement Update')
     item_type = 'requirement'
     active_tab = 'requirements'
 

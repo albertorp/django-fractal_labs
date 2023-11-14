@@ -10,8 +10,12 @@
     <td>{{ item.owner.username }}</td>
     <td>
         <div>
-            <a href="{{ item.id }}" class="btn btn-outline-primary">{% trans 'Go' %}</a>
+            <a href="{{ item.id }}" class="btn btn-outline-primary">{% trans 'View' %}</a>
+            <a href="{{ item.id }}/detail" class="btn btn-outline-primary">{% trans 'Detail' %}</a>
+            {% comment 'No delete button needed' %}
             <a href="{{ item.id }}/delete" class="btn btn-outline-danger">{% trans 'Delete' %}</a>
+            {% endcomment %}
+            
         </div>
         
     </td>
