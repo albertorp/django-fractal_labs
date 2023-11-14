@@ -11,6 +11,13 @@ urlpatterns = [
     path("requirements/<int:pk>", views.RequirementUpdateView.as_view(), name="requirement_update"),
     path('requirements/create', views.RequirementCreateView.as_view(), name='requirement_create'),
     path("requirements/<int:pk>/detail", views.RequirementDetailView.as_view(), name="requirement_detail"),
+
+    path('contactus', views.WebRequirementCreateView.as_view(), name='contactus'),
+    path(
+        'thanks', 
+        TemplateView.as_view(template_name = 'jobcycle/thanks.html'), 
+        name='thanks'
+        ),
     
 
     path("quotations/", views.QuotationListView.as_view(), name="quotation_list"),

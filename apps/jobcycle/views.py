@@ -7,10 +7,76 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView, UpdateView, CreateView, DetailView
 
-from .utils import get_buttons_requirement, get_buttons_quotation, get_buttons_job
+from allauth.account.adapter import get_adapter
+from allauth.account.models import EmailAddress
+from allauth.account.utils import send_email_confirmation
 
+from .utils import get_buttons_requirement, get_buttons_quotation, get_buttons_job, get_buttons_webrequirement
+
+from apps.customers.models import Customer
 from .models import BaseItem, Requirement, Quotation, Job
-from .forms import RequirementForm, QuotationForm, JobForm
+from .forms import RequirementForm, QuotationForm, JobForm, WebRequirementForm
+
+
+class WebRequirementCreateView(CreateView):
+    model = Requirement
+    form_class = WebRequirementForm
+    template_name = 'jobcycle/contactus.html'
+    success_url = reverse_lazy('jobcycle:thanks') #jobcycle:thanks
+    title = _('Contact Us')
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['title'] = self.title
+        ctx['buttons'] = get_buttons_webrequirement()
+        return ctx
+    
+
+    def form_valid(self, form):
+
+        # Check to see if the email corresponds to an existing customer
+        try:
+            # If it does, save it under that user
+            customer = Customer.objects.get(email=form.cleaned_data['email'])
+        except: 
+            # We get a new customer
+            customer = Customer()
+            customer.email = form.cleaned_data['email']
+            customer.save()
+        
+
+
+        # Check to see if we need to create a nuew user
+        if form.cleaned_data['create_user']:
+            # If the visitor wants to create a user, we create a new user in the system and assign the requirement to the new user
+            try:
+                user = get_adapter().new_user(self.request)
+                get_adapter().save_user(self.request, user, form)
+                # Mark the email address as unverified
+                email_address = EmailAddress.objects.create(
+                    user=user,
+                    email=form.cleaned_data['email'],
+                    verified=False
+                )
+                email_address.set_as_primary()
+                # Send the verification email
+                send_email_confirmation(self.request, user)
+                user.save()
+                customer.user = user
+                customer.save()
+            except:
+                # The user already exists, so we omit the creation
+                messages.error(self.request, _('The user already exists'))
+
+            
+            
+
+        form.instance.customer = customer
+        return super().form_valid(form)
+
+
+
+
 
 class BaseItemListView(LoginRequiredMixin, ListView):
     model = BaseItem  

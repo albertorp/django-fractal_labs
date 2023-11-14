@@ -209,3 +209,30 @@ def get_buttons_job(current_status):
 
 
     return buttons
+
+
+
+def get_buttons_webrequirement():
+    """
+    This function will return a list of buttons that will be enabled in the template for WebRequirementCreateView,
+    """
+
+    # First we define all the potential buttons for Requirements:
+    button_save = {
+        'type': 'submit',
+        'name': 'save',
+        'text': _('send'),
+        'class': 'btn btn-primary',
+    }
+    button_reset = {
+        'type': 'reset',
+        'name': 'reset',
+        'text': _('Clear'),
+        'class': 'btn btn-primary',
+    }
+    
+    buttons = [button_save, button_reset]
+    
+
+    return buttons
+

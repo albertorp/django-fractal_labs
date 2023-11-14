@@ -29,6 +29,12 @@ Added Detail views to each item
 Basic detailview, with just showing all the fields in the item, with no links between them
 
 
+# jobcycle01: Add Web Requirement 2023 11 14
+Added a "contact us" page that has a form that can transform into a requirement and also create a new customer and potentially a new user
+
+
+
+
 
 # WPs to do
 
@@ -36,3 +42,4 @@ Make "deadline" field in BaseItemForm a DatePicker
 Add Invoice models
 Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
+Add Filters and pagination to the ListViews

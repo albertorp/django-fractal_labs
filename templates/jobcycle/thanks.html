@@ -1,0 +1,28 @@
+
+{% extends "web/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Thanks" %}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+<h1 class="mb-3 text-center">{% trans "Thank you very much" %}</h1>
+
+<p class="text-justify mb-2 fw-bold">
+    {% blocktrans %}
+    Thank you for contacting us. We will get back to your very shortly
+    {% endblocktrans %}
+</p>
+
+<p class="text-justify mb-2">
+    {% blocktrans %}
+    If you have requested to create a user, you will receive an e-mail for verification. Follow the link provided to finalize the signup process. If you do not see the verification e-mail in your main inbox, check your spam folder. Please contact us if you do not receive the verification e-mail within a few minutes.
+    {% endblocktrans %}
+</p>
+
+</div>
+
+
+{% endblock body%}
