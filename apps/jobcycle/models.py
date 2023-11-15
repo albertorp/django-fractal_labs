@@ -193,3 +193,84 @@ class Job(BaseItem):
 
     def get_paid_display(self):
         return self.Paid(self.paid).label
+
+
+# All codes should have 5 or less characters
+class TaxCodes(models.TextChoices):
+    VAT = 'VAT', _('VAT')
+
+
+
+class Invoice(BaseItem):
+    """
+    An invoice is sent to a customer in order to get the payment for a job (or several jobs). 
+    Each job to be invoiced will be a separate invoice item
+
+    DRAFT: The SP is preparing the INVOICE
+    SENT: The INVOICE is ready and once it’s sent to the customer, it goes to SENT state.
+    PARTIAL: The customer has approved the QUOTATION and a JOB can be created
+    PAID: The customer has paid all invoice items in this INVOICE.
+    OVERDUE: The invoice is overdue and needs to be paid.
+    CANCELLED: The invoice has been cancelled (need to provide explanations)
+
+    """
+   
+    class Status(models.IntegerChoices):
+        DRAFT = 0, _('Draft')
+        SENT = 1, _('Sent')
+        PARTIAL = 2, _('Partial')
+        PAID = 3, _('Paid')
+        OVERDUE = 4, _('Overdue')
+        CANCELLED = -2, _('Cancelled')
+
+    
+    status = models.SmallIntegerField(_('status'), choices=Status.choices, default=Status.DRAFT)
+    price = models.DecimalField(_('Total Price'), max_digits=10, decimal_places=2, blank=True, null=True)
+    # TODO replace the currency to allow for multicurrency setups
+    currency = models.CharField(_('Currency'), choices=Currencies.choices, max_length=3, blank=True, null=True, default='AED')
+    #stripe_id = 
+    tax_code = models.CharField(_('Tax Code'), choices=TaxCodes.choices, max_length=5, blank=True, null=True)
+    tax_pct = models.DecimalField(_('Tax %'), max_digits=6, decimal_places=2, blank=True, null=True, help_text='Tax Percentage to be added to the price')
+    job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Job'), help_text=_('If set, this job will be used for all the line items for this invoice'))
+
+    class Meta:
+        verbose_name = _('Invoice')
+        verbose_name_plural = _('Invoices')
+
+    def get_status_display(self):
+        return self.Status(self.status).label
+    
+    def get_tax_code_display(self):
+        return TaxCodes(self.tax_code).label
+    
+
+
+class InvoiceItem(models.Model):
+    """
+    An invoice item is the precise amount to be invoiced for each job. It will have the following fields:
+    Invoice (FK). Parent invoice for this item
+    Title
+    Description
+    Quantity, default 1
+    Price (per unit)
+    Tax code
+    Tax pct
+    Job (FK)
+    Paid (Boolean, default FALSE)
+    """
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, verbose_name=_('Invoice'), related_name='lineitems')
+    title = models.CharField(_('title'), max_length=200, help_text=_('Provide a title to identify this line item'))
+    description = models.TextField(_('description'), null=True, blank=True, help_text=_('If needed, provide additional detail for this line item'))
+    quantity = models.DecimalField(_('quantity'), max_digits=6, decimal_places=2, default=1.00, help_text=_('Quantity of this line item'))
+    price = models.DecimalField(_('price'), max_digits=10, decimal_places=2)
+    tax_code = models.CharField(_('Tax Code'), choices=TaxCodes.choices, max_length=5, blank=True, null=True)
+    tax_pct = models.DecimalField(_('Tax %'), max_digits=6, decimal_places=2, default=0.00, help_text='Tax Percentage to be added to the price')
+    job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Job'), help_text=_('If set, this job will be used for all the line items for this invoice'))
+    paid = models.BooleanField(_('paid'), default=False)
+
+    class Meta:
+        verbose_name = _('Invoice Item')
+        verbose_name_plural = _('Invoice Items')
+    
+    def get_tax_code_display(self):
+        return TaxCodes(self.tax_code).label

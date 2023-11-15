@@ -35,12 +35,27 @@ Added a "contact us" page that has a form that can transform into a requirement 
 # jobcycle01: CLUd for Customers 2023 11 14
 Basic CLU (Create, List, Update) Views for Customers
 
+# jobcycle01: Model and CLUd for Invoicing 2023 11 15
+Basic CLU (Create, List, Update) Views for Invoices and their invoiceitems
+Using some htmx to add/edit the invoiceitems, but it's not working fully yet
+
 
 
 # WPs to do
 
-Make "deadline" field in BaseItemForm a DatePicker
+## Core functionality
+Add Attachments
+Add Comments
 Add Invoice models
 Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
+Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission so that only employees can handle all items
+
+## Addtional functionality
+
+
+## Frontend functionality
+Make "deadline" field in BaseItemForm a DatePicker
 Add Filters and pagination to the ListViews
+
+

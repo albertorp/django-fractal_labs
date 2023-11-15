@@ -212,6 +212,54 @@ def get_buttons_job(current_status):
 
 
 
+def get_buttons_invoice(current_status):
+    """
+    This function will return a list of buttons that will be enabled in the template for InvoiceUpdateView,
+    depending on the current status of the Quotation
+    """
+
+    # First we define all the potential buttons for Invoices:
+    button_save = {
+        'type': 'submit',
+        'name': 'save',
+        'text': _('save'),
+        'class': 'btn btn-primary',
+    }
+    button_send = {
+        'type': 'submit',
+        'name': 'send',
+        'text': _('send'),
+        'class': 'btn btn-primary',
+    }
+   
+    button_cancel = {
+        'type': 'submit',
+        'name': 'cancel',
+        'text': _('cancel'),
+        'class': 'btn btn-primary',
+    }
+
+    # Then we filter the buttons depending on the current status of the Requirement
+    buttons = [button_save,
+               button_send,
+               button_cancel
+               ]
+    
+    # if current_status == Quotation.Status.DRAFT:
+    #     buttons = [button_save, button_send, button_cancel]
+    # if current_status == Quotation.Status.SENT:
+    #     buttons = [button_approved, button_rejected, button_negotiate,  button_cancel]
+    # if current_status in [Quotation.Status.APPROVED, Quotation.Status.CANCELLED, Quotation.Status.REJECTED]:
+    #     buttons = []
+    # if current_status == Quotation.Status.NEGOTIATE:
+    #     buttons = [button_save, button_approved, button_rejected, button_cancel]
+
+    return buttons
+
+
+
+
+
 def get_buttons_webrequirement():
     """
     This function will return a list of buttons that will be enabled in the template for WebRequirementCreateView,

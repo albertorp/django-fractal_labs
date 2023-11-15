@@ -12,7 +12,11 @@
             {% for button in buttons %}
             <button type="{{ button.type }}" class="{{ button.class }}" name="{{ button.name }}">{{ button.text }}</button>
             {% empty %}
+            {% if create %}
+            <button type="submit" class="btn btn-primary" name="save">{% trans 'Save' %}</button>
+            {% else %}
             <p>{% trans 'This item cannot be modified' %}</p>
+            {% endif %}
             {% endfor %}
         </form>
     </div>

@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
 
-from .models import BaseItem, Requirement, Quotation, Job
+from .models import BaseItem, Requirement, Quotation, Job, Invoice, InvoiceItem
 
 class BaseItemForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
@@ -44,6 +44,11 @@ class JobForm(BaseItemForm):
         model = Job
         fields = ['customer', 'title', 'description', 'deadline', 'price', 'currency', 'terms', 'quotation', 'status', 'invoiced', 'paid', 'owner']
 
+
+class InvoiceForm(BaseItemForm):
+    class Meta:
+        model = Invoice
+        fields = ['customer', 'title', 'description', 'deadline', 'price', 'currency', 'tax_code', 'tax_pct', 'job', 'owner']
 
 
 class WebRequirementForm(forms.ModelForm):
@@ -102,3 +107,18 @@ class WebRequirementForm(forms.ModelForm):
 
         self.fields['create_user'].label = _('Create account?')
         self.fields['create_user'].help_text = _('Check this box to confirm that you want to create your user')
+
+
+class InvoiceItemForm(forms.ModelForm):
+    class Meta:
+        model = InvoiceItem
+        fields = ['title', 'description', 'quantity', 'price', 'tax_code', 'tax_pct']
+        widgets = {
+            'invoice': forms.HiddenInput(),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'tax_code': forms.Select(attrs={'class': 'form-control'}),
+            'tax_pct': forms.NumberInput(attrs={'class': 'form-control'}),
+        }

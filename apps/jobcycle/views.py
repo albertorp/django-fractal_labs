@@ -435,6 +435,7 @@ class BaseItemCreateView(LoginRequiredMixin, CreateView):
         ctx['title'] = self.title
         ctx['item_type'] = self.item_type
         ctx['active_tab'] = self.active_tab
+        ctx['create'] = True
         return ctx
 
     def get_form_kwargs(self):

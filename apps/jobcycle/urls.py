@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path
 from django.views.generic import TemplateView
 
-from . import views
+from . import views, views_invoices
 
 app_name = 'jobcycle'
 
@@ -26,23 +26,21 @@ urlpatterns = [
     path("quotations/<int:pk>/detail", views.QuotationDetailView.as_view(), name="quotation_detail"),
    
 
-    path( "jobs/", views.JobListView.as_view(), name="job_list"),
+    path("jobs/", views.JobListView.as_view(), name="job_list"),
     path("jobs/<int:pk>", views.JobUpdateView.as_view(), name="job_update"),
     path('jobs/create', views.JobCreateView.as_view(), name='job_create'),
     path("jobs/<int:pk>/detail", views.JobDetailView.as_view(), name="job_detail"),
 
-    path(
-        "invoices/",
-        login_required(
-            TemplateView.as_view(
-                template_name="jobcycle/item_list.html",
-                extra_context={"active_tab": "invoices"},
-            )
-        ),
-        name="invoice_list",
-    ),
 
+    path("invoices/", views_invoices.InvoiceListView.as_view(), name="invoice_list"),
+    path("invoices/<int:pk>", views_invoices.InvoiceUpdateView.as_view(), name="invoice_update"),
+    path('invoices/create', views_invoices.InvoiceCreateView.as_view(), name='invoice_create'),
+    path("invoices/<int:pk>/detail", views_invoices.InvoiceDetailView.as_view(), name="invoice_detail"),
 
-   
+    
+    path("invoices/<int:pk>/add_line_item", views_invoices.add_invoiceitem_row_htmx, name="add_line_item"),
+    path("invoices/<int:invoice_id>/edit_line_item/<int:pk>", views_invoices.edit_invoiceitem_row_htmx, name="edit_line_item"),
+
+    
       
 ]
