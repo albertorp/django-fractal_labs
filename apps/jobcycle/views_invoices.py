@@ -18,6 +18,7 @@ class InvoiceListView(BaseItemListView):
     model = Invoice
     title = _('List of Invoices')
     active_tab = 'invoices'
+    template_name = 'jobcycle/invoices/invoice_list.html'
 
 
 

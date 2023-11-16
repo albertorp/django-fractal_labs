@@ -39,6 +39,10 @@ Basic CLU (Create, List, Update) Views for Customers
 Basic CLU (Create, List, Update) Views for Invoices and their invoiceitems
 Using some htmx to add/edit the invoiceitems, but it's not working fully yet
 
+# jobcycle01: minor changes 2023 11 16
+Some minor changes and corrections.
+Moved the invoices views to use their own templates instead of the common ones
+Now also the listView templates include a table template, and the table the item rows
 
 
 # WPs to do
@@ -46,12 +50,14 @@ Using some htmx to add/edit the invoiceitems, but it's not working fully yet
 ## Core functionality
 Add Attachments
 Add Comments
-Add Invoice models
+DONE Add Invoice models
 Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
 Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission so that only employees can handle all items
 
-## Addtional functionality
+
+
+## Additional functionality
 
 
 ## Frontend functionality
