@@ -49,6 +49,9 @@ Now also the listView templates include a table template, and the table the item
 # 2023 11 17 09:48 Pull request to merge up to here and start playing with the frontend
 
 
+# frontend01: initial integration of flowbite 2023 11 17
+Added flowbite to the p
+
 
 
 # WPs to do

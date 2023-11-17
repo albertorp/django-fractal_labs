@@ -8,6 +8,7 @@ module.exports = {
     './assets/**/*.vue',
     './templates/**/*.html',
     './apps/web/templatetags/form_tags.py',
+    './node_modules/flowbite/**/*.js',
   ],
   safelist: [
     'alert-success',
@@ -35,5 +36,6 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require("daisyui"),
+    require('flowbite/plugin'),
   ],
 }
