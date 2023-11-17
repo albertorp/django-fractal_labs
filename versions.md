@@ -45,6 +45,12 @@ Moved the invoices views to use their own templates instead of the common ones
 Now also the listView templates include a table template, and the table the item rows
 
 
+
+# 2023 11 17 09:48 Pull request to merge up to here and start playing with the frontend
+
+
+
+
 # WPs to do
 
 ## Core functionality
