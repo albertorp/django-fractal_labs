@@ -49,6 +49,11 @@ Now also the listView templates include a table template, and the table the item
 # 2023 11 17 09:48 Pull request to merge up to here and start playing with the frontend
 
 
+# jobcycle02: Comments model 2023 11 17
+Created the comments app and the Comment model (with admin code too)
+Added it to the BaseItem model
+No views at the moment
+
 
 
 # WPs to do
