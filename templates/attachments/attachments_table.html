@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load static %}
+
+{% if attachments %}
+<table>
+    <thead>
+        <th>{% trans 'Title' %}</th>
+        <th>{% trans 'Type' %}</th>
+        <th>{% trans 'Owner' %}</th>
+        <th>{% trans 'Date' %}</th>
+        
+    </thead>
+    <tbody id="item_list">
+        {% for attachment in attachments %}
+        {% include 'attachments/attachments_row.html' %}
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>{% trans 'There are no attachments' %}</p>
+{% endif %}

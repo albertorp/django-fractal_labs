@@ -173,7 +173,9 @@ class BaseItemUpdateView(LoginRequiredMixin, UpdateView):
         ctx['active_tab'] = self.active_tab
 
         ctx['comments'] = self.object.comments.all()
-        ctx['count'] = self.object.comments.count()
+        ctx['comment_count'] = self.object.comments.count()
+        ctx['attachments'] = self.object.attachments.all()
+        ctx['attachment_count'] = self.object.attachments.count()
         return ctx
 
     def get_form_kwargs(self):

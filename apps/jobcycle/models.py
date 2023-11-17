@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 from apps.comments.models import Comment
+from apps.attachments.models import Attachment
 
 # Create your models here.
 from apps.utils.models import BaseModel
@@ -37,6 +38,8 @@ class BaseItem(BaseModel):
     date_closed = models.DateTimeField(blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('owner'), help_text=_('user currently working on or responsible for this item'))
     comments = GenericRelation(Comment)
+    attachments = GenericRelation(Attachment)
+
  
     # With the "Comments" model, this field should not be needed
     # closure_comments = models.TextField(_('closure comments'), null=True, blank=True, help_text=_('Details of how the item is to be closed, whether approved, rejected or closed'))

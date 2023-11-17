@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load static %}
+
+<section class="app-card" id="attachments">
+    <div class="pg-content">
+        <h2>Attachments</h2>
+        
+        <a href="" class="pg-button-primary">{% trans 'New' %}</a>
+
+        {% include 'attachments/attachments_table.html' %}
+    </div>
+</section>

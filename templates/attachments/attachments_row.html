@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load static %}
+
+<tr id="attachmentrow{{ attachment.id }}">
+    <td>{{ attachment.attachment.title }}</td>
+    <td>{{ attachment.attachment.type }}</td>
+    <td>{{ attachment.attachment.owner.username }}</td>
+    <td>{{ attachment.attachment.created_at|date:"d-m-Y"  }}</td>
+</tr>

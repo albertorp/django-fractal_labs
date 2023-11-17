@@ -59,11 +59,17 @@ No views at the moment
 Added the comments functionality to the BaseItem and the Customer model, so now all Requirements, Invoices, etc. can have comments.
 In each UpdateView the comments are pulled into the context and displayed at the bottom of the page in table format
 
+
+# jobcycle02: Attachment generic model 2023 11 17
+Created a generic attachment model to add files to the items.
+There are 2 clases, FileAttachment that is the actual file, and Attachment, that captures which file is attached to which item via a generic relation
+
+
 # WPs to do
 
 ## Core functionality
 Add Attachments
-Add Comments
+DONE Add Comments
 DONE Add Invoice models
 Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
