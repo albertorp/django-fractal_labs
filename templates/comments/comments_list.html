@@ -1,0 +1,18 @@
+{% load i18n %}
+{% load static %}
+
+<section class="app-card" id="comments">
+    <div class="pg-content">
+        <h2>Comments</h2>
+
+        {% comment %}
+        In principle comments on the objects should not be created in a standalone manner, but always
+        as the result of an action performed on the object. So we remove the button to add comments 
+        manually until we see that that functionality is required
+        
+        <a href="" class="pg-button-primary">{% trans 'New' %}</a>
+        {% endcomment%}
+
+        {% include 'comments/comments_table.html' %}
+    </div>
+</section>

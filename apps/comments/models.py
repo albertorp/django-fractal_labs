@@ -16,3 +16,8 @@ class Comment(BaseModel):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
+    def __str__(self):
+        return self.text[:50]
+
+    class Meta:
+        ordering = ['-created_at']

@@ -55,6 +55,9 @@ Added it to the BaseItem model
 No views at the moment
 
 
+# jobcycle02: Comments to BaseItem and Customer 2023 11 17
+Added the comments functionality to the BaseItem and the Customer model, so now all Requirements, Invoices, etc. can have comments.
+In each UpdateView the comments are pulled into the context and displayed at the bottom of the page in table format
 
 # WPs to do
 

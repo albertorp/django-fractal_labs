@@ -42,6 +42,8 @@ class CustomerUpdateView(LoginRequiredMixin, UpdateView):
         ctx = super().get_context_data(**kwargs)
         ctx['title'] = self.title
         ctx['active_tab'] = self.active_tab
+        ctx['comments'] = self.object.comments.all()
+        ctx['count'] = self.object.comments.count()
         return ctx
 
     def get_form_kwargs(self):
