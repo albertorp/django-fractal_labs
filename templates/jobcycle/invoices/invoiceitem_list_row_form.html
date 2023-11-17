@@ -1,0 +1,47 @@
+{% comment %}
+This template is used via HTMX to render a form as a table row to display the invoice item as a child of the invoice
+{% endcomment %}
+
+
+{% load i18n %}
+{% load static %}
+
+
+    
+    <tr {% if invoiceitem %} id="lineitemrow{{ invoiceitem.id }}" {% else %} id="lineitemrow_new"{% endif %}>
+        {% if invoiceitem %}
+        <form action="{% url 'jobcycle:edit_line_item' invoice.id invoiceitem.id %}" method="POST">
+        {% else %}
+        <form action="{% url 'jobcycle:add_line_item' invoice.id%}" method="POST">
+        {% endif %}
+
+        {% csrf_token %}
+        
+        <td>{% if invoiceitem %}
+            {{ invoiceitem.id }}
+            {% else %}
+            {% trans 'New' %}
+            {% endif %}</td>
+        <td>{{ form.title }}</td>
+        <td>{{ form.quantity }}</td>
+        <td>{{ form.price }} </td>
+        <td>{{ form.job }}</td>
+        <td class="hidden">Tax_pct: {{ form.tax_pct }}</td>
+        <td>
+            <button 
+                class="btn btn-outline-primary" 
+                name="save"
+                {% if invoiceitem %}
+                hx-post="{% url 'jobcycle:edit_line_item' invoice.id invoiceitem.id %}"
+                hx-target="#lineitemrow{{ invoiceitem.id }}"
+                hx-swap="outerHTML"
+                {% else %}
+                hx-post="{% url 'jobcycle:add_line_item' invoice.id %}"
+                {% endif %}
+                >
+                {% trans 'Save' %}</button>
+        </td>
+        </form>
+    </tr>
+
+

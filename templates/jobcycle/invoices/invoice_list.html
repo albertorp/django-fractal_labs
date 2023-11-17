@@ -1,0 +1,15 @@
+{% extends "web/app/app_base.html" %}
+{% load i18n %}
+{% load static %}
+{% block app %}
+
+<section class="app-card">
+    <div class="pg-content">
+        <h2>{{ title }}</h2>
+        <a href="create" class="pg-button-primary">{% trans 'New' %}</a>
+
+        {% include 'jobcycle/invoices/invoice_list_table.html' %}
+        
+    </div>
+</section>
+{% endblock %}

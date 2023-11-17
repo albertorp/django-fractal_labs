@@ -68,8 +68,9 @@ urlpatterns = [
     path("cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("content/", include(wagtail_urls)),
-    path("jobcycle/customers", include("apps.customers.urls")),
-    path("jobcycle/employees", include("apps.employees.urls")),
+    path("jobcycle/customers/", include("apps.customers.urls")),
+    path("jobcycle/employees/", include("apps.employees.urls")),
+    path("jobcycle/", include("apps.jobcycle.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.ENABLE_DEBUG_TOOLBAR:

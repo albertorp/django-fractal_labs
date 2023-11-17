@@ -3,9 +3,30 @@
 {% load static %}
 {% block app %}
 
+
 <section class="app-card">
     <div class="pg-content">
-        <p>Customer List</p>
+        <h2>{{ title }}</h2>
+        <a href="{% url 'customers:customer_create' %}" class="pg-button-primary">{% trans 'New' %}</a>
+
+        <table>
+            <thead>
+                {% for field in fields %}
+                <th>{{ field }}</th>
+                {% empty%}
+                <th>{% trans 'The table is empty' %}</th>
+                {% endfor %}
+                <th>{% trans 'Actions' %}</th>
+            </thead>
+            <tbody>
+                {% for item in customer_list %}
+                {% include 'customers/customer_list_row.html' %}
+                {% empty%}
+                <tr>{% trans 'There are no items' %}</tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
     </div>
 </section>
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends "web/app/app_base.html" %}
+{% load i18n %}
+{% load static %}
+{% block app %}
+
+<section class="app-card">
+    <div class="pg-content">
+        <h2>{{ title }}</h2>
+        <table>
+            <tbody>
+                    {% for key, value in object_dict.items %}
+                    <tr>
+                        <th>{{ key }}</th>
+                        <td>{{ value|default_if_none:'' }}</td>
+                    </tr>                        
+                    {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</section>
+{% endblock %}

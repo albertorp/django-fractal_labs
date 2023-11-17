@@ -1,0 +1,22 @@
+{% load i18n %}
+{% load static %}
+
+<tr id="itemrow{{ item.id }}">
+    <td>{{ item.id }}</td>
+    <td>{{ item.customer }}</td>
+    <td>{{ item.title }}</td>
+    <td>{{ item.get_status_display }}</td>
+    <td>{{ item.deadline|date:"d-m-Y" }}</td>
+    <td>{{ item.owner.username }}</td>
+    <td>
+        <div>
+            <a href="{{ item.id }}" class="btn btn-outline-primary">{% trans 'View' %}</a>
+            <a href="{{ item.id }}/detail" class="btn btn-outline-primary">{% trans 'Detail' %}</a>
+            {% comment 'No delete button needed' %}
+            <a href="{{ item.id }}/delete" class="btn btn-outline-danger">{% trans 'Delete' %}</a>
+            {% endcomment %}
+            
+        </div>
+        
+    </td>
+</tr>

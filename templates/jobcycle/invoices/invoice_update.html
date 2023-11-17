@@ -1,0 +1,61 @@
+{% extends "web/app/app_base.html" %}
+{% load i18n %}
+{% load static %}
+{% block app %}
+
+<section class="app-card">
+    <div class="pg-content">
+        <h2>{{ title }}</h2>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}    
+            {% for button in buttons %}
+            <button type="{{ button.type }}" class="{{ button.class }}" name="{{ button.name }}">{{ button.text }}</button>
+            {% empty %}
+            {% if create %}
+            <button type="submit" class="btn btn-primary" name="save">{% trans 'Save' %}</button>
+            {% else %}
+            <p>{% trans 'This item cannot be modified' %}</p>
+            {% endif %}
+            {% endfor %}
+        </form>
+    </div>
+
+    <div class="pg-content" >
+        <h3>Invoice Items</h3>
+
+        <table>
+            <thead>
+                <th>{% trans 'ID' %}</th>
+                <th>{% trans 'Title' %}</th>
+                <th>{% trans 'Quantity' %}</th>
+                <th>{% trans 'Price' %}</th>     
+                <th>{% trans 'Job' %}</th>                
+                <th>{% trans 'Actions' %}</th>
+            </thead>
+            <tbody id="invoiceitems">
+                {% for item in object.lineitems.all %}
+                {% include 'jobcycle/invoices/invoiceitem_list_row.html' %}
+                {% empty%}
+                <tr>{% trans 'There are no line items for this invoice' %}</tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+        <a 
+            class="pg-button-primary" 
+            name="addlineitem" 
+            hx-get="{% url 'jobcycle:add_line_item' object.id %}"
+            hx-target="#invoiceitems"
+            hx-swap="beforeend"
+            >
+            {% trans 'New Line Item' %}
+        </a>
+
+
+        
+    </div>
+
+
+</section>
+{% endblock %}

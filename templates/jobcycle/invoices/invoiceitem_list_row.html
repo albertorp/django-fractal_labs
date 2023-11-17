@@ -1,0 +1,22 @@
+{% load i18n %}
+{% load static %}
+
+<tr id="lineitemrow{{item.id}}">
+    <td>{{ item.id }}</td>
+    <td>{{ item.title }}</td>
+    <td>{{ item.quantity }}</td>
+    <td>{{ item.price }} {{ item.invoice.currency }}</td>
+    <td>{{ item.job.id }}</td>
+    <td>
+        <button type="submit" class="btn btn-outline-primary" name="view">{% trans 'View' %}</button>
+        <button 
+            type="submit" 
+            class="btn btn-outline-primary" 
+            name="view"
+            hx-get="{% url 'jobcycle:edit_line_item' item.invoice.id item.id %}"
+            hx-target="#lineitemrow{{item.id}}"
+            hx-swap="outerHTML"
+
+            >{% trans 'Edit' %}</button>
+    </td>
+</tr>

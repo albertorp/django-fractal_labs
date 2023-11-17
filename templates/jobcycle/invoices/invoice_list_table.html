@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load static %}
+
+<table>
+    <thead>
+        {% for field in fields %}
+        <th>{{ field }}</th>
+        {% empty%}
+        <th>{% trans 'The table is empty' %}</th>
+        {% endfor %}
+        <th>{% trans 'Actions' %}</th>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        {% include 'jobcycle/invoices/invoice_list_row.html' %}
+        {% empty%}
+        <tr>{% trans 'There are no items' %}</tr>
+        {% endfor %}
+
+    </tbody>
+</table>
