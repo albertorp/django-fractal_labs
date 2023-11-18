@@ -74,7 +74,7 @@ DONE Add Invoice models
 Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
 Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission so that only employees can handle all items
-
+Add Export to Excel functionality, to save all info in the database to a well-formatted Excel file
 
 
 ## Additional functionality
