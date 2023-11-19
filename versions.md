@@ -52,6 +52,13 @@ Now also the listView templates include a table template, and the table the item
 # frontend01: initial integration of flowbite 2023 11 17
 Added flowbite to the p
 
+# frontend01: flowbite frontend 2023 11 19
+Initial development of frontend with flowbite
+Some initial progress with Customer forms and Customer list
+
+
+
+
 
 
 # WPs to do
