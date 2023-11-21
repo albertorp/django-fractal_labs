@@ -1,7 +1,11 @@
 {% load i18n %}
+{% load static %}
 {% load wagtailcore_tags %}
+
+
 <div class="navbar bg-base-100 shadow-md">
-  <div class="navbar-start">
+  <div class="navbar-start px-10">
+    
     <div class="dropdown">
       <div class="lg:hidden">
         <label tabindex="0" class="btn btn-ghost">
@@ -24,19 +28,12 @@
         {% endblock %}
       </ul>
     </div>
+    <a href="{% url 'web:home' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
+      <img src="{% static 'images/web/logo/white-logo-no-bkgrnd.png' %}" class="h-20" alt="{{project_meta.NAME}}" />
+    </a>
   </div>
-  <div class="navbar-center hidden lg:flex">
-    <div class="menu menu-horizontal p-0">
-      <a class="tab {% if request.path == '/' %}tab-active{% endif %}" href="{% url 'web:home' %}">
-        <div>{{project_meta.NAME}}</div>
-      </a>
-      {% slugurl 'blog' as blog_url %}
-      <a class="tab {% if blog_url in request.path %}tab-active{% endif %}" href="{{ blog_url }}">
-        {% translate "Blog" %}
-      </a>
-    </div>
-  </div>
-  <div class="navbar-end">
+
+  <div class="navbar-end px-10">
     {% if user.is_authenticated %}
       <div class="menu menu-horizontal p-0">
         <a class="tab {% if '/pegasus' in request.path %}tab-active{% endif %}" href="{% url 'pegasus_examples:examples_home' %}">
@@ -44,12 +41,28 @@
         </a>
       </div>
     {% else %}
-    <a href="{% url 'account_signup' %}" class="btn btn-primary">
-      {% translate "Sign Up" %}
-    </a>
-    <a href="{% url 'account_login' %}" class="btn btn-outline ml-2">
-      {% translate "Sign In" %}
-    </a>
+    <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+      <li>
+        <a href="#" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>
+      </li>
+      <li>
+        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
+      </li>
+      <li>
+        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
+      </li>
+      <li>
+        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
+      </li>
+      <li>
+        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
+      </li>
+      <li>
+        <a href="{% url 'account_login' %}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{% translate "Sign In" %}</a>
+      </li>
+    </ul>
+    
     {% endif %}
   </div>
 </div>
+

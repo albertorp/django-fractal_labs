@@ -56,21 +56,23 @@ Added flowbite to the p
 Initial development of frontend with flowbite
 Some initial progress with Customer forms and Customer list
 
-
-
+# frontend01: flowbite frontend item 2023 11 21
+Applying flowbite styles to the BaseItems templates
+Added the help_text to the forms
 
 
 
 # WPs to do
 
 ## Core functionality
+Check Validation errors in the item and customer forms
 Add Attachments
 Add Comments
 DONE Add Invoice models
 Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
 Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission so that only employees can handle all items
-
+Add item_type to the BaseItem model. This will reflect potential different job types or services that the SP can provide. For example, for a translator, we can use types of "normal translation", "urgent translation", "sworn tranlsation" or "interpreting"
 
 
 ## Additional functionality
