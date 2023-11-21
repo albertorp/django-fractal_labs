@@ -60,6 +60,17 @@ Some initial progress with Customer forms and Customer list
 Applying flowbite styles to the BaseItems templates
 Added the help_text to the forms
 
+# frontend01: flowbite datepicker 2023 11 21
+Added Flowbite datepicker:
+ cp node_modules/flowbite/dist/datepicker.js static/js 
+ In the html template where we want to use it (at the end):
+    {% block page_js %}
+    <script src="{% static 'js/datepicker.js' %}"></script>
+    {% endblock page_js %} 
+To use it:
+    {% render_field form.validity|attr:"datepicker"|attr:"datepicker-format:yyyy-mm-dd"|attr:"datepicker-autohide" class="...
+
+
 
 
 # WPs to do
