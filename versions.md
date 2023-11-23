@@ -71,6 +71,11 @@ To use it:
     {% render_field form.validity|attr:"datepicker"|attr:"datepicker-format:yyyy-mm-dd"|attr:"datepicker-autohide" class="...
 
 
+# frontend01: invoice forms 2023 11 23
+Changed the invoice forms to use flowbite
+The HTMX and InvoiceItems are not working yet
+
+
 
 
 # WPs to do

@@ -52,7 +52,7 @@ class JobForm(BaseItemForm):
 class InvoiceForm(BaseItemForm):
     class Meta:
         model = Invoice
-        fields = ['customer', 'title', 'description', 'deadline', 'price', 'currency', 'tax_code', 'tax_pct', 'job', 'owner']
+        fields = ['customer', 'title', 'description', 'deadline', 'price', 'currency', 'tax_code', 'tax_pct', 'status', 'job', 'owner']
 
 
 class WebRequirementForm(forms.ModelForm):

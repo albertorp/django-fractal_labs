@@ -1,12 +1,13 @@
 {% load i18n %}
 {% load static %}
 
-<tr id="lineitemrow{{item.id}}">
-    <td>{{ item.id }}</td>
-    <td>{{ item.title }}</td>
-    <td>{{ item.quantity }}</td>
-    <td>{{ item.price }} {{ item.invoice.currency }}</td>
-    <td>{{ item.job.id }}</td>
+<tr class="border-b dark:border-gray-700" id="lineitemrow{{item.id}}">
+    <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ item.id }}</th>
+    <td class="px-4 py-3">{{ item.title }}</td>
+    <td class="px-4 py-3">{{ item.quantity }}</td>
+    <td class="px-4 py-3">{{ item.price }} {{ item.invoice.currency }}</td>
+    <td class="px-4 py-3">{{ item.job.id }}</td>
+    {% comment %}
     <td>
         <button type="submit" class="btn btn-outline-primary" name="view">{% trans 'View' %}</button>
         <button 
@@ -18,5 +19,29 @@
             hx-swap="outerHTML"
 
             >{% trans 'Edit' %}</button>
+    </td>
+   
+    <td class="px-4 py-3 align-middle flex items-center justify-end">
+        <button id="{{ item.id }}-dropdown-button" data-dropdown-toggle="{{ item.id }}-dropdown" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
+            <i class="fa-solid fa-ellipsis"></i>
+        </button>
+        <div id="{{ item.id }}-dropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="{{ item.id }}-dropdown-button">
+                <li>
+                    <a href="{{ item.id }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i class="fa-regular fa-pen-to-square me-3"></i>{% trans 'Edit' %}</a>
+                </li>
+            </ul>
+        </div>
+    </td>
+    {% endcomment %}
+    <td class="px-4 py-3 align-middle flex items-center justify-end">
+        <a 
+            hx-get="{% url 'jobcycle:edit_line_item' item.invoice.id item.id %}"
+            class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            hx-target="#lineitemrow{{item.id}}"
+            hx-swap="outerHTML"
+        >
+            <i class="fa-regular fa-pen-to-square me-3"></i>{% trans 'Edit' %}
+        </a>
     </td>
 </tr>
