@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load static %}
+
+{% if comments %}
+<table>
+    <thead>
+        <th>{% trans 'Date' %}</th>
+        <th>{% trans 'Time' %}</th>
+        <th>{% trans 'Comment' %}</th>
+        <th>{% trans 'User' %}</th>
+        
+    </thead>
+    <tbody id="item_list">
+        {% for comment in comments %}
+        {% include 'comments/comments_row.html' %}
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>{% trans 'There are no comments' %}</p>
+{% endif %}

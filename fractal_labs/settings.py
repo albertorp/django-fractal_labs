@@ -105,6 +105,8 @@ PROJECT_APPS = [
     "apps.customers",
     "apps.employees",
     "apps.jobcycle",
+    "apps.comments",
+    "apps.attachments",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PEGASUS_APPS + PROJECT_APPS + WAGTAIL_APPS

@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load static %}
+
+<tr id="commentrow{{ comment.id }}">
+    <td>{{ comment.created_at|date:"d-m-Y"  }}</td>
+    <td>{{ comment.created_at|time:"H:i:s" }}</td>
+    <td>{{ comment.text }}</td>
+    <td>{{ comment.user.username }}</td>
+</tr>

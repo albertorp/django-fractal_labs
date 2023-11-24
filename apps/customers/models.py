@@ -1,9 +1,11 @@
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 from apps.utils.models import BaseModel
+from apps.comments.models import Comment
 
 
 class Customer(BaseModel):
@@ -26,6 +28,7 @@ class Customer(BaseModel):
     tax_id_number = models.CharField(_('Tax Identification Nr'), max_length=20, blank=True, null=True)
     billing_address = models.CharField(_('Billing Address'), max_length=255, blank=True, null=True)
     stripe_customer_id = models.CharField(_('Stripe ID'), max_length=100, blank=True, null=True)
+    comments = GenericRelation(Comment)
 
     def __str__(self):
         return self.email

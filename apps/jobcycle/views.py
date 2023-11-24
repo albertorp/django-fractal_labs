@@ -174,6 +174,10 @@ class BaseItemUpdateView(LoginRequiredMixin, UpdateView):
         ctx['title'] = self.title
         ctx['item_type'] = self.item_type
         ctx['active_tab'] = self.active_tab
+        ctx['comments'] = self.object.comments.all()
+        ctx['comment_count'] = self.object.comments.count()
+        ctx['attachments'] = self.object.attachments.all()
+        ctx['attachment_count'] = self.object.attachments.count()
         ctx['additional_form_fields_template'] = self.additional_form_fields_template
         return ctx
 

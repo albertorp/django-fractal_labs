@@ -1,12 +1,18 @@
 from django.contrib import admin
 
 from .models import Requirement, Quotation, Job, Invoice, InvoiceItem
+from apps.comments.admin import CommentInline
+
+
+
+
 
 class RequirementAdmin(admin.ModelAdmin):
     list_display = ('id', 'customer', 'title', 'status', 'deadline', 'owner')
     list_filter = ('customer', 'status', 'owner')
     search_fields = ('title', 'description', )
     readonly_fields = ('created_at', 'updated_at')
+    #inlines = [CommentInline,]
 
 admin.site.register(Requirement, RequirementAdmin)
 
