@@ -77,10 +77,10 @@ The HTMX and InvoiceItems are not working yet
 
 
 # frontend01: added marketing site 2023 11 24 
+Added some scheleton pages (Services, Pricing...)
 
-
-# frontend01: changed the navbar and app templates
-
+# frontend01: changed the navbar and app templates 2023 11 24
+Adapted the Application UI from Flowbite
 
 
 
@@ -103,5 +103,5 @@ Add item_type to the BaseItem model. This will reflect potential different job t
 ## Frontend functionality
 Make "deadline" field in BaseItemForm a DatePicker
 Add Filters and pagination to the ListViews
-
+I've set the top NavBar to be fixed, and this interferes with the notification messages
 

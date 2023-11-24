@@ -1,4 +1,130 @@
 {% load i18n %}
+
+
+{% if not user.is_anonymous %}
+  <li class="flex items-center p-1 text-sm font-bold text-gray-500 rounded-lg dark:text-white">{% translate "JobCycle" %}</li>
+  
+  {% if user.is_staff %}
+    <li>
+      <a
+        href="{% url 'customers:customer_list' %}"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'customers' %}active{% endif %}"
+      >
+        <i class="fa-solid fa-users-viewfinder h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Customers" %}</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="{% url 'employees:employee_list' %}"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'employees' %}active{% endif %}"
+      >
+        <i class="fa fa-users h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Employees" %}</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="{% url 'jobcycle:requirement_list' %}"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'requirements' %}active{% endif %}"
+      >
+        <i class="fa-solid fa-file-circle-question h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Requirements" %}</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="{% url 'jobcycle:quotation_list' %}"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'quotations' %}active{% endif %}"
+      >
+        <i class="fa-solid fa-file-invoice-dollar h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Quotations" %}</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="{% url 'jobcycle:job_list' %}"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'jobs' %}active{% endif %}"
+      >
+        <i class="fa-solid fa-file-contract h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Jobs" %}</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="{% url 'jobcycle:invoice_list' %}"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'invoices' %}active{% endif %}"
+      >
+        <i class="fa-solid fa-file-invoice h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Invoices" %}</span>
+      </a>
+    </li>   
+  {% endif %}
+
+  <li class="flex items-center p-1 text-sm font-bold text-gray-500 rounded-lg dark:text-white">{% translate "My Account" %}</li>
+  <li>
+    <a
+      href="{% url 'users:user_profile' %}"
+      class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'profile' %}active{% endif %}"
+    >
+      <i class="fa fa-user h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+      <span class="ml-3">{% translate "Profile" %}</span>
+    </a>
+  </li>  
+  {% if user.has_usable_password %}
+  <li>
+    <a
+      href="{% url 'account_change_password' %}"
+      class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if 'accounts/password/change' in request.path %}active{% endif %}"
+    >
+      <i class="fa fa-unlock-alt h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+      <span class="ml-3">{% translate "Change Password" %}</span>
+    </a>
+  </li> 
+  {% endif %}
+  <li>
+    <a
+      href="{% url 'account_logout' %}"
+      class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if 'accounts/logout' in request.path %}active{% endif %}"
+    >
+      <i class="fa fa-sign-out h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+      <span class="ml-3">{% translate "Sign out" %}</span>
+    </a>
+  </li> 
+
+  {% if user.is_superuser %}
+    <li class="flex items-center p-1 text-sm font-bold text-gray-500 rounded-lg dark:text-white">{% translate "Admin" %}</li>
+    <li>
+      <a
+        href="{% url 'dashboard:dashboard' %}"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'project-dashboard' %}active{% endif %}"
+      >
+        <i class="fa fa-bar-chart-o h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Project Dashboard" %}</span>
+      </a>
+    </li> 
+    <li>
+      <a
+        href="{% url 'support:hijack_user' %}"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'support' %}active{% endif %}"
+      >
+        <i class="fa fa-user-secret h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Impersonate a User" %}</span>
+      </a>
+    </li>   
+    <li>
+      <a
+        href="/admin" target="_blank"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+      >
+        <i class="fa-solid fa-screwdriver-wrench h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Admin Interface" %}</span>
+      </a>
+    </li> 
+  {% endif %}
+
+{% endif %}
+
 <li class="menu-title">
   <span>{% translate "Application" %}</span>
 </li>
@@ -20,90 +146,3 @@
     {% translate "OpenAI Demos" %}
   </a>
 </li>
-{% if not user.is_anonymous %}
-<li class="menu-title">
-  <span>{% translate "JobCycle" %}</span>
-</li>
-{% if user.is_staff %}
-<li>  
-  <a href="{% url 'customers:customer_list' %}" {% if active_tab == 'customers' %}class="active"{% endif %}>
-    <i class="fa-solid fa-users-viewfinder h-4 w-4"></i>
-    {% translate "Customers" %}
-  </a>
-</li>
-<li>
-  <a href="{% url 'employees:employee_list' %}" {% if active_tab == 'employees' %}class="active"{% endif %}>
-    <i class="fa fa-users h-4 w-4"></i>
-    {% translate "Employees" %}
-  </a>
-</li>
-<li>
-  <a href="{% url 'jobcycle:requirement_list' %}" {% if active_tab == 'requirements' %}class="active"{% endif %}>
-    <i class="fa-solid fa-file-circle-question h-4 w-4"></i>
-    {% translate "Requirements" %}
-  </a>
-  <a href="{% url 'jobcycle:quotation_list' %}" {% if active_tab == 'quotations' %}class="active"{% endif %}>
-    <i class="fa-solid fa-file-invoice-dollar h-4 w-4"></i>
-    {% translate "Quotations" %}
-  </a>
-  <a href="{% url 'jobcycle:job_list' %}" {% if active_tab == 'jobs' %}class="active"{% endif %}>
-    <i class="fa-solid fa-file-contract h-4 w-4"></i>
-    {% translate "Jobs" %}
-  </a>
-  <a href="{% url 'jobcycle:invoice_list' %}" {% if active_tab == 'invoices' %}class="active"{% endif %}>
-    <i class="fa-solid fa-file-invoice h-4 w-4"></i>
-    {% translate "Invoices" %}
-  </a>
-</li>
-{% endif %}
-<li class="menu-title">
-  <span>{% translate "My Account" %}</span>
-</li>
-<ul class="menu-list">
-  <li>
-    <a href="{% url 'users:user_profile' %}" {% if active_tab == 'profile' %}class="active"{% endif %}>
-      <i class="fa fa-user h-4 w-4"></i>
-      {% translate "Profile" %}
-    </a>
-  </li>
-  {% if user.has_usable_password %}
-  <li>
-    <a href="{% url 'account_change_password' %}" {% if 'accounts/password/change' in request.path %}class="active"{% endif %}>
-      <i class="fa fa-unlock-alt h-4 w-4"></i>
-      {% translate "Change Password" %}
-    </a>
-  </li>
-  {% endif %}
-  <li>
-    <a href="{% url 'account_logout' %}" {% if 'accounts/logout' in request.path %}class="active"{% endif %}>
-      <i class="fa fa-sign-out h-4 w-4"></i>
-      {% translate "Sign out" %}
-    </a>
-  </li>
-</ul>
-{% endif %}
-{% if user.is_superuser %}
-<li class="menu-title">
-  <span>{% translate "Admin" %}</span>
-</li>
-<ul class="menu-list">
-  <li>
-    <a href="{% url 'dashboard:dashboard' %}" {% if active_tab == 'project-dashboard' %}class="active"{% endif %}>
-      <i class="fa fa-bar-chart-o h-4 w-4"></i>
-      {% translate "Project Dashboard" %}
-    </a>
-  </li>
-  <li>
-    <a href="{% url 'support:hijack_user' %}" {% if active_tab == 'support' %}class="active"{% endif %}>
-      <i class="fa fa-user-secret h-4 w-4"></i>
-      {% translate "Impersonate a User" %}
-    </a>
-  </li>
-  <li>
-    <a href="/admin" target="_blank">
-      <i class="fa-solid fa-screwdriver-wrench h-4 w-4"></i>
-      {% translate "Admin Interface" %}
-    </a>
-  </li>
-</ul>
-{% endif %}
