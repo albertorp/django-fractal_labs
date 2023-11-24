@@ -76,6 +76,12 @@ Changed the invoice forms to use flowbite
 The HTMX and InvoiceItems are not working yet
 
 
+# frontend01: added marketing site 2023 11 24 
+
+
+# frontend01: changed the navbar and app templates
+
+
 
 
 # WPs to do
