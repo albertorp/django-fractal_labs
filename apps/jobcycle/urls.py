@@ -42,5 +42,6 @@ urlpatterns = [
     path("invoices/<int:invoice_id>/edit_line_item/<int:pk>", views_invoices.edit_invoiceitem_row_htmx, name="edit_line_item"),
 
     
-      
+    path("excel_export/", views.excel_export, name="excel_export"),
+
 ]

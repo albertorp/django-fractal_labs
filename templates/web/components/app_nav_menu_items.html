@@ -105,6 +105,15 @@
     </li> 
     <li>
       <a
+        href="{% url 'jobcycle:excel_export' %}"
+        class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'excel_export' %}active{% endif %}"
+      >
+        <i class="fa-solid fa-file-excel h-4 w-4 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor"></i>
+        <span class="ml-3">{% translate "Export to Excel" %}</span>
+      </a>
+    </li>  
+    <li>
+      <a
         href="{% url 'support:hijack_user' %}"
         class="flex items-center p-1 text-sm font-medium text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active_tab == 'support' %}active{% endif %}"
       >

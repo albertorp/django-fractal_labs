@@ -251,6 +251,8 @@ class Invoice(BaseItem):
         return self.Status(self.status).label
     
     def get_tax_code_display(self):
+        if self.tax_code is None:
+            return ''
         return TaxCodes(self.tax_code).label
     
 

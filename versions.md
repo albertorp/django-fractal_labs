@@ -103,6 +103,11 @@ Adapted the Application UI from Flowbite
 # main: comments and attachments to flowbite 2023 11 24 
 Changed the tables for comments and attachments to Flowbite format
 
+
+# jobcycle03: export to excel 2023 11 24
+Menu option to export all relevant data. This allows for a very simple backup for our users
+
+
 # WPs to do
 
 ## Core functionality

@@ -1,16 +1,20 @@
-from typing import Any
+from django.apps import apps
+from django.db.models.fields.related import ForeignKey
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.forms.models import model_to_dict
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView, UpdateView, CreateView, DetailView
 
 from allauth.account.adapter import get_adapter
 from allauth.account.models import EmailAddress
 from allauth.account.utils import send_email_confirmation
+
+from openpyxl import Workbook
 
 from .utils import get_buttons_requirement, get_buttons_quotation, get_buttons_job, get_buttons_webrequirement
 
@@ -482,4 +486,75 @@ class JobCreateView(BaseItemCreateView):
     title = _('Create Job')
     item_type = 'job'
     active_tab = 'jobs'
+
+
+
+def excel_export(request):
+    """
+    This method exports the tables from our apps into an excel file. This allows for a very simple backup for
+    our users
+
+    TODO: Change the models to be exported so that they can be defined in the settings file. These list should be updated 
+    when new models are added
+
+    """
+    now_str = timezone.now().strftime('%Y-%m-%d %H%M')
+    file_name = 'Data ' + ' - ' + now_str + '.xlsx'
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Prepare the Excel file
+    workbook = Workbook()
+    # By default, OpenPyXL creates a new workbook with one sheet named "Sheet". 
+    # To remove this sheet, you can simply delete it after creating the workbook, 
+    # before adding any other sheets.
+    default_sheet = workbook.get_sheet_by_name('Sheet')
+    workbook.remove_sheet(default_sheet)
+
+    
+    models = [
+        'customers.Customer',
+        'jobcycle.Requirement',
+        'jobcycle.Quotation',
+        'jobcycle.Job',
+        'jobcycle.Invoice',
+        'comments.Comment',
+        'users.CustomUser'
+        ]
+    
+    for model_path in models:
+
+        # Get the model and queryset
+        model = apps.get_model(model_path)
+        print(f"Model Name: {model.__name__}")
+        qs = model.objects.all()
+
+        # Create a worksheet for the queryset
+        worksheet = workbook.create_sheet(title=model.__name__)
+        fields = [field.name for field in qs.model._meta.fields]
+        worksheet.append(fields)
+
+        # Write the queryset rows into the worksheet
+        for obj in qs:
+            row = []
+            for field in fields:
+                # Check if the field is a ForeignKey
+                if isinstance(qs.model._meta.get_field(field), ForeignKey):
+                    # Get the ID of the related object
+                    related_object = getattr(obj, field)
+                    row_value = str(related_object.id) if related_object else None
+                elif getattr(qs.model._meta.get_field(field), 'choices', None):
+                    # If the field has choices, use the get_FOO_display() method
+                    display_method = f'get_{field}_display'
+                    row_value = str(getattr(obj, display_method)())
+                else:
+                    # For other fields, use the current behavior
+                    row_value = str(getattr(obj, field))
+
+                row.append(row_value)
+            worksheet.append(row)
+
+    workbook.save(response)
+    return response
 

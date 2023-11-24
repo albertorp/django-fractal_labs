@@ -16,5 +16,6 @@ celery[redis]
 mailchimp3
 markdown
 openai
+openpyxl
 sentry-sdk
 wagtail
