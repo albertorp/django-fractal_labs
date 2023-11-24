@@ -31,7 +31,7 @@ class BaseItem(BaseModel):
 
     title = models.CharField(_('title'), max_length=200, help_text=_('Provide a title to identify this item'))
     description = models.TextField(_('description'), null=True, blank=True, help_text=_('Describe in detail the item'))
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name=_('customer'), help_text=_('the item belongs to this customer'))
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name=_('customer'), help_text=_('The item belongs to this customer'))
     deadline = models.DateField(_('deadline'), blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_sent = models.DateTimeField(blank=True, null=True)
@@ -39,6 +39,7 @@ class BaseItem(BaseModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('owner'), help_text=_('user currently working on or responsible for this item'))
     comments = GenericRelation(Comment)
     attachments = GenericRelation(Attachment)
+
 
  
     # With the "Comments" model, this field should not be needed

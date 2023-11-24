@@ -67,6 +67,7 @@ THIRD_PARTY_APPS = [
     "hijack.contrib.admin",  # hijack buttons in the admin
     "djstripe",  # stripe integration
     "waffle",
+    "widget_tweaks",
 ]
 
 WAGTAIL_APPS = [

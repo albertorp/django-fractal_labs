@@ -65,9 +65,47 @@ Created a generic attachment model to add files to the items.
 There are 2 clases, FileAttachment that is the actual file, and Attachment, that captures which file is attached to which item via a generic relation
 
 
+# frontend01: initial integration of flowbite 2023 11 17
+Added flowbite to the p
+
+# frontend01: flowbite frontend 2023 11 19
+Initial development of frontend with flowbite
+Some initial progress with Customer forms and Customer list
+
+# frontend01: flowbite frontend item 2023 11 21
+Applying flowbite styles to the BaseItems templates
+Added the help_text to the forms
+
+# frontend01: flowbite datepicker 2023 11 21
+Added Flowbite datepicker:
+ cp node_modules/flowbite/dist/datepicker.js static/js 
+ In the html template where we want to use it (at the end):
+    {% block page_js %}
+    <script src="{% static 'js/datepicker.js' %}"></script>
+    {% endblock page_js %} 
+To use it:
+    {% render_field form.validity|attr:"datepicker"|attr:"datepicker-format:yyyy-mm-dd"|attr:"datepicker-autohide" class="...
+
+
+# frontend01: invoice forms 2023 11 23
+Changed the invoice forms to use flowbite
+The HTMX and InvoiceItems are not working yet
+
+
+# frontend01: added marketing site 2023 11 24 
+Added some scheleton pages (Services, Pricing...)
+
+# frontend01: changed the navbar and app templates 2023 11 24
+Adapted the Application UI from Flowbite
+
+# frontend01 and jobcycle02 were both merged together on 2023 11 24
+
+
+
 # WPs to do
 
 ## Core functionality
+Check Validation errors in the item and customer forms
 Add Attachments
 DONE Add Comments
 DONE Add Invoice models
@@ -75,6 +113,7 @@ Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
 Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission so that only employees can handle all items
 Add Export to Excel functionality, to save all info in the database to a well-formatted Excel file
+Add item_type to the BaseItem model. This will reflect potential different job types or services that the SP can provide. For example, for a translator, we can use types of "normal translation", "urgent translation", "sworn tranlsation" or "interpreting"
 
 
 ## Additional functionality
@@ -83,5 +122,5 @@ Add Export to Excel functionality, to save all info in the database to a well-fo
 ## Frontend functionality
 Make "deadline" field in BaseItemForm a DatePicker
 Add Filters and pagination to the ListViews
-
+I've set the top NavBar to be fixed, and this interferes with the notification messages
 

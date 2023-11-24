@@ -1,7 +1,8 @@
+from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.forms.models import model_to_dict
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -84,6 +85,7 @@ class BaseItemListView(LoginRequiredMixin, ListView):
     context_object_name = 'items' 
     list_display = ('id', 'customer', 'title', 'status', 'deadline', 'owner')
     #ordering = ['-date_created']  # Optionally, specify how you want to order the items
+    
 
 
     def get_queryset(self):
@@ -165,17 +167,18 @@ class JobDetailView(BaseItemDetailView):
 class BaseItemUpdateView(LoginRequiredMixin, UpdateView):
     model = None # Must be defined in derived class
     template_name = 'jobcycle/item_update.html'
+    additional_form_fields_template = None
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['title'] = self.title
         ctx['item_type'] = self.item_type
         ctx['active_tab'] = self.active_tab
-
         ctx['comments'] = self.object.comments.all()
         ctx['comment_count'] = self.object.comments.count()
         ctx['attachments'] = self.object.attachments.all()
         ctx['attachment_count'] = self.object.attachments.count()
+        ctx['additional_form_fields_template'] = self.additional_form_fields_template
         return ctx
 
     def get_form_kwargs(self):
@@ -183,6 +186,9 @@ class BaseItemUpdateView(LoginRequiredMixin, UpdateView):
         kwargs = super().get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
+    
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
     
 
 class RequirementUpdateView(BaseItemUpdateView):
@@ -192,6 +198,7 @@ class RequirementUpdateView(BaseItemUpdateView):
     title = _('Requirement Update')
     item_type = 'requirement'
     active_tab = 'requirements'
+    additional_form_fields_template = None
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -267,6 +274,7 @@ class QuotationUpdateView(BaseItemUpdateView):
     title = _('Quotation Details/Update')
     item_type = 'quotation'
     active_tab = 'quotations'
+    additional_form_fields_template = "jobcycle/quotations/additional_form_fields_quotations.html"
 
     def form_valid(self, form):
         if 'save' in self.request.POST:
@@ -365,6 +373,7 @@ class JobUpdateView(BaseItemUpdateView):
     title = _('Job Details/Update')
     item_type = 'job'
     active_tab = 'jobs'
+    additional_form_fields_template = "jobcycle/jobs/additional_form_fields_jobs.html"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)

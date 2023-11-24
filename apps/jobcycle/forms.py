@@ -35,11 +35,15 @@ class RequirementForm(BaseItemForm):
         
 
 class QuotationForm(BaseItemForm):
+    terms = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
+
     class Meta:
         model = Quotation
         fields = ['customer', 'title', 'description', 'deadline', 'price', 'currency', 'terms', 'validity', 'requirement', 'status', 'owner']
 
 class JobForm(BaseItemForm):
+    terms = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
+
     class Meta:
         model = Job
         fields = ['customer', 'title', 'description', 'deadline', 'price', 'currency', 'terms', 'quotation', 'status', 'invoiced', 'paid', 'owner']
@@ -48,7 +52,7 @@ class JobForm(BaseItemForm):
 class InvoiceForm(BaseItemForm):
     class Meta:
         model = Invoice
-        fields = ['customer', 'title', 'description', 'deadline', 'price', 'currency', 'tax_code', 'tax_pct', 'job', 'owner']
+        fields = ['customer', 'title', 'description', 'deadline', 'price', 'currency', 'tax_code', 'tax_pct', 'status', 'job', 'owner']
 
 
 class WebRequirementForm(forms.ModelForm):

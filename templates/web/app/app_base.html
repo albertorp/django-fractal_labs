@@ -1,8 +1,13 @@
 {% extends "web/base.html" %}
 {% load static %}
+
+
+{% comment %}
+
 {% block top_nav %}
   {% include 'web/components/top_nav_app.html' %}
 {% endblock %}
+
 {% block body %}
   {% block notifications %}
   {% endblock %}
@@ -20,3 +25,28 @@
     </div>
   </section>
 {% endblock %}
+{% endcomment %}
+
+
+{% block top_nav %}
+  {% include 'web/components/top_nav_app.html' %}
+{% endblock %}
+
+{% block body %}
+  {% block notifications %}
+  {% endblock %}
+  <div class="antialiased bg-gray-50 dark:bg-gray-900">
+    
+    <!-- Sidebar -->
+    {% block sidebar-nav %}
+      {% include "web/components/app_nav.html" %}
+    {% endblock %}
+
+    <!-- Main content -->
+
+    <main class="p-4 md:ml-64 h-auto pt-20">
+      {% block app %}
+      {% endblock app %}
+    </main>
+  </div>
+{% endblock body %}
