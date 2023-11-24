@@ -1,22 +1,31 @@
 {% load i18n %}
 {% load static %}
 
-<tr>
-    <td>{{ item.id }}</td>
-    <td>{{ item.customer }}</td>
-    <td>{{ item.title }}</td>
-    <td>{{ item.get_status_display }}</td>
-    <td>{{ item.deadline|date:"d-m-Y" }}</td>
-    <td>{{ item.owner.username }}</td>
-    <td>
-        <div>
-            <a href="{{ item.id }}" class="btn btn-outline-primary">{% trans 'View' %}</a>
-            <a href="{{ item.id }}/detail" class="btn btn-outline-primary">{% trans 'Detail' %}</a>
-            {% comment 'No delete button needed' %}
-            <a href="{{ item.id }}/delete" class="btn btn-outline-danger">{% trans 'Delete' %}</a>
-            {% endcomment %}
-            
+<tr class="border-b dark:border-gray-700" id="itemrow{{ item.id }}">
+    
+    <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ item.id }}</th>
+    <td class="px-4 py-3">{{ item.customer }}</td>
+    <td class="px-4 py-3">{{ item.title }}</td>
+    <td class="px-4 py-3">{{ item.get_status_display }}</td>
+    <td class="px-4 py-3">{{ item.deadline|date:"d-m-Y" }}</td>
+    <td class="px-4 py-3">{{ item.owner.username }}</td>
+    <td class="px-4 py-3 align-middle flex items-center justify-end">
+        <button id="{{ item.id }}-dropdown-button" data-dropdown-toggle="{{ item.id }}-dropdown" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
+            <i class="fa-solid fa-ellipsis"></i>
+        </button>
+        <div id="{{ item.id }}-dropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="{{ item.id }}-dropdown-button">
+                <li>
+                    <a href="{{ item.id }}/detail" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i class="fa-regular fa-eye me-3"></i>{% trans 'View' %}</a>
+                </li>
+                <li>
+                    <a href="{{ item.id }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i class="fa-regular fa-pen-to-square me-3"></i>{% trans 'Edit' %}</a>
+                </li>
+            </ul>
+            <div class="py-1">
+                <a href="{{ item.id }}/delete" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><i class="fa-regular fa-trash-can me-3"></i>{% trans 'Delete' %}</a>
+            </div>
         </div>
-        
     </td>
+
 </tr>

@@ -4,6 +4,7 @@ django-allauth-2fa
 django-waffle
 django-environ
 djangorestframework
+django-widget-tweaks
 drf-spectacular
 stripe
 dj-stripe

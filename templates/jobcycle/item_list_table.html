@@ -1,21 +1,24 @@
 {% load i18n %}
 {% load static %}
 
-<table>
-    <thead>
-        {% for field in fields %}
-        <th>{{ field }}</th>
-        {% empty%}
-        <th>{% trans 'The table is empty' %}</th>
-        {% endfor %}
-        <th>{% trans 'Actions' %}</th>
+<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            {% for field in fields %}
+            <th scope="col" class="px-4 py-3">{{ field }}</th>
+            {% empty%}
+            <th>{% trans 'The table is empty' %}</th>
+            {% endfor %}
+            <th scope="col" class="px-4 py-3">
+                <span >Actions</span>
+            </th>
+        </tr>
     </thead>
-    <tbody id="item_list">
+    <tbody>
         {% for item in items %}
         {% include 'jobcycle/item_list_row.html' %}
         {% empty%}
         <tr>{% trans 'There are no items' %}</tr>
         {% endfor %}
-
     </tbody>
 </table>

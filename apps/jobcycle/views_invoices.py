@@ -40,6 +40,7 @@ class InvoiceUpdateView(BaseItemUpdateView):
     item_type = 'invoice'
     active_tab = 'invoices'
     template_name = 'jobcycle/invoices/invoice_update.html'
+    additional_form_fields_template = "jobcycle/invoices/additional_form_fields_invoices.html"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
