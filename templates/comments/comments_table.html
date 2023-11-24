@@ -2,12 +2,12 @@
 {% load static %}
 
 {% if comments %}
-<table>
-    <thead>
-        <th>{% trans 'Date' %}</th>
-        <th>{% trans 'Time' %}</th>
-        <th>{% trans 'Comment' %}</th>
-        <th>{% trans 'User' %}</th>
+<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <th scope="col" class="px-4 py-3">{% trans 'Date' %}</th>
+        <th scope="col" class="px-4 py-3">{% trans 'Time' %}</th>
+        <th scope="col" class="px-4 py-3">{% trans 'Comment' %}</th>
+        <th scope="col" class="px-4 py-3">{% trans 'User' %}</th>
         
     </thead>
     <tbody id="item_list">

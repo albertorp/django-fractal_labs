@@ -27,7 +27,7 @@
 {% endcomment %}
 
 
-<section class="app-card">
+<section class="">
     {{ form.errors }}
     <div class="max-w-2xl px-4 py-8 mx-auto lg:py-12">
         <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">{{ title }}</h2>
@@ -87,12 +87,16 @@
                 {% endfor %}
             </div>
         </form>
+        {% if not create %}
+        {% include 'comments/comments_list.html' %}
+        {% include 'attachments/attachments_list.html' %}
+        {% endif %}
     </div>
   </section>
 
-{% include 'comments/comments_list.html' %}
 
-{% include 'attachments/attachments_list.html' %}
+
+
 
 {% endblock %}
 

@@ -100,13 +100,14 @@ Adapted the Application UI from Flowbite
 
 # frontend01 and jobcycle02 were both merged together on 2023 11 24
 
-
+# main: comments and attachments to flowbite 2023 11 24 
+Changed the tables for comments and attachments to Flowbite format
 
 # WPs to do
 
 ## Core functionality
 Check Validation errors in the item and customer forms
-Add Attachments
+DONE Add Attachments
 DONE Add Comments
 DONE Add Invoice models
 Add Terms&Conditions model
@@ -120,7 +121,7 @@ Add item_type to the BaseItem model. This will reflect potential different job t
 
 
 ## Frontend functionality
-Make "deadline" field in BaseItemForm a DatePicker
+DONE Make "deadline" field in BaseItemForm a DatePicker
 Add Filters and pagination to the ListViews
 I've set the top NavBar to be fixed, and this interferes with the notification messages
 

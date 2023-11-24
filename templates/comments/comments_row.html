@@ -2,8 +2,8 @@
 {% load static %}
 
 <tr id="commentrow{{ comment.id }}">
-    <td>{{ comment.created_at|date:"d-m-Y"  }}</td>
-    <td>{{ comment.created_at|time:"H:i:s" }}</td>
-    <td>{{ comment.text }}</td>
-    <td>{{ comment.user.username }}</td>
+    <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ comment.created_at|date:"d-m-Y"  }}</td>
+    <td class="px-4 py-3">{{ comment.created_at|time:"H:i:s" }}</td>
+    <td class="px-4 py-3">{{ comment.text }}</td>
+    <td class="px-4 py-3">{{ comment.user.username }}</td>
 </tr>

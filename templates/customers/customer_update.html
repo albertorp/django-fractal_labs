@@ -6,7 +6,7 @@
 
 {% block app %}
 
-<section class="app-card">
+<section class="">
     <div class="max-w-2xl px-4 py-8 mx-auto lg:py-12">
         <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">{{ title }}</h2>
         <form action="" method="POST">
@@ -47,6 +47,8 @@
     </div>
 </section>
 
+{% if not create %}
 {% include 'comments/comments_list.html' %}
+{% endif %}
 
 {% endblock %}
