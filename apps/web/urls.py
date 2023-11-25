@@ -20,4 +20,7 @@ urlpatterns = [
     path("pricing/", TemplateView.as_view(template_name="web/pages/pricing.html"), name="pricing"),
     path("faq/", TemplateView.as_view(template_name="web/pages/faq.html"), name="faq"),
     path("contact/", TemplateView.as_view(template_name="web/pages/contact.html"), name="contact"),
+
+    path("clear_messages/", views.clear_messages, name="clear_messages"),
+
 ]

@@ -107,6 +107,11 @@ Changed the tables for comments and attachments to Flowbite format
 # jobcycle03: export to excel 2023 11 24
 Menu option to export all relevant data. This allows for a very simple backup for our users
 
+# jobcycle03: messages framework 2023 11 25
+Adapted the messages.html template to display Flowbite toasts. 
+I have not been able to properly use the {{ message.tag_level }} as implementen in Pegasus, so I left it as several ifs
+
+
 
 # WPs to do
 
@@ -118,7 +123,7 @@ DONE Add Invoice models
 Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
 Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission so that only employees can handle all items
-Add Export to Excel functionality, to save all info in the database to a well-formatted Excel file
+DONE Add Export to Excel functionality, to save all info in the database to a well-formatted Excel file
 Add item_type to the BaseItem model. This will reflect potential different job types or services that the SP can provide. For example, for a translator, we can use types of "normal translation", "urgent translation", "sworn tranlsation" or "interpreting"
 
 
