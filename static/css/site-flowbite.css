@@ -5178,6 +5178,11 @@ details.collapse summary::-webkit-details-marker {
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
+.border-danger-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity));
+}
+
 .\!bg-primary-600 {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(37 99 235 / var(--tw-bg-opacity)) !important;
@@ -5774,6 +5779,16 @@ details.collapse summary::-webkit-details-marker {
   color: rgb(217 119 6 / var(--tw-text-opacity));
 }
 
+.text-danger-900 {
+  --tw-text-opacity: 1;
+  color: rgb(127 29 29 / var(--tw-text-opacity));
+}
+
+.text-danger-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -5781,6 +5796,16 @@ details.collapse summary::-webkit-details-marker {
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.placeholder-danger-700::-moz-placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-placeholder-opacity));
+}
+
+.placeholder-danger-700::placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-placeholder-opacity));
 }
 
 .opacity-0 {
@@ -6059,6 +6084,11 @@ details.collapse summary::-webkit-details-marker {
   border-color: rgb(37 99 235 / var(--tw-border-opacity));
 }
 
+.focus\:border-danger-500:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity));
+}
+
 .focus\:bg-gray-100:focus {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -6186,6 +6216,11 @@ details.collapse summary::-webkit-details-marker {
   --tw-ring-color: rgb(227 160 8 / var(--tw-ring-opacity));
 }
 
+.focus\:ring-danger-500:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity));
+}
+
 .group:hover .group-hover\:text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -6242,6 +6277,11 @@ details.collapse summary::-webkit-details-marker {
 
 :is(.dark .dark\:border-transparent) {
   border-color: transparent;
+}
+
+:is(.dark .dark\:border-danger-400) {
+  --tw-border-opacity: 1;
+  border-color: rgb(248 113 113 / var(--tw-border-opacity));
 }
 
 :is(.dark .dark\:\!bg-primary-600) {
@@ -6335,6 +6375,11 @@ details.collapse summary::-webkit-details-marker {
 :is(.dark .dark\:bg-warning-800) {
   --tw-bg-opacity: 1;
   background-color: rgb(146 64 14 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\:bg-danger-100) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
 }
 
 :is(.dark .dark\:bg-\[url\(\'https\:\/\/flowbite\.s3\.amazonaws\.com\/docs\/jumbotron\/hero-pattern-dark\.svg\'\)\]) {
@@ -6444,6 +6489,11 @@ details.collapse summary::-webkit-details-marker {
 :is(.dark .dark\:text-yellow-300) {
   --tw-text-opacity: 1;
   color: rgb(250 202 21 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\:text-danger-100) {
+  --tw-text-opacity: 1;
+  color: rgb(254 226 226 / var(--tw-text-opacity));
 }
 
 :is(.dark .dark\:placeholder-gray-400)::-moz-placeholder {

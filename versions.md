@@ -111,6 +111,8 @@ Menu option to export all relevant data. This allows for a very simple backup fo
 Adapted the messages.html template to display Flowbite toasts. 
 I have not been able to properly use the {{ message.tag_level }} as implementen in Pegasus, so I left it as several ifs
 
+# jobcycle03: form validation formats 2023 11 26
+Added danger formats to the form fields when there are errors, as well as an error message
 
 
 # WPs to do
@@ -133,5 +135,5 @@ Add item_type to the BaseItem model. This will reflect potential different job t
 ## Frontend functionality
 DONE Make "deadline" field in BaseItemForm a DatePicker
 Add Filters and pagination to the ListViews
-I've set the top NavBar to be fixed, and this interferes with the notification messages
+SOLVED I've set the top NavBar to be fixed, and this interferes with the notification messages
 

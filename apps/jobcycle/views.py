@@ -2,7 +2,7 @@ from django.apps import apps
 from django.db.models.fields.related import ForeignKey
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.forms.models import model_to_dict
+from django.forms.models import BaseModelForm, model_to_dict
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -191,8 +191,10 @@ class BaseItemUpdateView(LoginRequiredMixin, UpdateView):
         kwargs['request'] = self.request
         return kwargs
     
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+    def form_invalid(self, form):
+        messages.error(self.request, _('Please check errors and try again'))
+        return super().form_invalid(form)
+
     
 
 class RequirementUpdateView(BaseItemUpdateView):
@@ -291,7 +293,7 @@ class QuotationUpdateView(BaseItemUpdateView):
             # TODO Refactor this to a "validate_quote" method (validate price, currency, terms...)
             price = form.cleaned_data['price']
             if price is None or price < 0:
-                form.add_error('price', 'Price must be greater than or equal to 0.')
+                form.add_error('price', _('Price must be greater than or equal to 0.'))
                 messages.error(self.request, _('Please check errors and try again'))
                 return self.form_invalid(form)
             form.instance.status = Quotation.Status.SENT

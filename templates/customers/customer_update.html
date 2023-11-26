@@ -44,11 +44,12 @@
                 </a>
             </div>
         </form>
+        {% if not create %}
+        {% include 'comments/comments_list.html' %}
+        {% endif %}
     </div>
 </section>
 
-{% if not create %}
-{% include 'comments/comments_list.html' %}
-{% endif %}
+
 
 {% endblock %}
