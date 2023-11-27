@@ -114,11 +114,15 @@ I have not been able to properly use the {{ message.tag_level }} as implementen 
 # jobcycle03: form validation formats 2023 11 26
 Added danger formats to the form fields when there are errors, as well as an error message
 
+# jobcycle03: changed the contactus form and thank you page 2023 11 27
+That
+
+
 
 # WPs to do
 
 ## Core functionality
-Check Validation errors in the item and customer forms
+DONE Check Validation errors in the item and customer forms
 DONE Add Attachments
 DONE Add Comments
 DONE Add Invoice models
@@ -136,4 +140,4 @@ Add item_type to the BaseItem model. This will reflect potential different job t
 DONE Make "deadline" field in BaseItemForm a DatePicker
 Add Filters and pagination to the ListViews
 SOLVED I've set the top NavBar to be fixed, and this interferes with the notification messages
-
+In the ListView tables, the created_at date should be shown. It currencly does not appear
