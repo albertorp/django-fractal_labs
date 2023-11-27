@@ -19,6 +19,7 @@ class InvoiceListView(BaseItemListView):
     title = _('List of Invoices')
     active_tab = 'invoices'
     template_name = 'jobcycle/invoices/invoice_list.html'
+    paginate_by = 10
 
 
 

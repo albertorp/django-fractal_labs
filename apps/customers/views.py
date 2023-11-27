@@ -18,6 +18,7 @@ class CustomerListView(LoginRequiredMixin, ListView):
     list_display = ('id', 'email', 'user', 'tax_id_number', 'stripe_customer_id', 'created_at')
     title = _('Customers')
     active_tab = 'customers'
+    paginate_by = 10
 
     
     def get_context_data(self, **kwargs):
@@ -53,6 +54,11 @@ class CustomerUpdateView(LoginRequiredMixin, UpdateView):
         return kwargs
     
 
+    def form_invalid(self, form):
+        messages.error(self.request, _('Please check errors and try again'))
+        return super().form_invalid(form)
+    
+
     def form_valid(self, form):
         if 'save' in self.request.POST:
             messages.success(self.request, _('Customer saved'))
@@ -85,3 +91,7 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
         kwargs = super().get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
+    
+    def form_invalid(self, form):
+        messages.error(self.request, _('Please check errors and try again'))
+        return super().form_invalid(form)

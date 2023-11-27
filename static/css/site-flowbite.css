@@ -4626,6 +4626,10 @@ details.collapse summary::-webkit-details-marker {
   margin-top: 4rem;
 }
 
+.ms-0 {
+  margin-inline-start: 0px;
+}
+
 .block {
   display: block;
 }
@@ -5096,6 +5100,10 @@ details.collapse summary::-webkit-details-marker {
   border-radius: 0.75rem;
 }
 
+.rounded-none {
+  border-radius: 0px;
+}
+
 .rounded-e-lg {
   border-start-end-radius: 0.5rem;
   border-end-end-radius: 0.5rem;
@@ -5506,6 +5514,10 @@ details.collapse summary::-webkit-details-marker {
 
 .pt-8 {
   padding-top: 2rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .text-left {
@@ -6007,6 +6019,11 @@ details.collapse summary::-webkit-details-marker {
 .hover\:bg-yellow-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(194 120 3 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-blue-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(225 239 254 / var(--tw-bg-opacity));
 }
 
 .hover\:text-blue-500:hover {
@@ -6794,6 +6811,14 @@ details.collapse summary::-webkit-details-marker {
 
   .md\:mt-0 {
     margin-top: 0px;
+  }
+
+  .md\:mb-0 {
+    margin-bottom: 0px;
+  }
+
+  .md\:inline {
+    display: inline;
   }
 
   .md\:grid {

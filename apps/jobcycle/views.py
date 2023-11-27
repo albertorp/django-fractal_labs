@@ -87,7 +87,8 @@ class BaseItemListView(LoginRequiredMixin, ListView):
     model = BaseItem  
     template_name = 'jobcycle/item_list.html' 
     context_object_name = 'items' 
-    list_display = ('id', 'customer', 'title', 'status', 'deadline', 'owner')
+    list_display = ('id', 'customer', 'title', 'created_at', 'status', 'deadline', 'owner')
+    paginate_by = 10
     #ordering = ['-date_created']  # Optionally, specify how you want to order the items
     
 

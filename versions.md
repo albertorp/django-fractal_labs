@@ -117,6 +117,13 @@ Added danger formats to the form fields when there are errors, as well as an err
 # jobcycle03: changed the contactus form and thank you page 2023 11 27
 That
 
+# jobcycle03: pagination in ListViews 2023 11 27
+Added pagination to ListViews
+Added createt_at to ListView tables
+Modified the updateCustomer template to incorporate errors
+Changed the format for the errors in the form fields. Apparently, django has a default class called .errorlist, and this is defined in assets/styles/app/utilities.saas, but it uses the color variables from daisyui. So I have updated the -danger variable to be the same as the danger-700 color in tailwind.config.js and I have also added the font-size: .875rem; as suggested by ChatGPT: // This is typically what text-sm might represent
+
+
 
 
 # WPs to do
