@@ -124,11 +124,15 @@ Modified the updateCustomer template to incorporate errors
 Changed the format for the errors in the form fields. Apparently, django has a default class called .errorlist, and this is defined in assets/styles/app/utilities.saas, but it uses the color variables from daisyui. So I have updated the -danger variable to be the same as the danger-700 color in tailwind.config.js and I have also added the font-size: .875rem; as suggested by ChatGPT: // This is typically what text-sm might represent
 
 
-
+# jobcycle03: cancel/reject confirmation 2023 11 28
+Added a modal confirmation when rejecting a requirement or cancelling a quotation/job
+The cancel/reject button is now populated with data-modal-target and data-modal-toggle attributes in utils.py, and then several modals are included in the item_update.html.
+This is not very efficient (or elegant) and alter we can change it to populate buttons and modals at the same time in utils.py
 
 # WPs to do
 
 ## Core functionality
+Rework on the Invoice Update template, to adapt HTMX to Flowbite format
 DONE Check Validation errors in the item and customer forms
 DONE Add Attachments
 DONE Add Comments

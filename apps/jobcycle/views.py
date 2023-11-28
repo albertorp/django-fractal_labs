@@ -270,7 +270,7 @@ class RequirementUpdateView(BaseItemUpdateView):
             #form.instance.rw = Requirement.ReadWrite.READ_ONLY
             # Prepare a standard "No Bid" email
             # Send email
-            messages.info(self.request, _('Requirement Rejected'))
+            messages.warning(self.request, _('Requirement Rejected'))
 
         return super().form_valid(form)
 
@@ -361,10 +361,10 @@ class QuotationUpdateView(BaseItemUpdateView):
             messages.info(self.request, _('Quotation is under negotiation'))
 
         if 'cancel' in self.request.POST:
-            form.instance.status = Quotation.Status.CANCEL
+            form.instance.status = Quotation.Status.CANCELLED
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
             # Log the cancellation cause
-            messages.info(self.request, _('Quotation Cancelled'))
+            messages.warning(self.request, _('Quotation Cancelled'))
 
         return super().form_valid(form)
 
@@ -443,7 +443,7 @@ class JobUpdateView(BaseItemUpdateView):
         if 'cancel' in self.request.POST:
             form.instance.status = Job.Status.CANCELLED
             # Log the cancellation cause
-            messages.info(self.request, _('Job Cancelled'))
+            messages.warning(self.request, _('Job Cancelled'))
 
         return super().form_valid(form)
 

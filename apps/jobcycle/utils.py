@@ -8,6 +8,67 @@ class ButtonClass():
     primary_outline = "text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
     danger = "text-danger-600 inline-flex items-center hover:text-white border border-danger-600 hover:bg-danger-600 focus:ring-4 focus:outline-none focus:ring-danger-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-danger-500 dark:text-danger-500 dark:hover:text-white dark:hover:bg-danger-600 dark:focus:ring-danger-900"
 
+
+class Buttons():
+    button_save = {
+        'type': 'submit',
+        'name': 'save',
+        'text': _('Save'),
+        'class': ButtonClass.primary,
+    }
+    button_cancel = {
+        'type': 'button',
+        'name': 'confirm_modal',
+        'text': _('Cancel'),
+        'class': ButtonClass.danger,
+        'modal_target': 'modal-cancel',
+        'modal_toggle': 'modal-cancel',
+    }
+    button_reject = {
+        'type': 'button',
+        'name': 'confirm_reject',
+        'text': _('Reject'),
+        'class': ButtonClass.danger,
+        'modal_target': 'modal-reject',
+        'modal_toggle': 'modal-reject',
+    }
+    button_send = {
+        'type': 'submit',
+        'name': 'send',
+        'text': _('Send'),
+        'class': ButtonClass.primary,
+    }
+
+    def make_buttons(button_type, button_name, button_text=None, button_class=None, button_target=None, button_toggle=None):
+        """
+        This function will return a button as a dictionary with the following keys and values:
+        - type: The type of the button (e.g. submit, button)
+        - name: The name of the button (e.g. save, confirm_modal)
+        - text: The text to display on the button
+        - class: The class of the button (e.g. ButtonClass.primary)
+        - target: The target of the modal (e.g. modal-cancel)
+        - toggle: The toggle of the modal (e.g. modal-cancel)
+        """
+        button = {
+            'type': button_type,
+            'name': button_name,
+        }
+        if button_text:
+            button['text'] = button_text
+        else:
+            button['text'] = _(button_name.capitalize())
+        if button_class:
+            button['class'] = button_class
+        else:
+            button['class'] = ButtonClass.primary # we default to a primary button if class is not specified
+        if button_target:
+            button['target'] = button_target
+        if button_toggle:
+            button['toggle'] = button_toggle
+
+        return button
+
+
 def get_buttons_requirement(current_status):
     """
     This function will return a list of buttons that will be enabled in the template for RequirementUpdateView,
@@ -15,36 +76,12 @@ def get_buttons_requirement(current_status):
     """
 
     # First we define all the potential buttons for Requirements:
-    button_save = {
-        'type': 'submit',
-        'name': 'save',
-        'text': _('Save'),
-        'class': ButtonClass.primary,
-    }
-    button_analyse = {
-        'type': 'submit',
-        'name': 'analyse',
-        'text': _('Analyse'),
-        'class': ButtonClass.primary,
-    }
-    button_quote = {
-        'type': 'submit',
-        'name': 'quote',
-        'text': _('Quote'),
-        'class': ButtonClass.primary,
-    }
-    button_reject = {
-        'type': 'submit',
-        'name': 'reject',
-        'text': _('Reject'),
-        'class': ButtonClass.danger,
-    }
-    button_return = {
-        'type': 'submit',
-        'name': 'return',
-        'text': _('Return'),
-        'class': ButtonClass.primary_outline,
-    }
+    button_save = Buttons.button_save
+    button_analyse = Buttons.make_buttons('submit', 'analyse')
+    button_quote = Buttons.make_buttons('submit', 'quote')
+    button_reject = Buttons.button_reject
+    button_return = Buttons.make_buttons('submit', 'return', button_class=ButtonClass.primary_outline)
+    
     # Then we filter the buttons depending on the current status of the Requirement
     buttons = [button_save, button_analyse, button_quote, button_return, button_reject]
     if current_status == Requirement.Status.RECEIVED:
@@ -69,42 +106,13 @@ def get_buttons_quotation(current_status):
     """
 
     # First we define all the potential buttons for Quotations:
-    button_save = {
-        'type': 'submit',
-        'name': 'save',
-        'text': _('Save'),
-        'class': ButtonClass.primary,
-    }
-    button_send = {
-        'type': 'submit',
-        'name': 'send',
-        'text': _('Send'),
-        'class': ButtonClass.primary,
-    }
-    button_approved = {
-        'type': 'submit',
-        'name': 'approved',
-        'text': _('Approved'),
-        'class': ButtonClass.primary,
-    }
-    button_rejected = {
-        'type': 'submit',
-        'name': 'rejected',
-        'text': _('Rejected'),
-        'class': ButtonClass.danger,
-    }
-    button_negotiate = {
-        'type': 'submit',
-        'name': 'negotiate',
-        'text': _('Negotiate'),
-        'class': ButtonClass.primary,
-    }
-    button_cancel = {
-        'type': 'submit',
-        'name': 'cancel',
-        'text': _('Cancel'),
-        'class': ButtonClass.danger,
-    }
+    button_save = Buttons.button_save
+
+    button_send = Buttons.button_send
+    button_approved = Buttons.make_buttons('submit', 'approved')
+    button_rejected = Buttons.make_buttons('submit', 'rejected')
+    button_negotiate = Buttons.make_buttons('submit', 'negotiate')
+    button_cancel = Buttons.button_cancel
 
     # Then we filter the buttons depending on the current status of the Requirement
     buttons = [button_save,
@@ -135,54 +143,15 @@ def get_buttons_job(current_status):
     """
 
     # First we define all the potential buttons for Jobs:
-    button_save = {
-        'type': 'submit',
-        'name': 'save',
-        'text': _('Save'),
-        'class': ButtonClass.primary,
-    }
-    button_assign = {
-        'type': 'submit',
-        'name': 'assign',
-        'text': _('Assign'),
-        'class': ButtonClass.primary,
-    }
-    button_start = {
-        'type': 'submit',
-        'name': 'start',
-        'text': _('Start'),
-        'class': ButtonClass.primary,
-    }
-    button_review = {
-        'type': 'submit',
-        'name': 'review',
-        'text': _('Review'),
-        'class': ButtonClass.primary,
-    }
-    button_deliver = {
-        'type': 'submit',
-        'name': 'deliver',
-        'text': _('Deliver'),
-        'class': ButtonClass.primary,
-    }
-    button_return = {
-        'type': 'submit',
-        'name': 'return',
-        'text': _('Return'),
-        'class': ButtonClass.danger,
-    }
-    button_close = {
-        'type': 'submit',
-        'name': 'close',
-        'text': _('Close'),
-        'class': ButtonClass.primary,
-    }
-    button_cancel = {
-        'type': 'submit',
-        'name': 'cancel',
-        'text': _('Cancel'),
-        'class': ButtonClass.danger,
-    }
+    button_save = Buttons.button_save
+
+    button_assign = Buttons.make_buttons('submit', 'assign')
+    button_start = Buttons.make_buttons('submit', 'start')
+    button_review = Buttons.make_buttons('submit', 'review')
+    button_deliver = Buttons.make_buttons('submit', 'deliver')
+    button_return = Buttons.make_buttons('submit', 'analyse', button_class=ButtonClass.danger)
+    button_close = Buttons.make_buttons('submit', 'close')
+    button_cancel = Buttons.button_cancel
 
     # Then we filter the buttons depending on the current status of the Requirement
     
@@ -223,18 +192,10 @@ def get_buttons_invoice(current_status):
     """
 
     # First we define all the potential buttons for Invoices:
-    button_save = {
-        'type': 'submit',
-        'name': 'save',
-        'text': _('Save'),
-        'class': ButtonClass.primary,
-    }
-    button_send = {
-        'type': 'submit',
-        'name': 'send',
-        'text': _('Send'),
-        'class': ButtonClass.primary,
-    }
+    button_save = Buttons.button_save
+
+    button_send = Buttons.button_send
+
    
     button_cancel = {
         'type': 'submit',
