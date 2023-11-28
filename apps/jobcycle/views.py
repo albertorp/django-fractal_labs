@@ -21,6 +21,8 @@ from .utils import get_buttons_requirement, get_buttons_quotation, get_buttons_j
 from apps.customers.models import Customer
 from .models import BaseItem, Requirement, Quotation, Job
 from .forms import RequirementForm, QuotationForm, JobForm, WebRequirementForm
+from .filters import RequirementFilter
+
 
 
 class WebRequirementCreateView(CreateView):
@@ -110,6 +112,15 @@ class BaseItemListView(LoginRequiredMixin, ListView):
         context['active_tab'] = self.active_tab
         context['model_name'] = self.model.__name__
         context['fields'] = self.list_display
+
+        if hasattr(self, 'filterset'):
+            context['form_filter'] = self.filterset.form
+
+        if not self.request.GET:
+            context['extra_param'] = '?page='
+        else:
+            context['extra_param'] = '&page='
+
         return context
     
 
@@ -118,6 +129,20 @@ class RequirementListView(BaseItemListView):
     model = Requirement
     title = _('List of Requirements')
     active_tab = 'requirements'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'all' in self.request.GET:
+            # If 'all' is in the request.GET, reset self.filterset and return all values in qs
+            self.filterset = RequirementFilter(None, queryset=qs)
+            return qs
+        else:
+            # If 'all' is not in request.GET, apply filters using RequirementFilter
+            self.filterset = RequirementFilter(self.request.GET, queryset=qs)
+            return self.filterset.qs
+
+
+    
 
 
 class QuotationListView(BaseItemListView):

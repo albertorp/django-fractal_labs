@@ -88,7 +88,9 @@ django-anymail[mailgun]==10.1
 django-environ==0.11.2
     # via -r requirements/requirements.in
 django-filter==23.2
-    # via wagtail
+    # via
+    #   -r requirements/requirements.in
+    #   wagtail
 django-hijack==3.4.1
     # via -r requirements/requirements.in
 django-modelcluster==6.0

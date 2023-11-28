@@ -3,6 +3,7 @@ django-allauth
 django-allauth-2fa
 django-waffle
 django-environ
+django-filter
 djangorestframework
 django-widget-tweaks
 drf-spectacular

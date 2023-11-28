@@ -129,6 +129,11 @@ Added a modal confirmation when rejecting a requirement or cancelling a quotatio
 The cancel/reject button is now populated with data-modal-target and data-modal-toggle attributes in utils.py, and then several modals are included in the item_update.html.
 This is not very efficient (or elegant) and alter we can change it to populate buttons and modals at the same time in utils.py
 
+
+# jobcycle03: filter Requirements 2023 11 29
+Added django-filter to enable filtering listViews. For the moment it's only implemented for Requirements
+
+
 # WPs to do
 
 ## Core functionality
@@ -151,4 +156,4 @@ Add item_type to the BaseItem model. This will reflect potential different job t
 DONE Make "deadline" field in BaseItemForm a DatePicker
 Add Filters and pagination to the ListViews
 SOLVED I've set the top NavBar to be fixed, and this interferes with the notification messages
-In the ListView tables, the created_at date should be shown. It currencly does not appear
+DONE In the ListView tables, the created_at date should be shown. It currencly does not appear
