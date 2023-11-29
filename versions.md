@@ -133,6 +133,8 @@ This is not very efficient (or elegant) and alter we can change it to populate b
 # jobcycle03: filter Requirements 2023 11 29
 Added django-filter to enable filtering listViews. For the moment it's only implemented for Requirements
 
+# jobcycle03: filter extended 2023 11 29
+Implemented filters also for Quotation and Job
 
 # WPs to do
 
@@ -157,3 +159,4 @@ DONE Make "deadline" field in BaseItemForm a DatePicker
 Add Filters and pagination to the ListViews
 SOLVED I've set the top NavBar to be fixed, and this interferes with the notification messages
 DONE In the ListView tables, the created_at date should be shown. It currencly does not appear
+Autocomplete fuctionality in Select fields. Look at "Select2" (https://select2.org/) for a apparently simple implementantion. The drawback is that it requires jQuery

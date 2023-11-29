@@ -21,7 +21,7 @@ from .utils import get_buttons_requirement, get_buttons_quotation, get_buttons_j
 from apps.customers.models import Customer
 from .models import BaseItem, Requirement, Quotation, Job
 from .forms import RequirementForm, QuotationForm, JobForm, WebRequirementForm
-from .filters import RequirementFilter
+from .filters import RequirementFilter, QuotationFilter, JobFilter
 
 
 
@@ -83,8 +83,6 @@ class WebRequirementCreateView(CreateView):
 
 
 
-
-
 class BaseItemListView(LoginRequiredMixin, ListView):
     model = BaseItem  
     template_name = 'jobcycle/item_list.html' 
@@ -93,8 +91,6 @@ class BaseItemListView(LoginRequiredMixin, ListView):
     paginate_by = 10
     #ordering = ['-date_created']  # Optionally, specify how you want to order the items
     
-
-
     def get_queryset(self):
         """
         If the user is not staff, filter to only show items belonging to the
@@ -150,10 +146,32 @@ class QuotationListView(BaseItemListView):
     title = _('List of Quotations')
     active_tab = 'quotations'
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'all' in self.request.GET:
+            # If 'all' is in the request.GET, reset self.filterset and return all values in qs
+            self.filterset = QuotationFilter(None, queryset=qs)
+            return qs
+        else:
+            # If 'all' is not in request.GET, apply filters using QuotationFilter
+            self.filterset = QuotationFilter(self.request.GET, queryset=qs)
+            return self.filterset.qs
+
 class JobListView(BaseItemListView):
     model = Job
     title = _('List of Jobs')
     active_tab = 'jobs'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'all' in self.request.GET:
+            # If 'all' is in the request.GET, reset self.filterset and return all values in qs
+            self.filterset = JobFilter(None, queryset=qs)
+            return qs
+        else:
+            # If 'all' is not in request.GET, apply filters using JobFilter
+            self.filterset = JobFilter(self.request.GET, queryset=qs)
+            return self.filterset.qs
 
 
 class BaseItemDetailView(LoginRequiredMixin, DetailView):
