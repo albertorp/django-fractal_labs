@@ -140,6 +140,11 @@ Implemented filters also for Quotation and Job
 Changed the ListView tables so that every row only has the option to EDIT the item. No Detail and no Delete for the moment
 Also, in the Update views, if there are no buttons because the item cannot be modified, there is now a link that appears only for staff users that will take them to the admin page for this object, where they can change it. This should be done with extreme caution as no records (comments, etc.) will be kept of this change. This is under the owner's responsibility
 
+
+# jobcycle03: InvoiceItems add and edit 2023 11 29
+Finished the code from # frontend01: invoice forms 2023 11 23 to allow to add and edit invoice items directly via htmx
+
+
 # WPs to do
 
 ## Core functionality

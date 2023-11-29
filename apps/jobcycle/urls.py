@@ -40,7 +40,8 @@ urlpatterns = [
     
     path("invoices/<int:pk>/add_line_item", views_invoices.add_invoiceitem_row_htmx, name="add_line_item"),
     path("invoices/<int:invoice_id>/edit_line_item/<int:pk>", views_invoices.edit_invoiceitem_row_htmx, name="edit_line_item"),
-
+    path("invoices/<int:pk>/add_line_item/cancel", views_invoices.cancel_add_invoiceitem_row_htmx, name="cancel_add_line_item"),
+    path("invoices/<int:invoice_id>/edit_line_item/<int:pk>/cancel", views_invoices.cancel_edit_invoiceitem_row_htmx, name="cancel_edit_line_item"),
     
     path("excel_export/", views.excel_export, name="excel_export"),
 
