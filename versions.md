@@ -136,6 +136,10 @@ Added django-filter to enable filtering listViews. For the moment it's only impl
 # jobcycle03: filter extended 2023 11 29
 Implemented filters also for Quotation and Job
 
+# jobcycle03: UpdateView and edit in admin 2023 11 29
+Changed the ListView tables so that every row only has the option to EDIT the item. No Detail and no Delete for the moment
+Also, in the Update views, if there are no buttons because the item cannot be modified, there is now a link that appears only for staff users that will take them to the admin page for this object, where they can change it. This should be done with extreme caution as no records (comments, etc.) will be kept of this change. This is under the owner's responsibility
+
 # WPs to do
 
 ## Core functionality

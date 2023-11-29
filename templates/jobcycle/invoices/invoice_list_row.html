@@ -10,6 +10,16 @@
     <td class="px-4 py-3">{{ item.get_status_display }}</td>
     <td class="px-4 py-3">{{ item.deadline|date:"d-m-Y" }}</td>
     <td class="px-4 py-3">{{ item.owner.username }}</td>
+    <td class="px-4 py-3" >
+        <a href="{{ item.id }}" data-tooltip-target="tooltip-edit{{ item.id }}" class="font-medium text-primary-600 dark:text-primary-500 hover:underline"><i class="fa-regular fa-pen-to-square me-3"></i></a>
+        <div id="tooltip-edit{{ item.id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            {% trans 'Edit' %} {{ model_name }}
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+    </td>
+
+    {% comment 'For the moment we disable the dropdown to leave only the "update" option since the Read and Delete will not be used' %}
+
     <td class="px-4 py-3 align-middle flex items-center justify-end">
         <button id="{{ item.id }}-dropdown-button" data-dropdown-toggle="{{ item.id }}-dropdown" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
             <i class="fa-solid fa-ellipsis"></i>
@@ -28,5 +38,6 @@
             </div>
         </div>
     </td>
+    {% endcomment %}
 
 </tr>

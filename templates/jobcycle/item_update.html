@@ -107,9 +107,13 @@
                 {% if create %}
                 <button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" name="save">{% trans 'Save' %}</button>
                 {% else %}
-                <div class="sm:col-span-2 p-4 mb-4 text-sm text-primary-800 rounded-lg bg-primary-50 dark:bg-gray-800 dark:text-primary-300" role="alert">
+                <div class="sm:col-span-2 p-4 mb-4 text-sm text-warning-800 rounded-lg bg-warning-50 dark:bg-gray-800 dark:text-warning-300" role="alert">
                     <span class="font-medium">Info alert!</span> {% trans 'This item cannot be modified' %}.
+                    {% if user.is_staff %}
+                    <a href="/admin/jobcycle/{{ item_type }}/{{ object.id }}" target="_blank" class="font-medium">{% trans 'Click here' %}</a> {% trans 'to edit it in the Admin interface' %}
+                    {% endif %}
                 </div>
+                
                 
                 {% endif %}
                 {% endfor %}
