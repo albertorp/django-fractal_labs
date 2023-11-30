@@ -145,12 +145,18 @@ Also, in the Update views, if there are no buttons because the item cannot be mo
 Finished the code from # frontend01: invoice forms 2023 11 23 to allow to add and edit invoice items directly via htmx
 
 
+# jobcycle03: UI for attachments 2023 11 30
+Basic CLU views for FileAttachments, so that we can have a place to view all the uploaded files. This is an intermediary step to operate with the Attachments that the items will have
+Additionally, some improvements to the invoice_line_items tables
+
+
 # WPs to do
 
 ## Core functionality
-Rework on the Invoice Update template, to adapt HTMX to Flowbite format
+DONE Rework on the Invoice Update template, to adapt HTMX to Flowbite format
 DONE Check Validation errors in the item and customer forms
 DONE Add Attachments
+Improve functionality for attachments
 DONE Add Comments
 DONE Add Invoice models
 Add Terms&Conditions model
@@ -165,7 +171,8 @@ Add item_type to the BaseItem model. This will reflect potential different job t
 
 ## Frontend functionality
 DONE Make "deadline" field in BaseItemForm a DatePicker
-Add Filters and pagination to the ListViews
+DONE Add Filters and pagination to the ListViews
 SOLVED I've set the top NavBar to be fixed, and this interferes with the notification messages
 DONE In the ListView tables, the created_at date should be shown. It currencly does not appear
 Autocomplete fuctionality in Select fields. Look at "Select2" (https://select2.org/) for a apparently simple implementantion. The drawback is that it requires jQuery
+Add UI for files

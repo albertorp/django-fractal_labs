@@ -1,22 +1,25 @@
 {% load i18n %}
 {% load static %}
 
-{% if attachments %}
+{% if fileattachment_list %}
 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <th scope="col" class="px-4 py-3">{% trans 'ID' %}</th>
         <th scope="col" class="px-4 py-3">{% trans 'Title' %}</th>
+        <th scope="col" class="px-4 py-3">{% trans 'Name' %}</th>
         <th scope="col" class="px-4 py-3">{% trans 'Type' %}</th>
         <th scope="col" class="px-4 py-3">{% trans 'Owner' %}</th>
+        <th scope="col" class="px-4 py-3">{% trans 'Submitted By' %}</th>
         <th scope="col" class="px-4 py-3">{% trans 'Date' %}</th>
         <th scope="col" class="px-4 py-3">{% trans 'Actions' %}</th>
         
     </thead>
     <tbody id="item_list">
-        {% for attachment in attachments %}
-        {% include 'attachments/attachments_row.html' %}
+        {% for fileattachment in fileattachment_list %}
+        {% include 'attachments/fileattachment_row.html' %}
         {% endfor %}
     </tbody>
 </table>
 {% else %}
-<p>{% trans 'There are no attachments' %}</p>
+<p>{% trans 'There are no files' %}</p>
 {% endif %}

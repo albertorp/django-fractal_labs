@@ -20,6 +20,8 @@ class FileAttachment(BaseModel):
     The FileAttachment class represents the actual file uploaded to the system. This file always "belongs"
     to a customer, represented here by a user. In order to be able to upload and manipulate files, the customer 
     must have a valid user in the system
+
+    I am calling it FileAttachment because just "file" is a bit confusing
     """
 
     class FileTypes(models.TextChoices):
