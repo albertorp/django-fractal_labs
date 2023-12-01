@@ -46,8 +46,8 @@ class Buttons():
         - name: The name of the button (e.g. save, confirm_modal)
         - text: The text to display on the button
         - class: The class of the button (e.g. ButtonClass.primary)
-        - target: The target of the modal (e.g. modal-cancel)
-        - toggle: The toggle of the modal (e.g. modal-cancel)
+        - modal-target: The target of the modal (e.g. modal-cancel)
+        - modal_toggle: The toggle of the modal (e.g. modal-cancel)
         """
         button = {
             'type': button_type,
@@ -62,9 +62,9 @@ class Buttons():
         else:
             button['class'] = ButtonClass.primary # we default to a primary button if class is not specified
         if button_target:
-            button['target'] = button_target
+            button['modal_target'] = button_target
         if button_toggle:
-            button['toggle'] = button_toggle
+            button['modal_toggle'] = button_toggle
 
         return button
 
@@ -80,7 +80,7 @@ def get_buttons_requirement(current_status):
     button_analyse = Buttons.make_buttons('submit', 'analyse')
     button_quote = Buttons.make_buttons('submit', 'quote')
     button_reject = Buttons.button_reject
-    button_return = Buttons.make_buttons('submit', 'return', button_class=ButtonClass.primary_outline)
+    button_return = Buttons.make_buttons('button', 'return', button_class=ButtonClass.danger, button_target='modal-return', button_toggle='modal-return')
     
     # Then we filter the buttons depending on the current status of the Requirement
     buttons = [button_save, button_analyse, button_quote, button_return, button_reject]

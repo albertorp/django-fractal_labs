@@ -29,6 +29,9 @@ class BaseItemForm(forms.ModelForm):
 
 
 class RequirementForm(BaseItemForm):
+    rejection_reason = forms.CharField(label=_('Rejection Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    return_reason = forms.CharField(label=_('Return Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+
     class Meta:
         model = Requirement
         fields = ['customer', 'title', 'description', 'deadline', 'status', 'owner']

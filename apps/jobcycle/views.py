@@ -1,6 +1,7 @@
 from django.apps import apps
 from django.db.models.fields.related import ForeignKey
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from django.forms.models import BaseModelForm, model_to_dict
 from django.http import HttpRequest, HttpResponse
@@ -19,6 +20,8 @@ from openpyxl import Workbook
 from .utils import get_buttons_requirement, get_buttons_quotation, get_buttons_job, get_buttons_webrequirement
 
 from apps.customers.models import Customer
+from apps.comments.models import Comment
+
 from .models import BaseItem, Requirement, Quotation, Job
 from .forms import RequirementForm, QuotationForm, JobForm, WebRequirementForm
 from .filters import RequirementFilter, QuotationFilter, JobFilter
@@ -299,20 +302,58 @@ class RequirementUpdateView(BaseItemUpdateView):
             #     quotation_attachment.file.save(filename, req_attachment.file, save=False)
             #     quotation_attachment.save()
             
-            messages.success(self.request, _('Requirement sent for Quotation'))
+            # Create a new Comment associated with the Requirement and the complementary for the new quotation
+            req = self.get_object()
+            comment_text = _('Requirement closed and new Quotation created with ID: ') + str(quotation.id)
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(req),
+                object_id=req.pk
+            )
+            quotation_comment = _('Quotation created from Requirement with ID: ') + str(req.id)
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=quotation_comment,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
+
+            messages.success(self.request, comment_text)
         
         if 'return' in self.request.POST:
             form.instance.status = Requirement.Status.RETURNED
-            #form.instance.rw = Requirement.ReadWrite.READ_ONLY
             # Prepare a standard "Returned" email with additional information
             # Send email
-            messages.info(self.request, _('Requirement Returned to the Customer'))
+
+            # Create a new Comment associated with the Requirement
+            req = self.get_object()
+            comment_text = _('Requirement was returned to the customer with this message: ') + form.cleaned_data['return_reason']  
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(req),
+                object_id=req.pk
+            )
+
+            messages.warning(self.request, _('Requirement Returned to the Customer'))
 
         if 'reject' in self.request.POST:
             form.instance.status = Requirement.Status.REJECTED
             #form.instance.rw = Requirement.ReadWrite.READ_ONLY
             # Prepare a standard "No Bid" email
             # Send email
+
+            # Create a new Comment associated with the Requirement
+            req = self.get_object()
+            comment_text = _('Requirement was rejected with this reason: ') + form.cleaned_data['rejection_reason']  
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(req),
+                object_id=req.pk
+            )
+
             messages.warning(self.request, _('Requirement Rejected'))
 
         return super().form_valid(form)

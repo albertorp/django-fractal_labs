@@ -149,6 +149,8 @@ Finished the code from # frontend01: invoice forms 2023 11 23 to allow to add an
 Basic CLU views for FileAttachments, so that we can have a place to view all the uploaded files. This is an intermediary step to operate with the Attachments that the items will have
 Additionally, some improvements to the invoice_line_items tables
 
+# jobcycle03: Workflow for Requirements 2023 12 01
+updated the workflow for Requirements by adding comments in the transitions from status (in the form_valid method)
 
 # WPs to do
 
