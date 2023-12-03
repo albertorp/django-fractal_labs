@@ -155,6 +155,11 @@ updated the workflow for Requirements by adding comments in the transitions from
 # jobcycle03: extended workflows 2023 12 03
 updated the workflows for Requirements, Quotations and Jobs including comments in the transitions
 
+# jobcycle03: UI for attachments and items 2023 12 03
+Added the option to add a new attachment to an item from the update view of that item
+
+
+
 # WPs to do
 
 ## Core functionality

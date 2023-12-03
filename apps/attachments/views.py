@@ -1,13 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView, UpdateView, CreateView
 
-from .models import FileAttachment
+from .models import FileAttachment, Attachment
 from .forms import FileAttachmentForm
+
+from apps.jobcycle.models import Requirement, Quotation, Job, Invoice
 
 # Create your views here.
 
@@ -97,3 +100,34 @@ class FileAttachmentCreateView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         messages.error(self.request, _('Please check errors and try again'))
         return super().form_invalid(form)
+    
+    def form_valid(self, form):
+
+        if 'item' in self.request.GET:
+            id_param = self.request.GET['id']
+            if self.request.GET['item'] == 'requirement':
+                item = get_object_or_404(Requirement, pk=id_param)
+                self.success_url = reverse_lazy('jobcycle:requirement_update', kwargs={'pk':id_param})
+            elif self.request.GET['item'] == 'quotation':
+                item = get_object_or_404(Quotation, pk=id_param)
+                self.success_url = reverse_lazy('jobcycle:quotation_update', kwargs={'pk':id_param})
+            elif self.request.GET['item'] == 'job':
+                item = get_object_or_404(Job, pk=id_param)
+                self.success_url = reverse_lazy('jobcycle:job_update', kwargs={'pk':id_param})
+            else:
+                # TODO error here. Check and raise exception
+                pass
+
+            # Ignore the form's owner field and set it to the customer in the item retrieved
+            form.instance.owner = item.customer
+            
+            fileattachment = form.save()
+            attachment = Attachment.objects.create(
+                attachment = fileattachment,
+                flow = form.cleaned_data['flow'],
+                content_type=ContentType.objects.get_for_model(item),                
+                object_id=item.pk
+            )
+            
+
+        return super().form_valid(form)

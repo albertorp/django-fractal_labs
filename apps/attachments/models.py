@@ -7,12 +7,12 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from apps.utils.models import BaseModel
-
+from apps.customers.models import Customer
 
 
 def user_folder_item_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/FILES/<username>/<item_type>/<filename>
-    return 'FILES/{0}/{1}/{2}'.format(instance.owner.username, instance.type, filename)
+    return 'FILES/{0}/{1}/{2}'.format(instance.owner.email, instance.type, filename)
 
 
 class FileAttachment(BaseModel):
@@ -36,7 +36,7 @@ class FileAttachment(BaseModel):
     file = models.FileField(_('file'), upload_to=user_folder_item_path)
     type = models.CharField(_('type'), choices=FileTypes.choices, max_length=4, default=FileTypes.OTH)
     
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('owner'), related_name='files')
+    owner = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, verbose_name=_('owner'), related_name='files')
     submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name=_('submitted by'), related_name='files_uploaded')
 
     def __str__(self):
@@ -73,8 +73,8 @@ class Attachment(BaseModel):
     # def __str__(self):
     #     return self.text[:50]
 
-    # class Meta:
-    #     ordering = ['-created_at']
+    class Meta:
+        ordering = ['-created_at']
 
     def get_flow_display(self):
-        return self.Flow(self.flow).label
+        return self.Flow(self.flow).label if self.flow is not None else ''

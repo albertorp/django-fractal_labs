@@ -4,7 +4,8 @@
 <tr id="attachmentrow{{ attachment.id }}">
     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ attachment.attachment.title }}</td>
     <td class="px-4 py-3">{{ attachment.attachment.type }}</td>
-    <td class="px-4 py-3">{{ attachment.attachment.owner.username }}</td>
+    <td class="px-4 py-3">{{ attachment.get_flow_display }}</td>
+    <td class="px-4 py-3">{{ attachment.attachment.owner.email }}</td>
     <td class="px-4 py-3">{{ attachment.attachment.created_at|date:"d-m-Y"  }}</td>
     <td class="px-4 py-3">
         <a href="{{ attachment.attachment.file.url }}" target="_blank" class="text-primary-700 font-medium">

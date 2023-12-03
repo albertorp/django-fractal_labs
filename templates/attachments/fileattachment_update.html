@@ -50,6 +50,12 @@
                     {% if form.file.errors %}<p class="mt-0 text-sm text-danger-500 dark:text-danger-400">{{ form.file.errors }}</p>{% endif %}
                     {% if form.file.help_text %}<p class="mt-0 text-sm text-gray-500 dark:text-gray-400">{{ form.file.help_text }}</p>{% endif %}
                 </div>
+                <div class="w-full">
+                    <label for="{{ form.flow.label }}" class="block mb-2 text-sm font-medium {% if form.flow.errors %} text-danger-900 dark:text-danger-100 {% else %} text-gray-900 dark:text-white{% endif %}">{{ form.flow.label }}</label>
+                    {% render_field form.flow|add_class:"text-sm bg-gray-50" %}
+                    {% if form.flow.errors %}<p class="mt-0 text-sm text-danger-500 dark:text-danger-400">{{ form.flow.errors }}</p>{% endif %}
+                    {% if form.flow.help_text %}<p class="mt-0 text-sm text-gray-500 dark:text-gray-400">{{ form.flow.help_text }}</p>{% endif %}
+                </div>
 
                 {% endwith %}
                 

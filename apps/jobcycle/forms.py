@@ -5,6 +5,7 @@ from django.utils import timezone
 
 
 from .models import BaseItem, Requirement, Quotation, Job, Invoice, InvoiceItem
+from apps.customers.models import Customer
 
 class BaseItemForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
@@ -26,7 +27,9 @@ class BaseItemForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         request = kwargs.pop('request', None)
+        # TODO further filter this field so that it only shows active customers
         super().__init__(*args, **kwargs)
+        self.fields['customer'].queryset = Customer.objects.order_by('email')  # Change 'name' to the actual field name you want to sort by
 
 
 class RequirementForm(BaseItemForm):

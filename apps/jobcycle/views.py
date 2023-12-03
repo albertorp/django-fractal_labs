@@ -78,9 +78,6 @@ class WebRequirementCreateView(CreateView):
                 # The user already exists, so we omit the creation
                 messages.error(self.request, _('The user already exists'))
 
-            
-            
-
         form.instance.customer = customer
         return super().form_valid(form)
 
@@ -259,6 +256,8 @@ class RequirementUpdateView(BaseItemUpdateView):
         return ctx
     
     def form_valid(self, form):
+        req = self.get_object()
+
         if 'save' in self.request.POST:
             messages.success(self.request, _('Requirement saved'))
 
@@ -267,6 +266,13 @@ class RequirementUpdateView(BaseItemUpdateView):
             #form.instance.rw = Requirement.ReadWrite.WRITE_STAFF
             # Prepare a standard "We are reviewing your requirement" email
             # Send email
+            comment_text = _('Requirement acknowledged')
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(req),
+                object_id=req.pk
+            )
             messages.success(self.request, _('Requirement sent for Analysis'))
 
         if 'quote' in self.request.POST:
@@ -303,7 +309,7 @@ class RequirementUpdateView(BaseItemUpdateView):
             #     quotation_attachment.save()
             
             # Create a new Comment associated with the Requirement and the complementary for the new quotation
-            req = self.get_object()
+            
             comment_text = _('Requirement closed and new Quotation created with ID: ') + str(quotation.id)
             comment = Comment.objects.create(
                 user=self.request.user, 
@@ -327,7 +333,6 @@ class RequirementUpdateView(BaseItemUpdateView):
             # Send email
 
             # Create a new Comment associated with the Requirement
-            req = self.get_object()
             comment_text = _('Requirement was returned to the customer with this message: ') + form.cleaned_data['return_reason']  
             comment = Comment.objects.create(
                 user=self.request.user, 
@@ -345,7 +350,6 @@ class RequirementUpdateView(BaseItemUpdateView):
             # Send email
 
             # Create a new Comment associated with the Requirement
-            req = self.get_object()
             comment_text = _('Requirement was rejected with this reason: ') + form.cleaned_data['rejection_reason']  
             comment = Comment.objects.create(
                 user=self.request.user, 
