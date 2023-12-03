@@ -152,6 +152,9 @@ Additionally, some improvements to the invoice_line_items tables
 # jobcycle03: Workflow for Requirements 2023 12 01
 updated the workflow for Requirements by adding comments in the transitions from status (in the form_valid method)
 
+# jobcycle03: extended workflows 2023 12 03
+updated the workflows for Requirements, Quotations and Jobs including comments in the transitions
+
 # WPs to do
 
 ## Core functionality
@@ -166,6 +169,8 @@ Implement currencies and currency exchange (copy from HomeFinance)
 Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission so that only employees can handle all items
 DONE Add Export to Excel functionality, to save all info in the database to a well-formatted Excel file
 Add item_type to the BaseItem model. This will reflect potential different job types or services that the SP can provide. For example, for a translator, we can use types of "normal translation", "urgent translation", "sworn tranlsation" or "interpreting"
+Workflows: Add emails
+Workflows: add field validations
 
 
 ## Additional functionality
@@ -178,3 +183,4 @@ SOLVED I've set the top NavBar to be fixed, and this interferes with the notific
 DONE In the ListView tables, the created_at date should be shown. It currencly does not appear
 Autocomplete fuctionality in Select fields. Look at "Select2" (https://select2.org/) for a apparently simple implementantion. The drawback is that it requires jQuery
 Add UI for files
+Add TOOLTIPS to the buttons to explain in more detail their function

@@ -9129,6 +9129,11 @@ details.collapse summary::-webkit-details-marker {
   background-color: rgb(253 253 234 / var(--tw-bg-opacity));
 }
 
+.bg-danger-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+}
+
 .bg-\[url\(\'https\:\/\/flowbite\.s3\.amazonaws\.com\/docs\/jumbotron\/hero-pattern\.svg\'\)\] {
   background-image: url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg');
 }
@@ -13747,6 +13752,11 @@ input:checked+.toggle-bg{background:#1c64f2;border-color:#1c64f2}
 :is(.dark .dark\:focus\:ring-yellow-900:focus) {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(99 49 18 / var(--tw-ring-opacity));
+}
+
+:is(.dark .dark\:focus\:ring-danger-800:focus) {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(153 27 27 / var(--tw-ring-opacity));
 }
 
 :is(.dark .group:hover .dark\:group-hover\:text-gray-400) {

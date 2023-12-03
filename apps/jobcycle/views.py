@@ -368,6 +368,9 @@ class QuotationUpdateView(BaseItemUpdateView):
     additional_form_fields_template = "jobcycle/quotations/additional_form_fields_quotations.html"
 
     def form_valid(self, form):
+
+        quotation = self.get_object()
+
         if 'save' in self.request.POST:
             messages.success(self.request, _('Quotation saved'))
 
@@ -381,7 +384,19 @@ class QuotationUpdateView(BaseItemUpdateView):
                 form.add_error('price', _('Price must be greater than or equal to 0.'))
                 messages.error(self.request, _('Please check errors and try again'))
                 return self.form_invalid(form)
+            
+            # Create a new Comment associated with the Quotation
+            comment_text = _('Quotation sent to the customer')  
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
+            
+
             form.instance.status = Quotation.Status.SENT
+
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
             # Prepare a standard "Your quotation is ready" email
             # Send email
@@ -392,13 +407,13 @@ class QuotationUpdateView(BaseItemUpdateView):
             # TODO when the customer hits 'Approved', there should be a confirmation screen
             # to make sure and record that they know the terms and conditions
             
-            form.instance.status = Quotation.Status.APPROVED
-            #form.instance.rw = Quotation.ReadWrite.READ_ONLY
+            
+
             # Create a Job Object
             job = Job()
 
             # Copy as much data from the quotation to the job as possible
-            quotation = self.get_object()
+            
             job.title = quotation.title
             job.description = quotation.description
             job.customer = quotation.customer
@@ -427,26 +442,72 @@ class QuotationUpdateView(BaseItemUpdateView):
             #     job_attachment.file.save(filename, q_attachment.file, save=False)
             #     job_attachment.save()
 
+            # Create a new Comment associated with the Quotation
+            comment_text = _('Quotation approved and Job created with ID: ') + str(job.id) + ' | ' + form.cleaned_data['approval_comment'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
 
-            messages.success(self.request, _('Quotation approved and Job created'))
+            # Create a new Comment associated with the new Job
+            comment_text = _('Job created from Quotation with ID: ') + str(quotation.id)  
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
+            form.instance.status = Quotation.Status.APPROVED
+            #form.instance.rw = Quotation.ReadWrite.READ_ONLY
+
+            messages.success(self.request, _('Quotation approved and Job created with ID: ') + str(job.id))
 
         if 'rejected' in self.request.POST:
             
             # TODO Make sure there are Rejection comments
+            comment_text = _('Quotation has been rejected: ') + form.cleaned_data['rejection_reason'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
 
             form.instance.status = Quotation.Status.REJECTED
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
             # Log the rejection cause
-            messages.info(self.request, _('Quotation Rejected'))
+            messages.warning(self.request, _('Quotation Rejected'))
 
         if 'negotiate' in self.request.POST:
+
+            # Create a new Comment associated with the Quotation
+            comment_text = _('Quotation is under negotiation: ') + form.cleaned_data['negotiate_comment'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
+
             form.instance.status = Quotation.Status.NEGOTIATE
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
-            messages.info(self.request, _('Quotation is under negotiation'))
+            messages.success(self.request, _('Quotation is under negotiation'))
 
         if 'cancel' in self.request.POST:
             form.instance.status = Quotation.Status.CANCELLED
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
+            # Create a new Comment associated with the Quotation
+            comment_text = _('Quotation cancelled: ') + form.cleaned_data['cancel_reason'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
+
             # Log the cancellation cause
             messages.warning(self.request, _('Quotation Cancelled'))
 
@@ -473,25 +534,82 @@ class JobUpdateView(BaseItemUpdateView):
 
 
     def form_valid(self, form):
+
+        job = self.get_object()
+
         if 'save' in self.request.POST:            
             messages.success(self.request, _('Job saved'))
 
         if 'assign' in self.request.POST:
             form.instance.status = Job.Status.NOT_STARTED
+
+            # Check that there is an owner assigned
+            new_owner = form.cleaned_data['owner']
+            if new_owner is None:
+                form.add_error('owner', _('There must be an owner assigned for this job'))
+                messages.error(self.request, _('Please check errors and try again'))
+                return self.form_invalid(form)
+
+            # 	Send Email to the new job owner: “The job ID blablabla is ready to be started” 
+            # TODO
+
+            # Add comment
+            comment_text = _('Job assigned to: ') + form.cleaned_data['owner'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             #form.instance.rw = Job.ReadWrite.WRITE_STAFF
             messages.success(self.request, _('Job has been planned and can now be started'))
 
         if 'start' in self.request.POST:
             form.instance.status = Job.Status.IN_PROGRESS
             #form.instance.rw = Job.ReadWrite.WRITE_STAFF
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job started by: ') + self.request.user.username
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             messages.success(self.request, _('Job has been started'))
 
         if 'review' in self.request.POST:
             form.instance.status = Job.Status.IN_REVIEW
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job sent for review')
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             #form.instance.rw = Job.ReadWrite.WRITE_STAFF
             messages.success(self.request, _('Job has been sent for review'))
 
         if 'deliver' in self.request.POST:
+
+            # TODO Check that there is at least one attachment linked to this Job that is a DELIVERABLE
+
+            # TODO Send Email to customer, including all the Attachments tagged as DELIVERABLES
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job delivered to the customer')
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             form.instance.status = Job.Status.DELIVERED
             #form.instance.rw = Job.ReadWrite.READ_ONLY
             messages.success(self.request, _('Job has been sent to the customer and we are waiting for approval'))
@@ -500,11 +618,29 @@ class JobUpdateView(BaseItemUpdateView):
         if 'return' in self.request.POST:
             if self.object.status == Job.Status.IN_REVIEW:
                 # The work has been returned for corrections by the reviewer
+
+                # Create a new Comment associated with the Job
+                comment_text = _('Job has been returned for corrections: ') + form.cleaned_data['return_reason']
+                comment = Comment.objects.create(
+                    user=self.request.user, 
+                    text=comment_text,
+                    content_type=ContentType.objects.get_for_model(job),
+                    object_id=job.pk
+                )
                 form.instance.status = Job.Status.IN_PROGRESS 
                 messages.success(self.request, _('Job has been returned for corrections'))
             else:
                 # Make sure that the return button can only be sent as for these 2 status
                 # If we get here, the work has been returned by the customer
+
+                # Create a new Comment associated with the Job
+                comment_text = _('Job has been returned for REWORK by the customer: ') + form.cleaned_data['return_reason']
+                comment = Comment.objects.create(
+                    user=self.request.user, 
+                    text=comment_text,
+                    content_type=ContentType.objects.get_for_model(job),
+                    object_id=job.pk
+                )
                 form.instance.status = Job.Status.REWORK
                 messages.success(self.request, _('Job has been returned for REWORK by the customer'))
             
@@ -520,12 +656,32 @@ class JobUpdateView(BaseItemUpdateView):
         #     messages.success(self.request, _('Invoice for this Job has been paid'))
 
         if 'close' in self.request.POST:
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job has been closed: ') + form.cleaned_data['close_comment']
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             form.instance.status = Job.Status.CLOSED
             messages.success(self.request, _('Job has been closed'))
 
         
         if 'cancel' in self.request.POST:
             form.instance.status = Job.Status.CANCELLED
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job cancelled: ') + form.cleaned_data['cancel_reason'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             # Log the cancellation cause
             messages.warning(self.request, _('Job Cancelled'))
 

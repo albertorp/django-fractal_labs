@@ -49,14 +49,32 @@ class FileAttachment(BaseModel):
 class Attachment(BaseModel):
     """
     The Attachment class is the one that links a specific file with a specific object
+    It adds another field called flow, which indicates to which point of the lifecycle of the item this attachment belongs to. 
+    It can be one of the following:
+    - INPUT: The attachment is a input for the item and will be used in the development
+    - WORK: The attachment is generated as part of the process
+    - OUTPUT: The attachment is one of the outputs of the process
+    - DELIVERABLE: The attachment is an output AND it needs to be sent to the customer
     """
+    class Flow(models.TextChoices):
+        INPUT = 'I', _('Input')
+        WORK = 'W', _('Work')
+        OUTPUT = 'O', _('Output')
+        DELIVERABLE = 'D', _('Deliverable')
+    
+
     attachment = models.ForeignKey(FileAttachment, on_delete=models.CASCADE, verbose_name=_('attachment')) 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
+    flow = models.CharField(_('flow'), max_length=1, choices=Flow.choices, null=True, blank=True)
+
 
     # def __str__(self):
     #     return self.text[:50]
 
     # class Meta:
     #     ordering = ['-created_at']
+
+    def get_flow_display(self):
+        return self.Flow(self.flow).label

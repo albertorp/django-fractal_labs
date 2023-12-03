@@ -5,7 +5,7 @@ from .models import Requirement, Quotation, Job
 
 class ButtonClass():
     primary = "text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-    primary_outline = "text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+    primary_outline = "text-primary-700 inline-flex items-center hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-700 dark:focus:ring-primary-900"
     danger = "text-danger-600 inline-flex items-center hover:text-white border border-danger-600 hover:bg-danger-600 focus:ring-4 focus:outline-none focus:ring-danger-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-danger-500 dark:text-danger-500 dark:hover:text-white dark:hover:bg-danger-600 dark:focus:ring-danger-900"
 
 
@@ -109,24 +109,24 @@ def get_buttons_quotation(current_status):
     button_save = Buttons.button_save
 
     button_send = Buttons.button_send
-    button_approved = Buttons.make_buttons('submit', 'approved')
-    button_rejected = Buttons.make_buttons('submit', 'rejected')
-    button_negotiate = Buttons.make_buttons('submit', 'negotiate')
+    button_approved = Buttons.make_buttons('button', 'approved', button_target='modal-approval', button_toggle='modal-approval')
+    button_rejected = Buttons.button_reject
+    button_negotiate = Buttons.make_buttons('button', 'negotiate', button_class=ButtonClass.primary_outline, button_target='modal-negotiate', button_toggle='modal-negotiate')
     button_cancel = Buttons.button_cancel
 
     # Then we filter the buttons depending on the current status of the Requirement
     buttons = [button_save,
                button_send,
                button_approved,
-               button_rejected,
                button_negotiate,
+               button_rejected,
                button_cancel
                ]
     
     if current_status == Quotation.Status.DRAFT:
         buttons = [button_save, button_send, button_cancel]
     if current_status == Quotation.Status.SENT:
-        buttons = [button_approved, button_rejected, button_negotiate,  button_cancel]
+        buttons = [button_approved, button_negotiate, button_rejected, button_cancel]
     if current_status in [Quotation.Status.APPROVED, Quotation.Status.CANCELLED, Quotation.Status.REJECTED]:
         buttons = []
     if current_status == Quotation.Status.NEGOTIATE:
@@ -149,8 +149,8 @@ def get_buttons_job(current_status):
     button_start = Buttons.make_buttons('submit', 'start')
     button_review = Buttons.make_buttons('submit', 'review')
     button_deliver = Buttons.make_buttons('submit', 'deliver')
-    button_return = Buttons.make_buttons('submit', 'analyse', button_class=ButtonClass.danger)
-    button_close = Buttons.make_buttons('submit', 'close')
+    button_return = Buttons.make_buttons('button', 'return', button_class=ButtonClass.danger, button_target='modal-return', button_toggle='modal-return')
+    button_close = Buttons.make_buttons('submit', 'close', button_class=ButtonClass.primary, button_target='modal-close', button_toggle='modal-close')
     button_cancel = Buttons.button_cancel
 
     # Then we filter the buttons depending on the current status of the Requirement
@@ -161,14 +161,14 @@ def get_buttons_job(current_status):
         buttons = buttons + [button_assign]
     
     if current_status == Job.Status.NOT_STARTED:
-        buttons = buttons + [button_start]
+        buttons = [button_start]
 
     if current_status in [Job.Status.IN_PROGRESS, Job.Status.REWORK]:
         buttons = buttons + [button_review]
         can_cancel = False
     
     if current_status == Job.Status.IN_REVIEW:
-        buttons = buttons + [button_return, button_deliver]
+        buttons = buttons + [button_deliver, button_return]
 
     if current_status == Job.Status.DELIVERED:
         buttons = buttons + [button_return, button_close]

@@ -8,6 +8,7 @@ from .models import BaseItem, Requirement, Quotation, Job, Invoice, InvoiceItem
 
 class BaseItemForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
+    cancel_reason = forms.CharField(label=_('Cancellation Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
     #terms = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
     #deadline = forms.DateField(widget=DatePickerInput, required=False)
 
@@ -39,6 +40,11 @@ class RequirementForm(BaseItemForm):
 
 class QuotationForm(BaseItemForm):
     terms = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
+    rejection_reason = forms.CharField(label=_('Rejection Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    return_reason = forms.CharField(label=_('Return Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    approval_comment = forms.CharField(label=_('Approval Comment'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    negotiate_comment = forms.CharField(label=_('Negotiate Comment'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+
 
     class Meta:
         model = Quotation
@@ -46,6 +52,8 @@ class QuotationForm(BaseItemForm):
 
 class JobForm(BaseItemForm):
     terms = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
+    return_reason = forms.CharField(label=_('Return Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    close_comment = forms.CharField(label=_('Closing Comment'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
 
     class Meta:
         model = Job
