@@ -281,10 +281,17 @@ class RequirementUpdateView(BaseItemUpdateView):
         req = self.get_object()
 
         if 'save' in self.request.POST:
+            if req.owner is None and form.cleaned_data['owner'] is None:
+                form.instance.owner = self.request.user
             messages.success(self.request, _('Requirement saved'))
 
         if 'analyse' in self.request.POST:
             form.instance.status = Requirement.Status.ANALYSIS
+
+            # Assign Owner (see Business Rules 1)
+            if form.cleaned_data['owner'] is None:
+                form.instance.owner = self.request.user
+
             #form.instance.rw = Requirement.ReadWrite.WRITE_STAFF
             # Prepare a standard "We are reviewing your requirement" email
             # Send email

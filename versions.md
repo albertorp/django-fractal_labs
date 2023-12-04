@@ -162,6 +162,8 @@ Added the option to add a new attachment to an item from the update view of that
 Added a file upload field to the WebRequirement form in order to allow uploading of files
 The file will then be created in the system and tagged to the Requirement created
 
+# jobcycle03: owner assignment for Requirements 2023 12 04
+Automatic assignment of owner after Analyse
 
 # WPs to do
 
