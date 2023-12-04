@@ -7,22 +7,25 @@
 
 {% block body %}
 
-<div class="container">
-<h1 class="mb-3 text-center">{% trans "Thank you very much" %}</h1>
 
-<p class="text-justify mb-2 fw-bold">
-    {% blocktrans %}
-    Thank you for contacting us. We will get back to your very shortly
-    {% endblocktrans %}
-</p>
 
-<p class="text-justify mb-2">
-    {% blocktrans %}
-    If you have requested to create a user, you will receive an e-mail for verification. Follow the link provided to finalize the signup process. If you do not see the verification e-mail in your main inbox, check your spam folder. Please contact us if you do not receive the verification e-mail within a few minutes.
-    {% endblocktrans %}
-</p>
 
-</div>
+<section class="mt-16 bg-white dark:bg-gray-900">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+        <h1 class="mb-8 text-4xl font-extrabold tracking-tight leading-none text-primary-700 md:text-5xl lg:text-6xl dark:text-white">{% trans "Thanks!" %}</h1>
+        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
+            {% blocktrans %}
+            Thank you for contacting us. We will get back to you very shortly
+            {% endblocktrans %}
+        </p>
+        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
+            {% blocktrans %}
+            If you have requested to create a user, you will receive an e-mail for verification. Follow the link provided to finalize the signup process. If you do not see the verification e-mail in your main inbox, check your spam folder. Please contact us if you do not receive the verification e-mail within a few minutes.
+            {% endblocktrans %}
+        </p>
+        
+    </div>
+</section>
 
 
 {% endblock body%}

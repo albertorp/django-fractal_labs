@@ -5,9 +5,11 @@ from django.utils import timezone
 
 
 from .models import BaseItem, Requirement, Quotation, Job, Invoice, InvoiceItem
+from apps.customers.models import Customer
 
 class BaseItemForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
+    cancel_reason = forms.CharField(label=_('Cancellation Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
     #terms = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
     #deadline = forms.DateField(widget=DatePickerInput, required=False)
 
@@ -25,10 +27,15 @@ class BaseItemForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         request = kwargs.pop('request', None)
+        # TODO further filter this field so that it only shows active customers
         super().__init__(*args, **kwargs)
+        self.fields['customer'].queryset = Customer.objects.order_by('email')  # Change 'name' to the actual field name you want to sort by
 
 
 class RequirementForm(BaseItemForm):
+    rejection_reason = forms.CharField(label=_('Rejection Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    return_reason = forms.CharField(label=_('Return Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+
     class Meta:
         model = Requirement
         fields = ['customer', 'title', 'description', 'deadline', 'status', 'owner']
@@ -36,6 +43,11 @@ class RequirementForm(BaseItemForm):
 
 class QuotationForm(BaseItemForm):
     terms = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
+    rejection_reason = forms.CharField(label=_('Rejection Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    return_reason = forms.CharField(label=_('Return Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    approval_comment = forms.CharField(label=_('Approval Comment'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    negotiate_comment = forms.CharField(label=_('Negotiate Comment'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+
 
     class Meta:
         model = Quotation
@@ -43,6 +55,8 @@ class QuotationForm(BaseItemForm):
 
 class JobForm(BaseItemForm):
     terms = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=False)
+    return_reason = forms.CharField(label=_('Return Reason'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    close_comment = forms.CharField(label=_('Closing Comment'), widget=forms.Textarea(attrs={'rows': 3}), required=False)
 
     class Meta:
         model = Job
@@ -65,6 +79,7 @@ class WebRequirementForm(forms.ModelForm):
     create_user = forms.BooleanField(initial=False, required=False)
     password1 = forms.CharField(widget=forms.PasswordInput, required=False)
     email = forms.EmailField()
+    file_uploaded = forms.FileField(required=False)
     
 
     class Meta:
@@ -111,6 +126,9 @@ class WebRequirementForm(forms.ModelForm):
 
         self.fields['create_user'].label = _('Create account?')
         self.fields['create_user'].help_text = _('Check this box to confirm that you want to create your user')
+
+        self.fields['file_uploaded'].label = _('Upload file (or a zip file with multiple files)')
+        # self.fields['file_uploaded'].help_text = _('')
 
 
 class InvoiceItemForm(forms.ModelForm):

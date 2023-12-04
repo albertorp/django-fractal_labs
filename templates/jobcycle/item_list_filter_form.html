@@ -1,0 +1,58 @@
+{% load widget_tweaks %}
+{% load i18n %}
+{% load static %}
+
+
+<!-- Main form -->
+<div id="filter-form" class="justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full" x-show="isOpen">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal body -->
+            <div class="p-4 md:p-5">
+                <form class="space-y-4" action="#">
+                    <ul class="overflow-y-auto space-y-2 text-sm" aria-labelledby="filterDropdownButton">
+                        <li class="flex items-center">
+                            <label for="{{ form_filter.customer.label }}" class="block mb-0 text-sm font-medium text-gray-900 dark:text-white">{{ form_filter.customer.label }}</label>
+                        </li>
+                        <li class="flex items-center">
+                            {% render_field form_filter.customer|add_class:"text-sm bg-gray-50" %}    
+                        </li>
+                        <li class="flex items-center">
+                            <label for="{{ form_filter.owner.label }}" class="block mb-0 text-sm font-medium text-gray-900 dark:text-white">{{ form_filter.owner.label }}</label>
+                        </li>
+                        <li class="flex items-center">
+                            {% render_field form_filter.owner|add_class:"text-sm bg-gray-50" %}    
+                        </li>
+                        <li class="flex items-center">
+                            <label for="{{ form_filter.created_at.label }}" class="block mb-0 text-sm font-medium text-gray-900 dark:text-white">{{ form_filter.created_at.label }}</label>
+                        </li>
+                        <li class="flex items-center">
+                            {% render_field form_filter.created_at|attr:"datepicker"|attr:"datepicker-format:yyyy-mm-dd"|attr:"datepicker-autohide"|add_class:"text-sm bg-gray-50" %}
+                        </li>
+                        <li class="flex items-center">
+                            <label for="{{ form_filter.deadline.label }}" class="block mb-0 text-sm font-medium text-gray-900 dark:text-white">{{ form_filter.deadline.label }}</label>
+                        </li>
+                        <li class="flex items-center">
+                            {% render_field form_filter.deadline|attr:"datepicker"|attr:"datepicker-format:yyyy-mm-dd"|attr:"datepicker-autohide"|add_class:"text-sm bg-gray-50" %}
+                        </li>
+                        <li class="flex items-center">
+                            <label for="{{ form_filter.status.label }}" class="block mb-0 text-sm font-medium text-gray-900 dark:text-white">{{ form_filter.status.label }}</label>
+                        </li>
+                        <li class="flex items-center">
+                            {% render_field form_filter.status|add_class:"text-sm bg-gray-50" %}    
+                        </li>
+                    </ul>
+                    <button name="filter" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{% trans 'Apply' %}</button>
+                    <a href="?all" type="button" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">{% trans 'Clear' %}</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
+
+
+
+{% block page_js %}
+<script src="{% static 'js/datepicker.js' %}"></script>
+{% endblock page_js %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
+from django.http import HttpResponse
 
 
 def home(request):
@@ -18,3 +19,6 @@ def home(request):
 
 def simulate_error(request):
     raise Exception("This is a simulated error.")
+
+def clear_messages(request):
+    return HttpResponse("")

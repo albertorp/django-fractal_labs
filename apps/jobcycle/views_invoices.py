@@ -19,6 +19,7 @@ class InvoiceListView(BaseItemListView):
     title = _('List of Invoices')
     active_tab = 'invoices'
     template_name = 'jobcycle/invoices/invoice_list.html'
+    paginate_by = 10
 
 
 
@@ -110,3 +111,34 @@ def edit_invoiceitem_row_htmx(request, invoice_id, pk):
     invoiceitem = get_object_or_404(InvoiceItem, pk=pk)
     return _add_edit_invoiceitem_htmx(request, invoiceitem=invoiceitem, invoice=invoice)
 
+
+
+def _cancel_add_edit_invoiceitem_htmx(request, invoiceitem=None, invoice=None):
+
+    if invoiceitem:
+        return render(
+            request,
+            "jobcycle/invoices/invoiceitem_list_row_form.html",
+            {
+                "invoiceitem": invoiceitem,
+                "invoice": invoice,
+            },
+        )
+    else:
+        return HttpResponse("")
+
+def cancel_add_invoiceitem_row_htmx(request, pk):
+    return HttpResponse("")
+
+
+def cancel_edit_invoiceitem_row_htmx(request, invoice_id, pk):
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    invoiceitem = get_object_or_404(InvoiceItem, pk=pk)
+    return render(
+            request,
+            "jobcycle/invoices/invoiceitem_list_row.html",
+            {
+                "item": invoiceitem,
+                "invoice": invoice,
+            },
+        )

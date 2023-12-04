@@ -1,0 +1,87 @@
+{% extends "web/app/app_base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block app %}
+
+<section class="px-8">
+    <div class="px-4 py-8 mx-auto lg:py-12">
+        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">{{ title }}</h2>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+                {% with WIDGET_ERROR_CLASS="bg-danger-50 border border-danger-500 text-danger-900 placeholder-danger-700 text-sm rounded-lg focus:ring-danger-500 focus:border-danger-500 block w-full p-2.5 dark:bg-danger-100 dark:border-danger-400" %}
+                <div class="w-full">
+                    <label for="{{ form.title.label }}" class="block mb-2 text-sm font-medium {% if form.title.errors %} text-danger-900 dark:text-danger-100 {% else %} text-gray-900 dark:text-white{% endif %}">{{ form.title.label }}</label>
+                    {% render_field form.title|add_class:"text-sm bg-gray-50 p-2.5" %}
+                    {% if form.title.errors %}<p>{{ form.title.errors }}</p>{% endif %}
+                    {% if form.title.help_text %}<p class="mt-0 text-sm text-gray-500 dark:text-gray-400">{{ form.title.help_text }}</p>{% endif %}
+                </div>
+                <div class="w-full">
+                    <label for="{{ form.type.label }}" class="block mb-2 text-sm font-medium {% if form.type.errors %} text-danger-900 dark:text-danger-100 {% else %} text-gray-900 dark:text-white{% endif %}">{{ form.type.label }}</label>
+                    {% render_field form.type|add_class:"text-sm bg-gray-50 p-2.5" %}
+                    {% if form.type.errors %}<p class="mt-0 text-sm text-danger-500 dark:text-danger-400">{{ form.type.errors }}</p>{% endif %}
+                    {% if form.type.help_text %}<p class="mt-0 text-sm text-gray-500 dark:text-gray-400">{{ form.type.help_text }}</p>{% endif %}
+                </div>
+                <div class="w-full">
+                    <label for="{{ form.owner.label }}" class="block mb-2 text-sm font-medium {% if form.owner.errors %} text-danger-900 dark:text-danger-100 {% else %} text-gray-900 dark:text-white{% endif %}">{{ form.owner.label }}</label>
+                    {% render_field form.owner|add_class:"text-sm bg-gray-50 p-2.5" %}
+                    {% if form.owner.errors %}<p class="mt-0 text-sm text-danger-500 dark:text-danger-400">{{ form.owner.errors }}</p>{% endif %}
+                    {% if form.owner.help_text %}<p class="mt-0 text-sm text-gray-500 dark:text-gray-400">{{ form.owner.help_text }}</p>{% endif %}
+                </div>
+                <div class="w-full">
+                    <label for="{{ form.submitted_by.label }}" class="block mb-2 text-sm font-medium {% if form.submitted_by.errors %} text-danger-900 dark:text-danger-100 {% else %} text-gray-900 dark:text-white{% endif %}">{{ form.submitted_by.label }}</label>
+                    {% render_field form.submitted_by|add_class:"text-sm bg-gray-50 p-2.5" %}
+                    {% if form.submitted_by.errors %}<p class="mt-0 text-sm text-danger-500 dark:text-danger-400">{{ form.submitted_by.errors }}</p>{% endif %}
+                    {% if form.submitted_by.help_text %}<p class="mt-0 text-sm text-gray-500 dark:text-gray-400">{{ form.submitted_by.help_text }}</p>{% endif %}
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label for="{{ form.description.label }}" class="block mb-2 text-sm font-medium {% if form.description.errors %} text-danger-900 dark:text-danger-100 {% else %} text-gray-900 dark:text-white{% endif %}">{{ form.description.label }}</label>
+                    {% render_field form.description|add_class:"text-sm bg-gray-50 p-2.5" %}
+                    {% if form.description.errors %}<p class="mt-0 text-sm text-danger-500 dark:text-danger-400">{{ form.description.errors }}</p>{% endif %}
+                    {% if form.description.help_text %}<p class="mt-0 text-sm text-gray-500 dark:text-gray-400">{{ form.description.help_text }}</p>{% endif %}
+                </div>
+
+                <div class="w-full">
+                    <label for="{{ form.file.label }}" class="block mb-2 text-sm font-medium {% if form.file.errors %} text-danger-900 dark:text-danger-100 {% else %} text-gray-900 dark:text-white{% endif %}">{{ form.file.label }}</label>
+                    {% render_field form.file|add_class:"w-full text-sm bg-gray-50 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" %}
+                    {% if form.file.errors %}<p class="mt-0 text-sm text-danger-500 dark:text-danger-400">{{ form.file.errors }}</p>{% endif %}
+                    {% if form.file.help_text %}<p class="mt-0 text-sm text-gray-500 dark:text-gray-400">{{ form.file.help_text }}</p>{% endif %}
+                </div>
+                <div class="w-full">
+                    <label for="{{ form.flow.label }}" class="block mb-2 text-sm font-medium {% if form.flow.errors %} text-danger-900 dark:text-danger-100 {% else %} text-gray-900 dark:text-white{% endif %}">{{ form.flow.label }}</label>
+                    {% render_field form.flow|add_class:"text-sm bg-gray-50" %}
+                    {% if form.flow.errors %}<p class="mt-0 text-sm text-danger-500 dark:text-danger-400">{{ form.flow.errors }}</p>{% endif %}
+                    {% if form.flow.help_text %}<p class="mt-0 text-sm text-gray-500 dark:text-gray-400">{{ form.flow.help_text }}</p>{% endif %}
+                </div>
+
+                {% endwith %}
+                
+                
+                
+
+            </div>
+            <div class="flex items-center space-x-4">
+                <button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    {% trans 'Save' %}
+                </button>
+
+                <a href="{% url 'attachments:fileattachment_list' %}" type="button" class="text-danger-600 inline-flex items-center hover:text-white border border-danger-600 hover:bg-danger-600 focus:ring-4 focus:outline-none focus:ring-danger-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-danger-500 dark:text-danger-500 dark:hover:text-white dark:hover:bg-danger-600 dark:focus:ring-danger-900">
+                    {% trans 'Back' %}
+                </a>
+            </div>
+        </form>
+
+        {% comment 'FileAttachments for the moment do not have the possibility to have comments associated to them' %}
+        {% if not create %}
+        {% include 'comments/comments_list.html' %}
+        {% endif %}
+        {% endcomment %}
+    </div>
+</section>
+
+
+
+{% endblock %}

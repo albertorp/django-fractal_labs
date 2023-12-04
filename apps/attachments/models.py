@@ -7,12 +7,12 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from apps.utils.models import BaseModel
-
+from apps.customers.models import Customer
 
 
 def user_folder_item_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/FILES/<username>/<item_type>/<filename>
-    return 'FILES/{0}/{1}/{2}'.format(instance.owner.username, instance.type, filename)
+    return 'FILES/{0}/{1}/{2}'.format(instance.owner.email, instance.type, filename)
 
 
 class FileAttachment(BaseModel):
@@ -20,6 +20,10 @@ class FileAttachment(BaseModel):
     The FileAttachment class represents the actual file uploaded to the system. This file always "belongs"
     to a customer, represented here by a user. In order to be able to upload and manipulate files, the customer 
     must have a valid user in the system
+
+    I am calling it FileAttachment because just "file" is a bit confusing
+
+    submitted_by: which user uploaded the file. Since it can be a non-user (when a visitor sends us a WebRequirement) then this field can be null or blank
     """
 
     class FileTypes(models.TextChoices):
@@ -34,8 +38,8 @@ class FileAttachment(BaseModel):
     file = models.FileField(_('file'), upload_to=user_folder_item_path)
     type = models.CharField(_('type'), choices=FileTypes.choices, max_length=4, default=FileTypes.OTH)
     
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('owner'), related_name='files')
-    submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name=_('submitted by'), related_name='files_uploaded')
+    owner = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, verbose_name=_('owner'), related_name='files')
+    submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name=_('submitted by'), related_name='files_uploaded', null=True, blank=True)
 
     def __str__(self):
         return self.file.name
@@ -47,14 +51,32 @@ class FileAttachment(BaseModel):
 class Attachment(BaseModel):
     """
     The Attachment class is the one that links a specific file with a specific object
+    It adds another field called flow, which indicates to which point of the lifecycle of the item this attachment belongs to. 
+    It can be one of the following:
+    - INPUT: The attachment is a input for the item and will be used in the development
+    - WORK: The attachment is generated as part of the process
+    - OUTPUT: The attachment is one of the outputs of the process
+    - DELIVERABLE: The attachment is an output AND it needs to be sent to the customer
     """
+    class Flow(models.TextChoices):
+        INPUT = 'I', _('Input')
+        WORK = 'W', _('Work')
+        OUTPUT = 'O', _('Output')
+        DELIVERABLE = 'D', _('Deliverable')
+    
+
     attachment = models.ForeignKey(FileAttachment, on_delete=models.CASCADE, verbose_name=_('attachment')) 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
+    flow = models.CharField(_('flow'), max_length=1, choices=Flow.choices, null=True, blank=True)
+
 
     # def __str__(self):
     #     return self.text[:50]
 
-    # class Meta:
-    #     ordering = ['-created_at']
+    class Meta:
+        ordering = ['-created_at']
+
+    def get_flow_display(self):
+        return self.Flow(self.flow).label if self.flow is not None else ''

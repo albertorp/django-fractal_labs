@@ -30,6 +30,9 @@ class Customer(BaseModel):
     stripe_customer_id = models.CharField(_('Stripe ID'), max_length=100, blank=True, null=True)
     comments = GenericRelation(Comment)
 
+    class Meta:
+        ordering = ['email']
+
     def __str__(self):
         return self.email
 

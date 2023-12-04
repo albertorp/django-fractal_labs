@@ -1,10 +1,13 @@
-from typing import Any
+from django.apps import apps
+from django.db.models.fields.related import ForeignKey
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
-from django.forms.models import model_to_dict
+from django.forms.models import BaseModelForm, model_to_dict
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView, UpdateView, CreateView, DetailView
 
@@ -12,11 +15,18 @@ from allauth.account.adapter import get_adapter
 from allauth.account.models import EmailAddress
 from allauth.account.utils import send_email_confirmation
 
+from openpyxl import Workbook
+
 from .utils import get_buttons_requirement, get_buttons_quotation, get_buttons_job, get_buttons_webrequirement
 
 from apps.customers.models import Customer
+from apps.comments.models import Comment
+from apps.attachments.models import FileAttachment, Attachment
+
 from .models import BaseItem, Requirement, Quotation, Job
 from .forms import RequirementForm, QuotationForm, JobForm, WebRequirementForm
+from .filters import RequirementFilter, QuotationFilter, JobFilter
+
 
 
 class WebRequirementCreateView(CreateView):
@@ -31,7 +41,6 @@ class WebRequirementCreateView(CreateView):
         ctx['title'] = self.title
         ctx['buttons'] = get_buttons_webrequirement()
         return ctx
-    
 
     def form_valid(self, form):
 
@@ -45,8 +54,6 @@ class WebRequirementCreateView(CreateView):
             customer.email = form.cleaned_data['email']
             customer.save()
         
-
-
         # Check to see if we need to create a nuew user
         if form.cleaned_data['create_user']:
             # If the visitor wants to create a user, we create a new user in the system and assign the requirement to the new user
@@ -69,13 +76,32 @@ class WebRequirementCreateView(CreateView):
                 # The user already exists, so we omit the creation
                 messages.error(self.request, _('The user already exists'))
 
-            
-            
-
         form.instance.customer = customer
+        new_req = form.save()
+
+        # Check to see if there is a file uploaded by the user
+        if 'file_uploaded' in self.request.FILES:
+            # File has been uploaded
+            file_uploaded = self.request.FILES['file_uploaded']
+
+            # TODO Check file to ensure security
+            
+            # If there is, we create the fileattachment
+            fileattachment = FileAttachment(file=file_uploaded)
+            fileattachment.owner = customer
+            # There is no field for the file title, so let's use the filename
+            fileattachment.title = file_uploaded.name
+            fileattachment.save()
+
+            # Then we attach it to the requirement created
+            attachment = Attachment.objects.create(
+                attachment = fileattachment,
+                content_type=ContentType.objects.get_for_model(new_req),                
+                object_id=new_req.pk
+            ) 
+            
+
         return super().form_valid(form)
-
-
 
 
 
@@ -83,11 +109,10 @@ class BaseItemListView(LoginRequiredMixin, ListView):
     model = BaseItem  
     template_name = 'jobcycle/item_list.html' 
     context_object_name = 'items' 
-    list_display = ('id', 'customer', 'title', 'status', 'deadline', 'owner')
+    list_display = ('id', 'customer', 'title', 'created_at', 'status', 'deadline', 'owner')
+    paginate_by = 10
     #ordering = ['-date_created']  # Optionally, specify how you want to order the items
     
-
-
     def get_queryset(self):
         """
         If the user is not staff, filter to only show items belonging to the
@@ -105,6 +130,15 @@ class BaseItemListView(LoginRequiredMixin, ListView):
         context['active_tab'] = self.active_tab
         context['model_name'] = self.model.__name__
         context['fields'] = self.list_display
+
+        if hasattr(self, 'filterset'):
+            context['form_filter'] = self.filterset.form
+
+        if not self.request.GET:
+            context['extra_param'] = '?page='
+        else:
+            context['extra_param'] = '&page='
+
         return context
     
 
@@ -114,16 +148,52 @@ class RequirementListView(BaseItemListView):
     title = _('List of Requirements')
     active_tab = 'requirements'
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'all' in self.request.GET:
+            # If 'all' is in the request.GET, reset self.filterset and return all values in qs
+            self.filterset = RequirementFilter(None, queryset=qs)
+            return qs
+        else:
+            # If 'all' is not in request.GET, apply filters using RequirementFilter
+            self.filterset = RequirementFilter(self.request.GET, queryset=qs)
+            return self.filterset.qs
+
+
+    
+
 
 class QuotationListView(BaseItemListView):
     model = Quotation
     title = _('List of Quotations')
     active_tab = 'quotations'
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'all' in self.request.GET:
+            # If 'all' is in the request.GET, reset self.filterset and return all values in qs
+            self.filterset = QuotationFilter(None, queryset=qs)
+            return qs
+        else:
+            # If 'all' is not in request.GET, apply filters using QuotationFilter
+            self.filterset = QuotationFilter(self.request.GET, queryset=qs)
+            return self.filterset.qs
+
 class JobListView(BaseItemListView):
     model = Job
     title = _('List of Jobs')
     active_tab = 'jobs'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'all' in self.request.GET:
+            # If 'all' is in the request.GET, reset self.filterset and return all values in qs
+            self.filterset = JobFilter(None, queryset=qs)
+            return qs
+        else:
+            # If 'all' is not in request.GET, apply filters using JobFilter
+            self.filterset = JobFilter(self.request.GET, queryset=qs)
+            return self.filterset.qs
 
 
 class BaseItemDetailView(LoginRequiredMixin, DetailView):
@@ -187,8 +257,10 @@ class BaseItemUpdateView(LoginRequiredMixin, UpdateView):
         kwargs['request'] = self.request
         return kwargs
     
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+    def form_invalid(self, form):
+        messages.error(self.request, _('Please check errors and try again'))
+        return super().form_invalid(form)
+
     
 
 class RequirementUpdateView(BaseItemUpdateView):
@@ -206,14 +278,30 @@ class RequirementUpdateView(BaseItemUpdateView):
         return ctx
     
     def form_valid(self, form):
+        req = self.get_object()
+
         if 'save' in self.request.POST:
+            if req.owner is None and form.cleaned_data['owner'] is None:
+                form.instance.owner = self.request.user
             messages.success(self.request, _('Requirement saved'))
 
         if 'analyse' in self.request.POST:
             form.instance.status = Requirement.Status.ANALYSIS
+
+            # Assign Owner (see Business Rules 1)
+            if form.cleaned_data['owner'] is None:
+                form.instance.owner = self.request.user
+
             #form.instance.rw = Requirement.ReadWrite.WRITE_STAFF
             # Prepare a standard "We are reviewing your requirement" email
             # Send email
+            comment_text = _('Requirement acknowledged')
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(req),
+                object_id=req.pk
+            )
             messages.success(self.request, _('Requirement sent for Analysis'))
 
         if 'quote' in self.request.POST:
@@ -249,21 +337,57 @@ class RequirementUpdateView(BaseItemUpdateView):
             #     quotation_attachment.file.save(filename, req_attachment.file, save=False)
             #     quotation_attachment.save()
             
-            messages.success(self.request, _('Requirement sent for Quotation'))
+            # Create a new Comment associated with the Requirement and the complementary for the new quotation
+            
+            comment_text = _('Requirement closed and new Quotation created with ID: ') + str(quotation.id)
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(req),
+                object_id=req.pk
+            )
+            quotation_comment = _('Quotation created from Requirement with ID: ') + str(req.id)
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=quotation_comment,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
+
+            messages.success(self.request, comment_text)
         
         if 'return' in self.request.POST:
             form.instance.status = Requirement.Status.RETURNED
-            #form.instance.rw = Requirement.ReadWrite.READ_ONLY
             # Prepare a standard "Returned" email with additional information
             # Send email
-            messages.info(self.request, _('Requirement Returned to the Customer'))
+
+            # Create a new Comment associated with the Requirement
+            comment_text = _('Requirement was returned to the customer with this message: ') + form.cleaned_data['return_reason']  
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(req),
+                object_id=req.pk
+            )
+
+            messages.warning(self.request, _('Requirement Returned to the Customer'))
 
         if 'reject' in self.request.POST:
             form.instance.status = Requirement.Status.REJECTED
             #form.instance.rw = Requirement.ReadWrite.READ_ONLY
             # Prepare a standard "No Bid" email
             # Send email
-            messages.info(self.request, _('Requirement Rejected'))
+
+            # Create a new Comment associated with the Requirement
+            comment_text = _('Requirement was rejected with this reason: ') + form.cleaned_data['rejection_reason']  
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(req),
+                object_id=req.pk
+            )
+
+            messages.warning(self.request, _('Requirement Rejected'))
 
         return super().form_valid(form)
 
@@ -277,6 +401,9 @@ class QuotationUpdateView(BaseItemUpdateView):
     additional_form_fields_template = "jobcycle/quotations/additional_form_fields_quotations.html"
 
     def form_valid(self, form):
+
+        quotation = self.get_object()
+
         if 'save' in self.request.POST:
             messages.success(self.request, _('Quotation saved'))
 
@@ -287,10 +414,22 @@ class QuotationUpdateView(BaseItemUpdateView):
             # TODO Refactor this to a "validate_quote" method (validate price, currency, terms...)
             price = form.cleaned_data['price']
             if price is None or price < 0:
-                form.add_error('price', 'Price must be greater than or equal to 0.')
+                form.add_error('price', _('Price must be greater than or equal to 0.'))
                 messages.error(self.request, _('Please check errors and try again'))
                 return self.form_invalid(form)
+            
+            # Create a new Comment associated with the Quotation
+            comment_text = _('Quotation sent to the customer')  
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
+            
+
             form.instance.status = Quotation.Status.SENT
+
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
             # Prepare a standard "Your quotation is ready" email
             # Send email
@@ -301,13 +440,13 @@ class QuotationUpdateView(BaseItemUpdateView):
             # TODO when the customer hits 'Approved', there should be a confirmation screen
             # to make sure and record that they know the terms and conditions
             
-            form.instance.status = Quotation.Status.APPROVED
-            #form.instance.rw = Quotation.ReadWrite.READ_ONLY
+            
+
             # Create a Job Object
             job = Job()
 
             # Copy as much data from the quotation to the job as possible
-            quotation = self.get_object()
+            
             job.title = quotation.title
             job.description = quotation.description
             job.customer = quotation.customer
@@ -336,28 +475,74 @@ class QuotationUpdateView(BaseItemUpdateView):
             #     job_attachment.file.save(filename, q_attachment.file, save=False)
             #     job_attachment.save()
 
+            # Create a new Comment associated with the Quotation
+            comment_text = _('Quotation approved and Job created with ID: ') + str(job.id) + ' | ' + form.cleaned_data['approval_comment'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
 
-            messages.success(self.request, _('Quotation approved and Job created'))
+            # Create a new Comment associated with the new Job
+            comment_text = _('Job created from Quotation with ID: ') + str(quotation.id)  
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
+            form.instance.status = Quotation.Status.APPROVED
+            #form.instance.rw = Quotation.ReadWrite.READ_ONLY
+
+            messages.success(self.request, _('Quotation approved and Job created with ID: ') + str(job.id))
 
         if 'rejected' in self.request.POST:
             
             # TODO Make sure there are Rejection comments
+            comment_text = _('Quotation has been rejected: ') + form.cleaned_data['rejection_reason'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
 
             form.instance.status = Quotation.Status.REJECTED
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
             # Log the rejection cause
-            messages.info(self.request, _('Quotation Rejected'))
+            messages.warning(self.request, _('Quotation Rejected'))
 
         if 'negotiate' in self.request.POST:
+
+            # Create a new Comment associated with the Quotation
+            comment_text = _('Quotation is under negotiation: ') + form.cleaned_data['negotiate_comment'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
+
             form.instance.status = Quotation.Status.NEGOTIATE
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
-            messages.info(self.request, _('Quotation is under negotiation'))
+            messages.success(self.request, _('Quotation is under negotiation'))
 
         if 'cancel' in self.request.POST:
-            form.instance.status = Quotation.Status.CANCEL
+            form.instance.status = Quotation.Status.CANCELLED
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
+            # Create a new Comment associated with the Quotation
+            comment_text = _('Quotation cancelled: ') + form.cleaned_data['cancel_reason'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(quotation),
+                object_id=quotation.pk
+            )
+
             # Log the cancellation cause
-            messages.info(self.request, _('Quotation Cancelled'))
+            messages.warning(self.request, _('Quotation Cancelled'))
 
         return super().form_valid(form)
 
@@ -382,25 +567,82 @@ class JobUpdateView(BaseItemUpdateView):
 
 
     def form_valid(self, form):
+
+        job = self.get_object()
+
         if 'save' in self.request.POST:            
             messages.success(self.request, _('Job saved'))
 
         if 'assign' in self.request.POST:
             form.instance.status = Job.Status.NOT_STARTED
+
+            # Check that there is an owner assigned
+            new_owner = form.cleaned_data['owner']
+            if new_owner is None:
+                form.add_error('owner', _('There must be an owner assigned for this job'))
+                messages.error(self.request, _('Please check errors and try again'))
+                return self.form_invalid(form)
+
+            # 	Send Email to the new job owner: “The job ID blablabla is ready to be started” 
+            # TODO
+
+            # Add comment
+            comment_text = _('Job assigned to: ') + form.cleaned_data['owner'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             #form.instance.rw = Job.ReadWrite.WRITE_STAFF
             messages.success(self.request, _('Job has been planned and can now be started'))
 
         if 'start' in self.request.POST:
             form.instance.status = Job.Status.IN_PROGRESS
             #form.instance.rw = Job.ReadWrite.WRITE_STAFF
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job started by: ') + self.request.user.username
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             messages.success(self.request, _('Job has been started'))
 
         if 'review' in self.request.POST:
             form.instance.status = Job.Status.IN_REVIEW
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job sent for review')
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             #form.instance.rw = Job.ReadWrite.WRITE_STAFF
             messages.success(self.request, _('Job has been sent for review'))
 
         if 'deliver' in self.request.POST:
+
+            # TODO Check that there is at least one attachment linked to this Job that is a DELIVERABLE
+
+            # TODO Send Email to customer, including all the Attachments tagged as DELIVERABLES
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job delivered to the customer')
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             form.instance.status = Job.Status.DELIVERED
             #form.instance.rw = Job.ReadWrite.READ_ONLY
             messages.success(self.request, _('Job has been sent to the customer and we are waiting for approval'))
@@ -409,11 +651,29 @@ class JobUpdateView(BaseItemUpdateView):
         if 'return' in self.request.POST:
             if self.object.status == Job.Status.IN_REVIEW:
                 # The work has been returned for corrections by the reviewer
+
+                # Create a new Comment associated with the Job
+                comment_text = _('Job has been returned for corrections: ') + form.cleaned_data['return_reason']
+                comment = Comment.objects.create(
+                    user=self.request.user, 
+                    text=comment_text,
+                    content_type=ContentType.objects.get_for_model(job),
+                    object_id=job.pk
+                )
                 form.instance.status = Job.Status.IN_PROGRESS 
                 messages.success(self.request, _('Job has been returned for corrections'))
             else:
                 # Make sure that the return button can only be sent as for these 2 status
                 # If we get here, the work has been returned by the customer
+
+                # Create a new Comment associated with the Job
+                comment_text = _('Job has been returned for REWORK by the customer: ') + form.cleaned_data['return_reason']
+                comment = Comment.objects.create(
+                    user=self.request.user, 
+                    text=comment_text,
+                    content_type=ContentType.objects.get_for_model(job),
+                    object_id=job.pk
+                )
                 form.instance.status = Job.Status.REWORK
                 messages.success(self.request, _('Job has been returned for REWORK by the customer'))
             
@@ -429,14 +689,34 @@ class JobUpdateView(BaseItemUpdateView):
         #     messages.success(self.request, _('Invoice for this Job has been paid'))
 
         if 'close' in self.request.POST:
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job has been closed: ') + form.cleaned_data['close_comment']
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             form.instance.status = Job.Status.CLOSED
             messages.success(self.request, _('Job has been closed'))
 
         
         if 'cancel' in self.request.POST:
             form.instance.status = Job.Status.CANCELLED
+
+            # Create a new Comment associated with the Job
+            comment_text = _('Job cancelled: ') + form.cleaned_data['cancel_reason'] 
+            comment = Comment.objects.create(
+                user=self.request.user, 
+                text=comment_text,
+                content_type=ContentType.objects.get_for_model(job),
+                object_id=job.pk
+            )
+
             # Log the cancellation cause
-            messages.info(self.request, _('Job Cancelled'))
+            messages.warning(self.request, _('Job Cancelled'))
 
         return super().form_valid(form)
 
@@ -482,4 +762,75 @@ class JobCreateView(BaseItemCreateView):
     title = _('Create Job')
     item_type = 'job'
     active_tab = 'jobs'
+
+
+
+def excel_export(request):
+    """
+    This method exports the tables from our apps into an excel file. This allows for a very simple backup for
+    our users
+
+    TODO: Change the models to be exported so that they can be defined in the settings file. These list should be updated 
+    when new models are added
+
+    """
+    now_str = timezone.now().strftime('%Y-%m-%d %H%M')
+    file_name = 'Data ' + ' - ' + now_str + '.xlsx'
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    # Prepare the Excel file
+    workbook = Workbook()
+    # By default, OpenPyXL creates a new workbook with one sheet named "Sheet". 
+    # To remove this sheet, you can simply delete it after creating the workbook, 
+    # before adding any other sheets.
+    default_sheet = workbook.get_sheet_by_name('Sheet')
+    workbook.remove_sheet(default_sheet)
+
+    
+    models = [
+        'customers.Customer',
+        'jobcycle.Requirement',
+        'jobcycle.Quotation',
+        'jobcycle.Job',
+        'jobcycle.Invoice',
+        'comments.Comment',
+        'users.CustomUser'
+        ]
+    
+    for model_path in models:
+
+        # Get the model and queryset
+        model = apps.get_model(model_path)
+        print(f"Model Name: {model.__name__}")
+        qs = model.objects.all()
+
+        # Create a worksheet for the queryset
+        worksheet = workbook.create_sheet(title=model.__name__)
+        fields = [field.name for field in qs.model._meta.fields]
+        worksheet.append(fields)
+
+        # Write the queryset rows into the worksheet
+        for obj in qs:
+            row = []
+            for field in fields:
+                # Check if the field is a ForeignKey
+                if isinstance(qs.model._meta.get_field(field), ForeignKey):
+                    # Get the ID of the related object
+                    related_object = getattr(obj, field)
+                    row_value = str(related_object.id) if related_object else None
+                elif getattr(qs.model._meta.get_field(field), 'choices', None):
+                    # If the field has choices, use the get_FOO_display() method
+                    display_method = f'get_{field}_display'
+                    row_value = str(getattr(obj, display_method)())
+                else:
+                    # For other fields, use the current behavior
+                    row_value = str(getattr(obj, field))
+
+                row.append(row_value)
+            worksheet.append(row)
+
+    workbook.save(response)
+    return response
 

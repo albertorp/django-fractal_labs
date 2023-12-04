@@ -5,8 +5,8 @@
 
 
 
-<section class="app-card">
-    <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+<section class="">
+    <div class="mx-auto max-w-screen-xl px-4">
         <!-- Start coding here -->
         <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">{{ title }}</h2>
         <div class="bg-white dark:bg-gray-800 relative sm:rounded-lg overflow-hidden">
@@ -87,6 +87,7 @@
             </div>
             <div class="overflow-x-auto">
                 {% include 'jobcycle/invoices/invoice_list_table.html' %}
+                {% include 'web/components/pagination.html' %}
             </div>
             <!-- <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
                 <span class="text-sm font-normal text-gray-500 dark:text-gray-400">

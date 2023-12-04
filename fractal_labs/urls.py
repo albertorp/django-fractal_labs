@@ -69,6 +69,7 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     path("content/", include(wagtail_urls)),
     path("jobcycle/customers/", include("apps.customers.urls")),
+    path("jobcycle/attachments/", include("apps.attachments.urls")),
     path("jobcycle/employees/", include("apps.employees.urls")),
     path("jobcycle/", include("apps.jobcycle.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

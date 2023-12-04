@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load static %}
+
+<tr id="fileattachmentrow{{ fileattachment.id }}">
+    <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ fileattachment.id }}</td>
+    <td class="px-4 py-3">{{ fileattachment.title }}</td>
+    <td class="px-4 py-3">{{ fileattachment.file.name }}</td>
+    <td class="px-4 py-3">{{ fileattachment.type }}</td>
+    <td class="px-4 py-3">{{ fileattachment.owner.email }}</td>
+    <td class="px-4 py-3">{{ fileattachment.submitted_by.username }}</td>
+    <td class="px-4 py-3">{{ fileattachment.created_at|date:"d-m-Y"  }}</td>
+    <td class="px-4 py-3">
+        <a href="{{ fileattachment.file.url }}" target="_blank" class="text-primary-700 font-medium me-1">
+            <i class="fa-solid fa-file-arrow-down"></i>
+        </a>
+        <a href="{% url 'attachments:fileattachment_update' fileattachment.id %}" class="text-primary-700 font-medium me-1">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+        
+
+
+    </td>
+
+</tr>

@@ -103,18 +103,85 @@ Adapted the Application UI from Flowbite
 # main: comments and attachments to flowbite 2023 11 24 
 Changed the tables for comments and attachments to Flowbite format
 
+
+# jobcycle03: export to excel 2023 11 24
+Menu option to export all relevant data. This allows for a very simple backup for our users
+
+# jobcycle03: messages framework 2023 11 25
+Adapted the messages.html template to display Flowbite toasts. 
+I have not been able to properly use the {{ message.tag_level }} as implementen in Pegasus, so I left it as several ifs
+
+# jobcycle03: form validation formats 2023 11 26
+Added danger formats to the form fields when there are errors, as well as an error message
+
+# jobcycle03: changed the contactus form and thank you page 2023 11 27
+That
+
+# jobcycle03: pagination in ListViews 2023 11 27
+Added pagination to ListViews
+Added createt_at to ListView tables
+Modified the updateCustomer template to incorporate errors
+Changed the format for the errors in the form fields. Apparently, django has a default class called .errorlist, and this is defined in assets/styles/app/utilities.saas, but it uses the color variables from daisyui. So I have updated the -danger variable to be the same as the danger-700 color in tailwind.config.js and I have also added the font-size: .875rem; as suggested by ChatGPT: // This is typically what text-sm might represent
+
+
+# jobcycle03: cancel/reject confirmation 2023 11 28
+Added a modal confirmation when rejecting a requirement or cancelling a quotation/job
+The cancel/reject button is now populated with data-modal-target and data-modal-toggle attributes in utils.py, and then several modals are included in the item_update.html.
+This is not very efficient (or elegant) and alter we can change it to populate buttons and modals at the same time in utils.py
+
+
+# jobcycle03: django-filter Requirements 2023 11 29
+Added django-filter to enable filtering listViews. For the moment it's only implemented for Requirements
+
+# jobcycle03: django-filter extended 2023 11 29
+Implemented filters also for Quotation and Job
+
+# jobcycle03: UpdateView and edit in admin 2023 11 29
+Changed the ListView tables so that every row only has the option to EDIT the item. No Detail and no Delete for the moment
+Also, in the Update views, if there are no buttons because the item cannot be modified, there is now a link that appears only for staff users that will take them to the admin page for this object, where they can change it. This should be done with extreme caution as no records (comments, etc.) will be kept of this change. This is under the owner's responsibility
+
+
+# jobcycle03: InvoiceItems add and edit 2023 11 29
+Finished the code from # frontend01: invoice forms 2023 11 23 to allow to add and edit invoice items directly via htmx
+
+
+# jobcycle03: UI for attachments 2023 11 30
+Basic CLU views for FileAttachments, so that we can have a place to view all the uploaded files. This is an intermediary step to operate with the Attachments that the items will have
+Additionally, some improvements to the invoice_line_items tables
+
+# jobcycle03: Workflow for Requirements 2023 12 01
+updated the workflow for Requirements by adding comments in the transitions from status (in the form_valid method)
+
+# jobcycle03: extended workflows 2023 12 03
+updated the workflows for Requirements, Quotations and Jobs including comments in the transitions
+
+# jobcycle03: UI for attachments and items 2023 12 03
+Added the option to add a new attachment to an item from the update view of that item
+
+# jobcycle03: upload files in WebRequirement 2023 12 04
+Added a file upload field to the WebRequirement form in order to allow uploading of files
+The file will then be created in the system and tagged to the Requirement created
+
+# jobcycle03: owner assignment for Requirements 2023 12 04
+Automatic assignment of owner after Analyse
+
 # WPs to do
 
 ## Core functionality
-Check Validation errors in the item and customer forms
-DONE Add Attachments
-DONE Add Comments
-DONE Add Invoice models
+Improve functionality for attachments
 Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
 Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission so that only employees can handle all items
-Add Export to Excel functionality, to save all info in the database to a well-formatted Excel file
 Add item_type to the BaseItem model. This will reflect potential different job types or services that the SP can provide. For example, for a translator, we can use types of "normal translation", "urgent translation", "sworn tranlsation" or "interpreting"
+Workflows: Add emails
+Workflows: add field validations
+DONE Rework on the Invoice Update template, to adapt HTMX to Flowbite format
+DONE Check Validation errors in the item and customer forms
+DONE Add Attachments
+DONE Add Comments
+DONE Add Invoice models
+DONE Add Export to Excel functionality, to save all info in the database to a well-formatted Excel file
+
 
 
 ## Additional functionality
@@ -122,6 +189,9 @@ Add item_type to the BaseItem model. This will reflect potential different job t
 
 ## Frontend functionality
 DONE Make "deadline" field in BaseItemForm a DatePicker
-Add Filters and pagination to the ListViews
-I've set the top NavBar to be fixed, and this interferes with the notification messages
-
+DONE Add Filters and pagination to the ListViews
+SOLVED I've set the top NavBar to be fixed, and this interferes with the notification messages
+DONE In the ListView tables, the created_at date should be shown. It currencly does not appear
+Autocomplete fuctionality in Select fields. Look at "Select2" (https://select2.org/) for a apparently simple implementantion. The drawback is that it requires jQuery
+Add UI for files
+Add TOOLTIPS to the buttons to explain in more detail their function
