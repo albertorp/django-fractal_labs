@@ -79,6 +79,7 @@ class WebRequirementForm(forms.ModelForm):
     create_user = forms.BooleanField(initial=False, required=False)
     password1 = forms.CharField(widget=forms.PasswordInput, required=False)
     email = forms.EmailField()
+    file_uploaded = forms.FileField(required=False)
     
 
     class Meta:
@@ -125,6 +126,9 @@ class WebRequirementForm(forms.ModelForm):
 
         self.fields['create_user'].label = _('Create account?')
         self.fields['create_user'].help_text = _('Check this box to confirm that you want to create your user')
+
+        self.fields['file_uploaded'].label = _('Upload file (or a zip file with multiple files)')
+        # self.fields['file_uploaded'].help_text = _('')
 
 
 class InvoiceItemForm(forms.ModelForm):

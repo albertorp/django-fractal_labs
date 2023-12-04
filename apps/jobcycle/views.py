@@ -21,6 +21,7 @@ from .utils import get_buttons_requirement, get_buttons_quotation, get_buttons_j
 
 from apps.customers.models import Customer
 from apps.comments.models import Comment
+from apps.attachments.models import FileAttachment, Attachment
 
 from .models import BaseItem, Requirement, Quotation, Job
 from .forms import RequirementForm, QuotationForm, JobForm, WebRequirementForm
@@ -40,7 +41,6 @@ class WebRequirementCreateView(CreateView):
         ctx['title'] = self.title
         ctx['buttons'] = get_buttons_webrequirement()
         return ctx
-    
 
     def form_valid(self, form):
 
@@ -54,8 +54,6 @@ class WebRequirementCreateView(CreateView):
             customer.email = form.cleaned_data['email']
             customer.save()
         
-
-
         # Check to see if we need to create a nuew user
         if form.cleaned_data['create_user']:
             # If the visitor wants to create a user, we create a new user in the system and assign the requirement to the new user
@@ -79,6 +77,30 @@ class WebRequirementCreateView(CreateView):
                 messages.error(self.request, _('The user already exists'))
 
         form.instance.customer = customer
+        new_req = form.save()
+
+        # Check to see if there is a file uploaded by the user
+        if 'file_uploaded' in self.request.FILES:
+            # File has been uploaded
+            file_uploaded = self.request.FILES['file_uploaded']
+
+            # TODO Check file to ensure security
+            
+            # If there is, we create the fileattachment
+            fileattachment = FileAttachment(file=file_uploaded)
+            fileattachment.owner = customer
+            # There is no field for the file title, so let's use the filename
+            fileattachment.title = file_uploaded.name
+            fileattachment.save()
+
+            # Then we attach it to the requirement created
+            attachment = Attachment.objects.create(
+                attachment = fileattachment,
+                content_type=ContentType.objects.get_for_model(new_req),                
+                object_id=new_req.pk
+            ) 
+            
+
         return super().form_valid(form)
 
 

@@ -22,6 +22,8 @@ class FileAttachment(BaseModel):
     must have a valid user in the system
 
     I am calling it FileAttachment because just "file" is a bit confusing
+
+    submitted_by: which user uploaded the file. Since it can be a non-user (when a visitor sends us a WebRequirement) then this field can be null or blank
     """
 
     class FileTypes(models.TextChoices):
@@ -37,7 +39,7 @@ class FileAttachment(BaseModel):
     type = models.CharField(_('type'), choices=FileTypes.choices, max_length=4, default=FileTypes.OTH)
     
     owner = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, verbose_name=_('owner'), related_name='files')
-    submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name=_('submitted by'), related_name='files_uploaded')
+    submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name=_('submitted by'), related_name='files_uploaded', null=True, blank=True)
 
     def __str__(self):
         return self.file.name

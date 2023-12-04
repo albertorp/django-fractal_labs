@@ -130,10 +130,10 @@ The cancel/reject button is now populated with data-modal-target and data-modal-
 This is not very efficient (or elegant) and alter we can change it to populate buttons and modals at the same time in utils.py
 
 
-# jobcycle03: filter Requirements 2023 11 29
+# jobcycle03: django-filter Requirements 2023 11 29
 Added django-filter to enable filtering listViews. For the moment it's only implemented for Requirements
 
-# jobcycle03: filter extended 2023 11 29
+# jobcycle03: django-filter extended 2023 11 29
 Implemented filters also for Quotation and Job
 
 # jobcycle03: UpdateView and edit in admin 2023 11 29
@@ -158,6 +158,9 @@ updated the workflows for Requirements, Quotations and Jobs including comments i
 # jobcycle03: UI for attachments and items 2023 12 03
 Added the option to add a new attachment to an item from the update view of that item
 
+# jobcycle03: upload files in WebRequirement 2023 12 04
+Added a file upload field to the WebRequirement form in order to allow uploading of files
+The file will then be created in the system and tagged to the Requirement created
 
 
 # WPs to do
