@@ -168,19 +168,20 @@ Automatic assignment of owner after Analyse
 # WPs to do
 
 ## Core functionality
-DONE Rework on the Invoice Update template, to adapt HTMX to Flowbite format
-DONE Check Validation errors in the item and customer forms
-DONE Add Attachments
 Improve functionality for attachments
-DONE Add Comments
-DONE Add Invoice models
 Add Terms&Conditions model
 Implement currencies and currency exchange (copy from HomeFinance)
 Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission so that only employees can handle all items
-DONE Add Export to Excel functionality, to save all info in the database to a well-formatted Excel file
 Add item_type to the BaseItem model. This will reflect potential different job types or services that the SP can provide. For example, for a translator, we can use types of "normal translation", "urgent translation", "sworn tranlsation" or "interpreting"
 Workflows: Add emails
 Workflows: add field validations
+DONE Rework on the Invoice Update template, to adapt HTMX to Flowbite format
+DONE Check Validation errors in the item and customer forms
+DONE Add Attachments
+DONE Add Comments
+DONE Add Invoice models
+DONE Add Export to Excel functionality, to save all info in the database to a well-formatted Excel file
+
 
 
 ## Additional functionality
