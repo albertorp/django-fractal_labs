@@ -165,6 +165,16 @@ The file will then be created in the system and tagged to the Requirement create
 # jobcycle03: owner assignment for Requirements 2023 12 04
 Automatic assignment of owner after Analyse
 
+# emails01 branch to incorporate email functionality
+
+# emails01: simple-mail integration 2023 12 05
+In order to configure the emails to be sent, we are using the package django-simple-mail (https://github.com/VingtCinq/django-simple-mail). This allows us to configure the basic template and then each of the email types to be sent, which makes it very easy to send from the views.py
+The base template is built using Blocks (https://useblocks.io) and adapting it later for Django
+We also use the option to translate the emails provided by simple-mail
+This commit has a very basic default template with placeholder elements, and only a couple of emails created
+TODO There are also some mail templates created under jobcycle/emails that will not be needed
+
+
 # WPs to do
 
 ## Core functionality
@@ -195,3 +205,4 @@ DONE In the ListView tables, the created_at date should be shown. It currencly d
 Autocomplete fuctionality in Select fields. Look at "Select2" (https://select2.org/) for a apparently simple implementantion. The drawback is that it requires jQuery
 Add UI for files
 Add TOOLTIPS to the buttons to explain in more detail their function
+TODO There are also some mail templates created under jobcycle/emails that will not be needed

@@ -27,6 +27,10 @@ from .models import BaseItem, Requirement, Quotation, Job
 from .forms import RequirementForm, QuotationForm, JobForm, WebRequirementForm
 from .filters import RequirementFilter, QuotationFilter, JobFilter
 
+from .mails import RequirementAcknowledgeMail, RequirementReturnMail
+
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 
 class WebRequirementCreateView(CreateView):
@@ -293,8 +297,28 @@ class RequirementUpdateView(BaseItemUpdateView):
                 form.instance.owner = self.request.user
 
             #form.instance.rw = Requirement.ReadWrite.WRITE_STAFF
-            # Prepare a standard "We are reviewing your requirement" email
-            # Send email
+            
+            req_email = RequirementAcknowledgeMail()
+            req_email.send(to=['arodriguezprieto@gmail.com'])
+
+            # # Prepare and send a standard "We are reviewing your requirement" email
+            # email = EmailMultiAlternatives()
+            # email.subject = render_to_string(template_name='jobcycle/emails/requirement_ack_subject.txt')
+            # email.to = [ 'arodriguezprieto@gmail.com' ] # FOR TESTING PURPOSES, WE ARE SENDING THE EMAIL TO MY USER
+
+            # # compose the email body
+            # text_content = render_to_string(template_name='jobcycle/emails/requirement_ack_message.txt', context={})
+            # html_content = render_to_string(template_name='jobcycle/emails/requirement_ack_message.html', context={})
+            # email.body = text_content
+            # email.attach_alternative(html_content, "text/html")
+
+            # # Send email
+            # # TODO The actual sending of the email should be dispatched to a worker (via Celery, for example), so that the email can be sent in parallel to the other tasks
+            # email.send()
+            
+            
+            
+            # log comment
             comment_text = _('Requirement acknowledged')
             comment = Comment.objects.create(
                 user=self.request.user, 
@@ -358,8 +382,12 @@ class RequirementUpdateView(BaseItemUpdateView):
         
         if 'return' in self.request.POST:
             form.instance.status = Requirement.Status.RETURNED
+
             # Prepare a standard "Returned" email with additional information
             # Send email
+            req_email = RequirementReturnMail()
+            req_email.set_context(comment=form.cleaned_data['return_reason'])
+            req_email.send(to=['arodriguezprieto@gmail.com'])
 
             # Create a new Comment associated with the Requirement
             comment_text = _('Requirement was returned to the customer with this message: ') + form.cleaned_data['return_reason']  

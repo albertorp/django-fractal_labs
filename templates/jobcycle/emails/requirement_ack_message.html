@@ -1,0 +1,7 @@
+{% extends 'jobcycle/emails/email_template_base.html' %}
+{% load i18n %}
+{% block message_body %}{% blocktranslate with site_name=current_site.name %}
+Thank you for your requirement. We are reviewing it and will reply to you shortly
+{% endblocktranslate %}{% endblock %}
+{% block cta_link %}{% endblock %}
+{% block cta_text %}{% endblock %}

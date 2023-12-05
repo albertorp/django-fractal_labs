@@ -1,0 +1,7 @@
+{% load i18n %}{% autoescape off %}{% blocktranslate with site_name=current_site.name site_domain=current_site.domain %}Hello,
+
+Thank you for your requirement. We are reviewing it and will reply to you shortly
+
+{% endblocktranslate %}
+
+{% endautoescape %}
