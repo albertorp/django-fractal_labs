@@ -27,7 +27,7 @@ from .models import BaseItem, Requirement, Quotation, Job
 from .forms import RequirementForm, QuotationForm, JobForm, WebRequirementForm
 from .filters import RequirementFilter, QuotationFilter, JobFilter
 
-from .mails import RequirementAcknowledgeMail, RequirementReturnMail
+from .mails import RequirementAcknowledgeMail, RequirementReturnMail, RequirementRejectMail, QuotationSendMail, JobAssignMail, JobDeliverMail, JobForCorrectionMail, JobForReworkMail, JobToReviewMail
 
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -405,6 +405,9 @@ class RequirementUpdateView(BaseItemUpdateView):
             #form.instance.rw = Requirement.ReadWrite.READ_ONLY
             # Prepare a standard "No Bid" email
             # Send email
+            req_email = RequirementRejectMail()
+            req_email.set_context(comment=form.cleaned_data['rejection_reason'])
+            req_email.send(to=['arodriguezprieto@gmail.com'])
 
             # Create a new Comment associated with the Requirement
             comment_text = _('Requirement was rejected with this reason: ') + form.cleaned_data['rejection_reason']  
@@ -461,6 +464,11 @@ class QuotationUpdateView(BaseItemUpdateView):
             #form.instance.rw = Quotation.ReadWrite.READ_ONLY
             # Prepare a standard "Your quotation is ready" email
             # Send email
+            quotation_email = QuotationSendMail()
+            # TODO Add all attachments tagged as DELIVERABLES
+            # TODO Add the quotation object to the context and then in the text include the terms, price, deadline and validity period
+            quotation_email.send(to=['arodriguezprieto@gmail.com'])
+
             messages.success(self.request, _('Quotation sent to the customer'))
 
         if 'approved' in self.request.POST:
@@ -602,7 +610,7 @@ class JobUpdateView(BaseItemUpdateView):
             messages.success(self.request, _('Job saved'))
 
         if 'assign' in self.request.POST:
-            form.instance.status = Job.Status.NOT_STARTED
+            
 
             # Check that there is an owner assigned
             new_owner = form.cleaned_data['owner']
@@ -613,9 +621,13 @@ class JobUpdateView(BaseItemUpdateView):
 
             # 	Send Email to the new job owner: “The job ID blablabla is ready to be started” 
             # TODO
+            # Send email
+            job_email = JobAssignMail()
+            job_email.send(to=['arodriguezprieto@gmail.com'])
+            
 
             # Add comment
-            comment_text = _('Job assigned to: ') + form.cleaned_data['owner'] 
+            comment_text = _('Job assigned to: ') + str(form.cleaned_data['owner'])
             comment = Comment.objects.create(
                 user=self.request.user, 
                 text=comment_text,
@@ -624,6 +636,7 @@ class JobUpdateView(BaseItemUpdateView):
             )
 
             #form.instance.rw = Job.ReadWrite.WRITE_STAFF
+            form.instance.status = Job.Status.NOT_STARTED
             messages.success(self.request, _('Job has been planned and can now be started'))
 
         if 'start' in self.request.POST:
@@ -661,6 +674,10 @@ class JobUpdateView(BaseItemUpdateView):
             # TODO Check that there is at least one attachment linked to this Job that is a DELIVERABLE
 
             # TODO Send Email to customer, including all the Attachments tagged as DELIVERABLES
+            # Send email
+            job_email = JobDeliverMail()
+            # TODO Add Deliverables
+            job_email.send(to=['arodriguezprieto@gmail.com'])
 
             # Create a new Comment associated with the Job
             comment_text = _('Job delivered to the customer')
@@ -680,6 +697,11 @@ class JobUpdateView(BaseItemUpdateView):
             if self.object.status == Job.Status.IN_REVIEW:
                 # The work has been returned for corrections by the reviewer
 
+                # Send email
+                job_email = JobForCorrectionMail()
+                job_email.set_context(comment=form.cleaned_data['return_reason'])
+                job_email.send(to=['arodriguezprieto@gmail.com'])
+
                 # Create a new Comment associated with the Job
                 comment_text = _('Job has been returned for corrections: ') + form.cleaned_data['return_reason']
                 comment = Comment.objects.create(
@@ -693,6 +715,11 @@ class JobUpdateView(BaseItemUpdateView):
             else:
                 # Make sure that the return button can only be sent as for these 2 status
                 # If we get here, the work has been returned by the customer
+
+                # Send email
+                job_email = JobForReworkMail()
+                job_email.set_context(comment=form.cleaned_data['return_reason'])
+                job_email.send(to=['arodriguezprieto@gmail.com'])
 
                 # Create a new Comment associated with the Job
                 comment_text = _('Job has been returned for REWORK by the customer: ') + form.cleaned_data['return_reason']

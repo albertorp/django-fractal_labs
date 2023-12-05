@@ -174,6 +174,9 @@ We also use the option to translate the emails provided by simple-mail
 This commit has a very basic default template with placeholder elements, and only a couple of emails created
 TODO There are also some mail templates created under jobcycle/emails that will not be needed
 
+# emails01: simple-mail integration extended 2023 12 05
+Added the rest of emails needed for the basic flow (no invoices yet)
+
 
 # WPs to do
 
@@ -185,6 +188,7 @@ Create an "is_employee" flag for a user and a EmployeeRequiredMixin permission s
 Add item_type to the BaseItem model. This will reflect potential different job types or services that the SP can provide. For example, for a translator, we can use types of "normal translation", "urgent translation", "sworn tranlsation" or "interpreting"
 Workflows: Add emails
 Workflows: add field validations
+Emails: in the emails, especially the internal ones, add more information like job id and possibly links to the actual job
 DONE Rework on the Invoice Update template, to adapt HTMX to Flowbite format
 DONE Check Validation errors in the item and customer forms
 DONE Add Attachments
