@@ -1,0 +1,16 @@
+{% load i18n %}
+{% load static %}
+
+<section id="cta" class="bg-white dark:bg-gray-900">
+  <div class="py-8 px-4 mx-auto max-w-screen-lg sm:py-16 lg:px-6 shadow-2xl bg-primary-100">
+      <div class="mx-auto max-w-screen-sm text-center ">
+          <h2 class="mb-4 text-6xl tracking-tight font-extrabold leading-tight text-gray-900 dark:text-white">{% trans 'Interested?' %}</h2>
+          <p class="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">
+            {% blocktrans %}
+            Tell us more about your <span class="fw-bold">requirements</span> and we can set up an initial <span class="text-primary fw-bold">FREE</span> consultation
+            {% endblocktrans %}  
+          </p>
+          <a href="{% url 'jobcycle:contactus' %}" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">{% trans 'Yes, Please' %}</a>
+      </div>
+  </div>
+</section>

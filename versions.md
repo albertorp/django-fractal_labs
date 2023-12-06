@@ -195,3 +195,9 @@ DONE In the ListView tables, the created_at date should be shown. It currencly d
 Autocomplete fuctionality in Select fields. Look at "Select2" (https://select2.org/) for a apparently simple implementantion. The drawback is that it requires jQuery
 Add UI for files
 Add TOOLTIPS to the buttons to explain in more detail their function
+
+
+
+# webpage01: branch created to revamp the main webpage
+
+# webpage01: main landing page refreshed 2023 12 06

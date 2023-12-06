@@ -1,0 +1,51 @@
+{% load i18n %}
+{% load static %}
+
+<section id="problems" class="bg-white dark:bg-gray-900">
+  <div class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
+      <img class="w-full hidden dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup.svg" alt="dashboard image">
+      <img class="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg" alt="dashboard image">
+      <h2 class="my-28 mx-4 text-3xl font-extralight leading-none text-grey-900 md:text-4xl lg:text-5xl">
+        {% blocktrans %}
+        Do any of these <span class='font-extrabold text-primary-700'>problems</span>
+        sound <span class='font-extrabold'>familiar</span>?
+        {% endblocktrans %}
+      </h2>
+
+      <div class="p-1">
+        <ul role="list" class="space-y-2 text-gray-700 font-light bg-primary-100 border rounded-lg shadow-lg">
+          <li class="items-center w-full px-8 py-3 border-b border-gray-300 rounded-t-lg">
+            {% trans 'Improvement ideas for your business but no time to implement them?' %}
+          </li>
+          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
+            {% trans 'More time gathering data than making decisions based on it?' %}
+          </li>
+          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
+            {% trans 'Waste hours preparing and filling excel files, and then sharing them via email?' %}
+          </li>
+          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
+            {% trans 'Time in meetings discussing the accuracy of the data presented?' %}
+          </li>
+          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
+            {% trans 'Multiple emails for information or approvals with data attached that you do not need?' %}
+          </li>
+          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
+            {% trans 'Old or obsolete process workflows that nobody uses?' %}
+          </li>
+          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
+            {% trans 'Overwhelmed when talking about new technologies (Cloud, ML, AI, RPA, AR/VR, Databases, etc.)?' %}
+          </li>
+          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
+            {% trans 'Do you spend more time in your company’s systems than talking to or solving problems for your customers?' %}
+          </li>
+        </ul>
+    </div>
+
+      
+      
+
+  </div>
+</section>
+
+
+
