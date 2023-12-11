@@ -1,37 +1,43 @@
-{% extends "web/base.html" %}
+{% extends "account/base_account.html" %}
 {% load i18n %}
 {% load static %}
-{% load form_tags %}
+{% load widget_tweaks %}
 {% load socialaccount %}
-{% block body %}
-  <div class="flex justify-center my-8 ">
-    <div class="w-96 px-4 py-4">
-      <div>
-        <h2 class="mt-6 text-center text-2xl font-bold text-gray-900 dark:text-gray-100">
-          Sign up
-        </h2>
-        <form class="mt-6 space-y-6" method="post">
-          {% csrf_token %}
-          {{ form.non_field_errors }}
-          {% render_field form.email %}
-          {% render_field form.password1 %}
-          {% if project_settings.ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE %}
-          {% render_field form.password2 %}
-          {% endif %}
-          {% render_field form.terms_agreement %}
-          <div>
-            <input class="btn btn-primary btn-block" type="submit" value="{% translate "Sign Up" %}">
-            <p class="text-center text-gray-500 my-2">{% translate "or" %}</p>
-            {% include 'account/components/social/login_with_google_button.html' %}
-          </div>
-        </form>
-        <div class="text-sm mt-4">
-          {% translate "Already have account?" %}
-          <a href="{% url 'account_login' %}" class="font-medium text-blue-700 hover:text-blue-500">
-            {% translate "Go to sign in." %}
-          </a>
-        </div>
+
+{% block account_title %}
+{% translate "Sign Up" %}
+{% endblock account_title %}
+
+{% block account_content %}
+<form class="space-y-4 md:space-y-6" method="post">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+    <div>
+        <label for="{{ form.email.label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.email.label }}</label>
+        {% render_field form.email|add_class:"text-sm bg-gray-50 p-2.5" %}
+    </div>
+    <div>
+      <label for="{{ form.password1.label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.password1.label }}</label>
+      {% render_field form.password1|add_class:"text-sm bg-gray-50 p-2.5" %}
+    </div>
+    {% if project_settings.ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE %}
+    <div>
+      <label for="{{ form.password2.label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.password2.label }}</label>
+      {% render_field form.password2|add_class:"text-sm bg-gray-50 p-2.5" %}
+    </div>
+    {% endif %}
+    <div class="flex items-start">
+      <div class="flex items-center h-5">
+        {% render_field form.terms_agreement|add_class:"text-sm bg-gray-50 p-2.5" %}
+      </div>
+      <div class="ml-3 text-sm">
+        <label for="terms_agreement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.terms_agreement.label }}</label>
       </div>
     </div>
-  </div>
-{% endblock %}
+    
+    <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{% translate "Sign up" %}</button>
+    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+      {% translate "Already have account?" %} <a href="{% url 'account_login' %}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">{% translate "Go to sign in." %}</a>
+    </p>
+</form>
+{% endblock account_content %}  
