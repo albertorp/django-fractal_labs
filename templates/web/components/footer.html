@@ -1,10 +1,21 @@
 {% load i18n %}
-<footer class="mt-10 mb-4">
-  <div class="text-center text-gray-700 dark:text-gray-500">
-    <p>{{project_meta.NAME}} &mdash; {% translate "Copyright" %} <span id="copyright-year">2023</span></p>
-    {% include "web/components/language_select.html" %}
+
+<footer class="bg-primary-900 dark:bg-gray-300 py-4">
+  <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+    <span class="font-light text-sm text-white sm:text-center dark:text-gray-400">© <span id="copyright-year">2023</span> Fractal Labs Consulting.
+    </span>
+    {# {% include "web/components/language_select.html" %} #}
+    <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-300 dark:text-gray-400 sm:mt-0">
+        <li>
+            <a href="#" class="hover:underline me-4 md:me-6">About</a>
+        </li>
+        <li>
+            <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+        </li>
+    </ul>
   </div>
 </footer>
+
 <script>
-    document.getElementById('copyright-year').innerText = (new Date()).getFullYear();
+  document.getElementById('copyright-year').innerText = (new Date()).getFullYear();
 </script>

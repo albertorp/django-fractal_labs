@@ -1,5 +1,31 @@
 {% load i18n %}
 {% load static %}
-<section class="my-8 mx-4" id="services">
-  Services
+
+<section id="services" class="bg-white dark:bg-gray-900">
+  <div class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
+      <img class="w-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup.svg" alt="dashboard image">
+      <img class="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg" alt="dashboard image">
+      <div class="mt-4 md:mt-0">
+          <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">{% trans 'What we do' %}</h2>
+          <ul role="list" class="mt-8 space-y-8 text-gray-500 font-light">
+            <li class="flex gap-x-3">
+              <i class="fas fa-users-cog text-primary-700 fa-2x"></i>
+              <span><strong class="font-semibold text-gray-900">{% trans 'Processes' %}:</strong> {% trans 'We look at your business processes and, more importantly, we speak with your teams to find out what are <span class="text-primary-700 font-semibold">their issues</span> and concerns regarding these processes. We organize workshops if needed and working sessions and brainstorms to bring the best out of your people.' %}</span>
+            </li>
+            <li class="flex gap-x-3">
+              <i class="fas fa-chart-line text-primary-700 fa-2x"></i>
+              <span><strong class="font-semibold text-gray-900">{% trans 'Improvements' %}:</strong> {% trans 'We identify potential improvements, discuss them in detail, negotiate buy-in at all levels and provide a clear <span class="text-primary-700 font-semibold">roadmap</span> for implementation.' %}</span>
+            </li>
+            <li class="flex gap-x-3">
+              <i class="fas fa-tools text-primary-700 fa-2x"></i>
+              <span><strong class="font-semibold text-gray-900">{% trans 'Implementation' %}:</strong> {% trans 'We implement the initial solution and focus on the <span class="text-primary-700 font-semibold">quick wins</span>, that will allow you to see the value sooner and prepare for further improvements if needed.' %}</span>
+            </li>
+            <li class="flex gap-x-3">
+              <i class="fas fa-cloud text-primary-700 fa-2x"></i>
+              <span><strong class="font-semibold text-gray-900">{% trans 'Technology' %}:</strong> {% trans 'We typically use some kind of technology in order to improve your processes, but we try to keep it <span class="text-primary-700 font-semibold">as simple as possible</span>, in the most cost-effective way for your business.' %}</span>
+            </li>
+          </ul>
+      </div>
+  </div>
 </section>
+

@@ -1,16 +1,22 @@
-{% extends "account/base.html" %}
+{% extends "account/base_account.html" %}
 {% load i18n %}
-{% block content %}
-    <h1 class="pg-title">{% translate "Verify Your E-mail Address" %}</h1>
-    <p>
-        {% blocktranslate %}
-        We have sent an e-mail to you for verification.
-        Follow the link provided to finalize the signup process.
-        {% endblocktranslate %}
-    </p>
-    <p>
-        {% blocktranslate %}
-        Please contact us if you do not receive it within a few minutes.
-        {% endblocktranslate %}
-    </p>
-{% endblock %}
+{% load static %}
+{% load widget_tweaks %}
+{% load socialaccount %}
+
+{% block account_title %}{% translate "Verify Your E-mail Address" %}{% endblock account_title %}
+
+{% block account_content %}
+<p class="text-gray-700">
+    {% blocktranslate %}
+    We have sent an e-mail to you for verification.
+    Follow the link provided to finalize the signup process.
+    {% endblocktranslate %}
+</p>
+<p>
+    {% blocktranslate %}
+    Please contact us if you do not receive it within a few minutes.
+    {% endblocktranslate %}
+</p>
+{% endblock account_content %}
+             
