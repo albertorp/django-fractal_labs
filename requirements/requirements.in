@@ -4,7 +4,9 @@ django-allauth-2fa
 django-waffle
 django-environ
 django-filter
+django-modeltranslation
 djangorestframework
+django_simple_mail
 django-widget-tweaks
 drf-spectacular
 stripe

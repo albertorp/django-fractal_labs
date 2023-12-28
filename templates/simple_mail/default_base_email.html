@@ -1,0 +1,298 @@
+{% load i18n %}
+{% load static %}
+{# This template was automatically created with Blocks (https://useblocks.io) #}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	
+	
+	
+	<title>{{subject}}</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300&amp;display=swap" em-class="em-font-Mulish-Light"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,700&amp;display=swap" em-class="em-font-Mulish-Bold">
+	<style type="text/css">
+		
+		.mcnPreviewText {
+			display: none !important;
+		}
+
+.em-font-Mulish-Light {
+    font-family: Mulish,sans-serif!important;
+    font-weight: 300!important;
+}
+.em-font-Mulish-Medium,.em-font-Mulish-Regular {
+    font-family: Mulish,sans-serif!important;
+    font-weight: 400!important;
+}
+.em-font-Mulish-Medium {
+    font-weight: 500!important;
+}
+.em-font-Mulish-Bold,.em-font-Mulish-ExtraBold {
+    font-family: Mulish,sans-serif!important;
+    font-weight: 700!important;
+}
+.em-font-Mulish-ExtraBold {
+    font-weight: 800!important;
+}
+@media only screen and (max-device-width:640px),only screen and (max-width:640px) {
+    .em-narrow-table {
+        width: 100%!important;
+        max-width: 640px!important;
+        min-width: 320px!important;
+    }
+    .em-mob-wrap {
+        display: block!important;
+    }
+    .em-mob-wrap.em-mob-wrap-cancel {
+        display: table-cell!important;
+    }
+    .em-mob-padding_bottom-20 {
+        padding-bottom: 20px!important;
+    }
+    .em-mob-width-36px {
+        width: 36px!important;
+        max-width: 36px!important;
+        min-width: 36px!important;
+    }
+    .em-mob-font_size-28px {
+        font-size: 28px!important;
+    }
+    .em-mob-line_height-28px {
+        line-height: 28px!important;
+    }
+    .em-mob-width-100perc {
+        width: 100%!important;
+        max-width: 100%!important;
+        min-width: 100%!important;
+    }
+    .em-mob-text_align-center {
+        text-align: center!important;
+    }
+    .em-mob-padding_right-20 {
+        padding-right: 20px!important;
+    }
+    .em-mob-padding_left-20 {
+        padding-left: 20px!important;
+    }
+    .em-mob-padding_bottom-40 {
+        padding-bottom: 40px!important;
+    }
+    .em-mob-height-auto {
+        height: auto!important;
+    }
+    .em-mob-width-auto {
+        width: auto!important;
+        max-width: auto!important;
+        min-width: none!important;
+    }
+    .em-mob-text_align-left {
+        text-align: left!important;
+    }
+}
+</style>
+	<style em="styles">
+.em-font-Mulish-Bold {
+    font-weight: 700!important;
+}
+.em-font-Mulish-Bold,.em-font-Mulish-Light,.em-font-Mulish-Regular {
+    font-family: Mulish,sans-serif!important;
+}
+.em-font-Mulish-Light {
+    font-weight: 300!important;
+}
+@media only screen and (max-device-width:640px),only screen and (max-width:640px) {
+    .em-narrow-table {
+        width: 100%!important;
+        max-width: 640px!important;
+        min-width: 320px!important;
+    }
+}
+</style>
+</head>
+<body style="margin: 0; padding: 0;" class="null">
+	<span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: #F8F8F8; height: 0; width: 0; font-size: 1px;">&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌</span>
+	<!--[if !mso]><!-->
+	<div style="font-size:0px;color:transparent;opacity:0;">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</div>
+	<!--<![endif]-->
+	<!--[if !gte mso 9]><!---->
+	<span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">{{body|striptags|truncatewords:20}}</span>
+	<!--<![endif]-->
+
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" style="font-size: 1px; line-height: normal;">
+		<tr em="group">
+			<td align="center" bgcolor="#F8F8F8">
+				<!--[if (gte mso 9)|(IE)]>
+				<table cellpadding="0" cellspacing="0" border="0" width="640"><tr><td>
+				<![endif]-->
+				<table cellpadding="0" cellspacing="0" width="100%" border="0" style="max-width: 640px; min-width: 640px; width: 640px;" class="em-narrow-table">
+<tr em="block" class="em-structure">
+						<td align="center" style="padding: 40px; background-color: #ffffff;" class="em-mob-padding_left-20 em-mob-padding_right-20" bgcolor="#FFFFFF">
+							<table border="0" cellspacing="0" cellpadding="0" class="em-mob-width-100perc">
+								<tr>
+									<td width="270" valign="middle" class="em-mob-wrap em-mob-wrap-cancel em-mob-width-auto">
+										{% if logo_url %}
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td class="em-mob-text_align-center">
+													<img src="https://cdn.useblocks.io/1865/230627_18_2xOtrkm.png" XXXsrc="{{logo_url}}" width="99" border="0" alt="logo" style="display: inline-block; width: 100%; max-width: 99px;">
+												</td>
+											</tr>
+										</table>
+										{% endif %}
+									</td>
+									<td width="20" class="em-mob-wrap em-mob-wrap-cancel">&nbsp;</td>
+									<td width="270" valign="top" class="em-mob-wrap em-mob-wrap-cancel em-mob-width-auto">
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td style="padding: 0px;" align="right">
+													<table cellpadding="0" cellspacing="0" border="0" width="114" style="width: 114px;">
+														<tr>
+															<td valign="middle" height="40" style="background-color: #1890ff; border-radius: 7px; height: 40px;" bgcolor="#1890FF" align="center">
+																<a class="em-font-Mulish-Middle" href="" target="_blank" style="display: block; height: 40px; font-family: Roboto, Arial, sans-serif; color: #ffffff; font-size: 16px; line-height: 40px; text-decoration: none; white-space: nowrap;">
+																	{% trans 'Log In' %}
+																</a>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					{% if title %}
+					<tr em="block" class="em-structure">
+						<td align="center" style="padding: 24px 30px; background-color: #ffffff;" class="em-mob-padding_left-20 em-mob-padding_right-20" bgcolor="#FFFFFF">
+							<table border="0" cellspacing="0" cellpadding="0" class="em-mob-width-100perc">
+								<tr>
+									<td width="580" valign="top" class="em-mob-wrap em-mob-width-100perc">
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td style="padding-right: 0px; padding-left: 0px;">
+													<div class="em-font-Mulish-ExtraBold" style="font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; font-size: 28px; line-height: 34px; color: #000000;" align="center">
+														<{{title_size}}>{{title}}</{{title_size}}>
+													</div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					{% endif %}
+					<tr em="block" class="em-structure">
+						<td align="center" style="padding: 24px 40px; background-color: #ffffff;" class="em-mob-padding_left-20 em-mob-padding_right-20" bgcolor="#FFFFFF">
+							<table border="0" cellspacing="0" cellpadding="0" class="em-mob-width-100perc">
+								<tr>
+									<td width="560" valign="top" class="em-mob-wrap em-mob-width-100perc">
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td>
+													<div class="em-font-Mulish-Regular" style="font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; font-size: 16px; line-height: 24px; color: #595959;" align="center">
+														{{body}}
+                          							</div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					{% if banner_url %}
+					<tr em="block" class="em-structure">
+						<td align="center" style="padding: 24px 40px; background-color: #ffffff;" class="em-mob-padding_left-20 em-mob-padding_right-20" bgcolor="#FFFFFF">
+							<table border="0" cellspacing="0" cellpadding="0" class="em-mob-width-100perc">
+								<tr>
+									<td width="560" valign="top" class="em-mob-wrap em-mob-width-100perc">
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td>
+													<img src="https://cdn.useblocks.io/1865/230630_18_LNUn9UT.png" XXXsrc="{{banner_url}}" width="580" border="0" alt="" style="display: inline-block; width: 100%; max-width: 580px; border-radius: 16px;">
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					{% endif %}
+					<tr em="block" class="em-structure">
+						<td align="center" style="padding: 24px 40px; background-color: #ffffff;" class="em-mob-padding_left-20 em-mob-padding_right-20" bgcolor="#FFFFFF">
+							<table border="0" cellspacing="0" cellpadding="0" class="em-mob-width-100perc">
+								<tr>
+									<td width="560" valign="top" class="em-mob-wrap em-mob-width-100perc" align="center">
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td style="padding-right: 0px; padding-bottom: 16px; padding-left: 0px;">
+													<div class="em-font-Mulish-Bold" style="font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #1f1f1f;" align="center"><strong>Follow for more insights</strong></div>
+												</td>
+											</tr>
+										</table>
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td align="center" style="padding-bottom: 16px;">
+													<table border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<td style="padding: 0 8px;" em="atom">
+																<a href="" target="_blank"><img src="https://cdn.useblocks.io/1865/230705_18_o1RmlFe.png" width="24" border="0" alt="" style="display: block; width: 100%; max-width: 24px;"></a>
+															</td>
+															<td style="padding: 0 8px;" em="atom">
+																<a href="" target="_blank"><img src="https://cdn.useblocks.io/1865/230705_18_0WwBkq1.png" width="24" border="0" alt="" style="display: block; width: 100%; max-width: 24px;"></a>
+															</td>
+															<td style="padding: 0 8px;" em="atom">
+																<a href="" target="_blank"><img src="https://cdn.useblocks.io/1865/231011_17_CRCCmRM.png" width="24" border="0" alt="" style="display: block; width: 100%; max-width: 24px;"></a>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td style="padding-bottom: 8px;">
+													<div class="em-font-Mulish-Regular" style="font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #595959;" align="center"><a href="mailto:company@mail.com" target="_blank" style="text-decoration: none; color: #595959;"><img src="https://cdn.useblocks.io/1865/230705_18_DIMVTws.png" width="20" border="0" alt="" style="display: inline-block !important; vertical-align: text-bottom; width: 100%; max-width: 20px;"> &nbsp;company@mail.com</a></div>
+												</td>
+											</tr>
+										</table>
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td style="padding-bottom: 16px;">
+													<div class="em-font-Mulish-Regular" style="font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #595959;" align="center"><a href="tel:+123456789" target="_blank" style="text-decoration: none; color: #595959;"><img src="https://cdn.useblocks.io/1865/230705_18_Bb12QfF.png" width="20" border="0" alt="" style="display: inline-block !important; vertical-align: text-bottom; width: 100%; max-width: 20px;">&nbsp; +123456789</a></div>
+												</td>
+											</tr>
+										</table>
+										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
+											<tr>
+												<td style="padding-bottom: 16px;">
+													<div class="em-font-Mulish-Regular" style="font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #595959;" align="center">3 Building, 2 Street Avenue, City, 12345</div>
+												</td>
+											</tr>
+										</table><table cellpadding="0" cellspacing="0" border="0" width="320" em="atom">
+											<tr>
+												<td align="center">
+													<div class="em-font-Mulish-Regular" style="font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; font-size: 12px; line-height: 18px; color: #595959;" align="center">You received this email because you signed up on our website or made a purchase from us. You can <a href="#" target="_blank" style="text-decoration: none; color: #333333;">unsubscribe at any time</a>.</div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+
+</table>
+				<!--[if (gte mso 9)|(IE)]>
+				</td></tr></table>
+				<![endif]-->
+			</td>
+		</tr>
+	</table>
+
+</body></html>

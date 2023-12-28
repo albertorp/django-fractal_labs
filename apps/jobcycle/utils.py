@@ -150,7 +150,7 @@ def get_buttons_job(current_status):
     button_review = Buttons.make_buttons('submit', 'review')
     button_deliver = Buttons.make_buttons('submit', 'deliver')
     button_return = Buttons.make_buttons('button', 'return', button_class=ButtonClass.danger, button_target='modal-return', button_toggle='modal-return')
-    button_close = Buttons.make_buttons('submit', 'close', button_class=ButtonClass.primary, button_target='modal-close', button_toggle='modal-close')
+    button_close = Buttons.make_buttons('button', 'close', button_class=ButtonClass.primary, button_target='modal-close', button_toggle='modal-close')
     button_cancel = Buttons.button_cancel
 
     # Then we filter the buttons depending on the current status of the Requirement
