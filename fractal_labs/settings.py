@@ -39,6 +39,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 # Application definition
 
 DJANGO_APPS = [
+    'modeltranslation', # added to translate the emails of simple-mail. Has to be added before django.contrib.admin
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -69,6 +70,7 @@ THIRD_PARTY_APPS = [
     "djstripe",  # stripe integration
     "waffle",
     "widget_tweaks",
+    'simple_mail', # used for email functionality via the admin
 ]
 
 WAGTAIL_APPS = [
@@ -313,12 +315,33 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 # Email setup
 
 # use in development
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # use in production
 # see https://github.com/anymail/django-anymail for more details/examples
 # EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 
 EMAIL_SUBJECT_PREFIX = "[Fractal Labs] "
+
+# Email server configuration for tests in Development
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'mail.privateemail.com'
+EMAIL_HOST_USER = 'sandy@kronobox.com'
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default="")
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+
+SERVER_EMAIL = "sandy@kronobox.com"
+DEFAULT_FROM_EMAIL = "sandy@kronobox.com"
+ADMINS = [
+    ("Alberto RP", "sandy@kronobox.com"),
+]
+
+
+
+
+
+
 
 # Marketing email configuration
 
@@ -451,3 +474,8 @@ LOGGING = {
         },
     },
 }
+
+
+
+SIMPLE_MAIL_DEFAULT_TEMPLATE = 'simple_mail/default_base_email.html'
+SIMPLE_MAIL_USE_MODELTRANSALTION = True
