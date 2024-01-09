@@ -18,6 +18,7 @@ module.exports = {
     'pg-bg-danger',
     'pg-bg-success',
   ],
+  darkMode: 'media',
   theme: {
     extend: {
       aspectRatio: {
