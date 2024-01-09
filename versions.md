@@ -221,3 +221,10 @@ Check template "account/snippets/already_logged_in.html". It's called in the pas
 # webpage01: allauth templates adapted 2023 12 11
 
 TODO There are also some mail templates created under jobcycle/emails that will not be needed
+
+
+# webpage02: branch created to implement the fractal brand 2024 01 09
+Changed the colors and added the logos
+
+
+
