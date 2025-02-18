@@ -221,3 +221,23 @@ Check template "account/snippets/already_logged_in.html". It's called in the pas
 # webpage01: allauth templates adapted 2023 12 11
 
 TODO There are also some mail templates created under jobcycle/emails that will not be needed
+
+
+# webpage02: branch created to implement the fractal brand 2024 01 09
+Changed the colors and added the logos
+
+# webpage02: testing flowbite dark mode 2024 01 09
+As per https://flowbite.com/docs/customize/dark-mode/
+
+It works, adapting to the computer's settings. There are a few things to retouch for the dark mode:
+Main page: 
+* The logo does not look good
+* The navbar background
+* Backgrounds in general
+* Icons
+* CTA: background and title
+
+
+# webpage02: some changes to the copy and layout 2025 02 18
+
+
