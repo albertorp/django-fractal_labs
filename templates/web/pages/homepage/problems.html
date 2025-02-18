@@ -3,41 +3,113 @@
 
 <section id="problems" class="bg-white dark:bg-gray-900">
   <div class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
-      <h2 class="my-28 mx-4 text-3xl font-extralight leading-none text-grey-900 md:text-4xl lg:text-5xl">
+      <h2 class="md:my-28 mx-4 text-3xl font-extralight leading-none text-grey-900 md:text-4xl lg:text-5xl">
         {% blocktrans %}
         Do any of these <span class='font-extrabold text-primary-700'>problems</span>
         sound <span class='font-extrabold'>familiar</span>?
         {% endblocktrans %}
       </h2>
 
-      <div class="p-1">
-        <ul role="list" class="space-y-2 text-gray-700 font-light bg-primary-200 border rounded-lg shadow-lg">
-          <li class="items-center w-full px-8 py-3 border-b border-gray-300 rounded-t-lg">
-            {% trans 'Improvement ideas for your business but no time to implement them?' %}
-          </li>
-          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
-            {% trans 'More time gathering data than making decisions based on it?' %}
-          </li>
-          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
-            {% trans 'Waste hours preparing and filling excel files, and then sharing them via email?' %}
-          </li>
-          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
-            {% trans 'Time in meetings discussing the accuracy of the data presented?' %}
-          </li>
-          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
-            {% trans 'Multiple emails for information or approvals with data attached that you do not need?' %}
-          </li>
-          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
-            {% trans 'Old or obsolete process workflows that nobody uses?' %}
-          </li>
-          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
-            {% trans 'Overwhelmed when talking about new technologies (Cloud, ML, AI, RPA, AR/VR, Databases, etc.)?' %}
-          </li>
-          <li class="items-center w-full px-8 py-3 border-b border-gray-300">
-            {% trans 'Do you spend more time in your company’s systems than talking to or solving problems for your customers?' %}
-          </li>
-        </ul>
-    </div>
+      <div class="p-1 flex justify-center items-center">
+        <div id="problems-carousel" class="relative w-full max-w-sm z-0" data-carousel="slide">
+            <!-- Carousel wrapper -->
+            <div class="relative h-[32rem] overflow-hidden rounded-lg">
+                <!-- Item 1 -->
+                <div class="hidden duration-1000 ease-in-out absolute inset-0 transition-all transform" data-carousel-item>
+                    <div class="absolute inset-0 flex justify-center items-center">
+                        <div class="w-[24rem] h-[30rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col">
+                            <div class="h-3/4 overflow-hidden">
+                                <img class="rounded-t-lg w-full h-full object-cover" src="{% static 'images/web/no_time.png' %}" alt="Problem 1" />
+                            </div>
+                            <div class="p-5 h-1/4 flex items-center justify-center">
+                                <p class="font-normal text-gray-700 dark:text-gray-400 text-center">
+                                    {% trans 'Lack of time to implement new ideas' %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="hidden duration-1000 ease-in-out absolute inset-0 transition-all transform" data-carousel-item>
+                    <div class="absolute inset-0 flex justify-center items-center">
+                        <div class="w-[24rem] h-[30rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col">
+                            <div class="h-3/4 overflow-hidden">
+                                <img class="rounded-t-lg w-full h-full object-cover" src="{% static 'images/web/too_much_data.png' %}" alt="Problem 2" />
+                            </div>
+                            <div class="p-5 h-1/4 flex items-center justify-center">
+                                <p class="font-normal text-gray-700 dark:text-gray-400 text-center">
+                                    {% trans 'Lots of data, but no decisions based on it' %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="hidden duration-1000 ease-in-out absolute inset-0 transition-all transform" data-carousel-item>
+                    <div class="absolute inset-0 flex justify-center items-center">
+                        <div class="w-[24rem] h-[30rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col">
+                            <div class="h-3/4 overflow-hidden">
+                                <img class="rounded-t-lg w-full h-full object-cover" src="{% static 'images/web/too_much_excel.png' %}" alt="Problem 3" />
+                            </div>
+                            <div class="p-5 h-1/4 flex items-center justify-center">
+                                <p class="font-normal text-gray-700 dark:text-gray-400 text-center">
+                                    {% trans 'Your business is ran with Excel files, and you don\'t know what\'s happening' %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="hidden duration-1000 ease-in-out absolute inset-0 transition-all transform" data-carousel-item>
+                    <div class="absolute inset-0 flex justify-center items-center">
+                        <div class="w-[24rem] h-[30rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col">
+                            <div class="h-3/4 overflow-hidden">
+                                <img class="rounded-t-lg w-full h-full object-cover" src="{% static 'images/web/too_many_meetings.jpg' %}" alt="Problem 4" />
+                            </div>
+                            <div class="p-5 h-1/4 flex items-center justify-center">
+                                <p class="font-normal text-gray-700 dark:text-gray-400 text-center">
+                                    {% trans 'Too many meetings' %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="hidden duration-1000 ease-in-out absolute inset-0 transition-all transform" data-carousel-item>
+                    <div class="absolute inset-0 flex justify-center items-center">
+                        <div class="w-[24rem] h-[30rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col">
+                            <div class="h-3/4 overflow-hidden">
+                                <img class="rounded-t-lg w-full h-full object-cover" src="{% static 'images/web/old_processes.png' %}" alt="Problem 4" />
+                            </div>
+                            <div class="p-5 h-1/4 flex items-center justify-center">
+                                <p class="font-normal text-gray-700 dark:text-gray-400 text-center">
+                                    {% trans 'Old or obsolete processes and workflows that nobody uses' %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- Slider controls -->
+            <button type="button" class="absolute top-0 start-0 z-20 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                    </svg>
+                    <span class="sr-only">Previous</span>
+                </span>
+            </button>
+            <button type="button" class="absolute top-0 end-0 z-20 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <span class="sr-only">Next</span>
+                </span>
+            </button>
+        </div>
+      </div>
 
       
       

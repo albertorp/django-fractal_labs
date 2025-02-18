@@ -237,3 +237,7 @@ Main page:
 * Icons
 * CTA: background and title
 
+
+# webpage02: some changes to the copy and layout 2025 02 18
+
+
